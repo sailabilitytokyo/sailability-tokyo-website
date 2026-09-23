@@ -22,11 +22,18 @@ Sailability是一項搭乘通用設計帆船「Access Dinghy」、親近大海�
 
 Access Dinghy的設計者Chris Mitchell提倡「Sailing for Everyone（人人都能享受的帆船）」。在這個理念下，活動已推廣到澳洲、英國、美國、法國、荷蘭、中國、印度、馬來西亞、菲律賓、新加坡和日本等世界各地。2013年，Access Dinghy更名為「Hansa」，成為Hansa級帆船。
 
+![從水面高度仰望的白帆Hansa，水下與水上各占一半](../../../assets/photos/about/sailing-1.jpg)
+
 ## Hansa為什麼安全
 
 - **帶配重的龍骨**：Hansa的穩向板底部裝有鉛配重，完全放下並固定後就成為龍骨。Hansa不是穩向板帆船，而是龍骨帆船。
 - **自動恢復平衡**：就像蹺蹺板一樣，船身越傾斜，龍骨把船拉回正位的力量就越大。被風吹得傾斜時，風帆受風面積變小，即使在強風中船身也能保持穩定。
 - **輕鬆縮帆**：採用捲帆裝置，只需轉動一下就能把帆縮小。
+
+![駕駛黃帆Hansa在白浪中航行的水手](../../../assets/photos/about/sailing-2.jpg)
+![在強風中大幅傾斜航行的白帆Hansa](../../../assets/photos/about/sailing-3.jpg)
+![濺起浪花航行的黃色Hansa](../../../assets/photos/about/sailing-4.jpg)
+![張開主帆和前帆、在岩岸附近航行的Hansa](../../../assets/photos/about/sailing-5.jpg)
 
 ### 安全三原則
 

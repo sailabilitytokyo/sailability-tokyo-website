@@ -802,6 +802,35 @@ button {
 .prose blockquote > * + * {
   margin-top: var(--space-4);
 }
+/* 写真を並べる: 本文で画像だけを続けて書いた段落（![..](..) を1行ずつ）と、説明付きの <div class="gallery"> */
+.prose > p:has(> img),
+.prose .gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-3);
+  white-space: normal;
+}
+.prose > p:has(> img) img,
+.prose .gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  background: var(--surface-sunken);
+  border-radius: var(--radius-md);
+}
+.prose .gallery figure {
+  margin: 0;
+}
+.prose .gallery figure p {
+  margin: 0;
+}
+.prose figcaption {
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
 .prose small {
   color: var(--text-faint);
 }
