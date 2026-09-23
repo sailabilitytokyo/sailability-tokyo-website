@@ -22,11 +22,18 @@ It started in the UK in the 1980s. The Royal Yachting Association (RYA) led the 
 
 Chris Mitchell, the designer of the Access Dinghy, called for "Sailing for Everyone". Under this idea, the activity has spread around the world, including Australia, the UK, the USA, France, the Netherlands, China, India, Malaysia, the Philippines, Singapore and Japan. In 2013 the Access Dinghy was renamed the "Hansa" and became the Hansa class.
 
+![A white-sailed Hansa seen from water level, half above and half below the surface](../../../assets/photos/about/sailing-1.jpg)
+
 ## Why the Hansa is safe
 
 - **A weighted keel**: The Hansa has a centerboard with lead ballast at the bottom. Fixed all the way down, it works as a keel. The Hansa is a keelboat, not a dinghy.
 - **It rights itself**: Like a seesaw, the more the boat heels, the stronger the keel pulls it back upright. When the wind pushes the boat over, less wind hits the sail, so the boat stays stable even in strong wind.
 - **Easy reefing**: A roller-furling system lets you make the sail smaller with a simple turn.
+
+![A sailor in a yellow-sailed Hansa on a choppy sea](../../../assets/photos/about/sailing-2.jpg)
+![A white-sailed Hansa heeling hard in strong wind](../../../assets/photos/about/sailing-3.jpg)
+![A yellow Hansa sailing through spray](../../../assets/photos/about/sailing-4.jpg)
+![A Hansa with a mainsail and jib sailing near a rocky shore](../../../assets/photos/about/sailing-5.jpg)
 
 ### Three safety rules
 

@@ -37,6 +37,8 @@ Sailability Tokyo embraces the principle of sailing for everyone, no experience 
 
 セーリングの体験を通して、積極性や協調性、集中力、忍耐力、思いやり、チャレンジ精神などを自然に学べます。環境にやさしいセーリングへの理解が深まり、ヨットを楽しむ人の輪が広がることを期待しています。
 
+![水面すれすれから見上げた白いセールのハンザ。水中と水上が半分ずつ写っている](../../../assets/photos/about/sailing-1.jpg)
+
 ## ハンザの安全性と安定性
 
 ハンザには、走りを安定させるためのセンターボードがあります。センターボードの下部には鉛のおもり（バラスト）が入っています。このおもりが帆にあたる風の力を抑え、船をまっすぐ進ませるとともに、転覆を防ぐ復元力になります。
@@ -54,6 +56,11 @@ Sailability Tokyo embraces the principle of sailing for everyone, no experience 
 そのため、船の上ではできるだけ体を低くしてください。ハンザ2.3と303の座席の改造や変更はおすすめしません。2.3と303のワイドシートのモデルでは、体を座席にストラップなどでつながないでください。
 
 ハンザLiberty、2.3、303のシングルモデルは、デッキが広く、上の部分が浮力になっています。これには、船を浮かせることと、乗る人が安全に座れるようにすることの2つの目的があります。座席（コックピット）のふち（コーミング）の浮力は、船の中央のキールから離れているため、てこの原理で強い復元力になります。小さな船でもトラブルのない、使いやすく安全なヨットにするための工夫です。
+
+![黄色いセールのハンザで、白波の立つ海を走るセーラー](../../../assets/photos/about/sailing-2.jpg)
+![強い風を受けて大きく傾きながら走る、白いセールのハンザ](../../../assets/photos/about/sailing-3.jpg)
+![波しぶきを上げて走る黄色いハンザ](../../../assets/photos/about/sailing-4.jpg)
+![メインセールとジブセールを張って、岩場の近くを走るハンザ](../../../assets/photos/about/sailing-5.jpg)
 
 ### 安全の3原則
 
@@ -81,6 +88,11 @@ Sailability Tokyo embraces the principle of sailing for everyone, no experience 
 
 長いピンは、2.3、303、Libertyでキールを固定する標準の部品です。ピンが正しく入っているかを確かめる手順があります。追加の安全対策として、ショックコードでも固定することをおすすめします。
 
+![キールの上部に差し込んだ、ひも付きの固定用ピン](../../../assets/photos/about/keel-pin-1.jpg)
+![キールの上部にはめた、ひも付きのコルクの栓](../../../assets/photos/about/keel-pin-2.jpg)
+![キールの上部にテープを巻き、ロープで結んで固定した例](../../../assets/photos/about/keel-pin-3.jpg)
+![キールの上部を、ベルトで船体に固定した例](../../../assets/photos/about/keel-pin-4.jpg)
+
 #### 3. ローラーファーリング（巻き取り式）のリーフ（縮帆）はハンザの特徴です
 
 ほとんどのヨットはリーフができますが、ハンザほど簡単で効率的なものはありません。この仕組みを生かすには、正しい艤装（ぎそう）と手入れが必要です。乗る人も、事前に使い方を覚えておきます。
@@ -88,5 +100,32 @@ Sailability Tokyo embraces the principle of sailing for everyone, no experience 
 乗る人が自分でリーフできない場合は、経験者がリーフと巻き戻しの方法を覚え、初心者が自信を持てるまで何度か教えましょう。多くの場合、1回転巻くだけでセールにあたる風の力を逃がせます。
 
 乗る人が座席に縛り付けられていると、自分でリーフできません。事前に経験者に相談してください。リーフが必要なときや、明らかに必要な状況では、しっかり見守ることが大切です。
+
+<div class="gallery">
+<figure>
+
+![マストの根元にある、セールを巻き取るローラーファーリングの部品](../../../assets/photos/about/roller-furling-1.jpg)
+
+<figcaption>ハンザ303のローラーファーリング</figcaption>
+</figure>
+<figure>
+
+![陸に置かれた赤いハンザ303。セールはマストに巻き取られている](../../../assets/photos/about/roller-furling-2.jpg)
+
+<figcaption>ハンザ303のローラーファーリング</figcaption>
+</figure>
+<figure>
+
+![正しいジブセールの取り付けの図。ロープがまっすぐ出ている](../../../assets/photos/about/jib-correct.png)
+
+<figcaption>正しいジブセールの取り付け</figcaption>
+</figure>
+<figure>
+
+![間違ったジブセールの取り付けの図。ロープが交差している](../../../assets/photos/about/jib-incorrect.png)
+
+<figcaption>間違ったジブセールの取り付け</figcaption>
+</figure>
+</div>
 
 <small>TELLTALE September 2019 Volume 19（原文）とセイラビリティ東京活動マニュアルより要約（日本語訳 JMF）</small>
