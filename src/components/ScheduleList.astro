@@ -47,7 +47,7 @@ const badge = (item: (typeof items)[number]) => {
                 <p class="schedule__meta">
                   <Icon name="clock" size={16} />
                   {item.start}
-                  {item.end && `–${item.end}`}
+                  {item.end && `〜${item.end}`}
                   {item.note && `（${pick(item.note, lang)}）`}
                 </p>
               )}

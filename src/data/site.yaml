@@ -47,7 +47,8 @@ places:
 
 # 申込フォーム（Googleフォーム）
 forms:
-  experience: https://forms.gle/F7VifEKq8Ca2YYCdA
+  # 変えたら src/content/pages/ja/sailing-experience.md の cta と本文のリンクも変える
+  experience: https://docs.google.com/forms/d/e/1FAIpQLSc8MBWoB719z-_XuxsxtOxTnk0-zCqKj-kyeTw7mHDgQkNfzA/viewform
 
 # セーリング体験会の参加費（円・1人）。Google検索のイベント情報に使う。
 # 変更したら src/content/pages/*/sailing-experience.md の本文も直すこと。

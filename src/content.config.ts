@@ -22,16 +22,23 @@ const pages = defineCollection({
       summary: z.string().optional(),
       // ページ上部: 英字の小見出し（例: Membership）、タイトル下の文（省略時は summary / description）、特徴タグ
       eyebrow: z.string().optional(),
+      // ページ上部で目立たせる一言（黄色の札で表示。例: 江東区 後援）
+      badge: z.string().optional(),
       lead: z.string().optional(),
       tags: z.array(tag).default([]),
       // ページ上部の写真とその説明（alt）
       image: image().optional(),
       imageAlt: z.string().optional(),
-      // ページ本文の後ろに体験会の日程表を表示する
+      // ページ上部の直後に体験会の日程表を表示する
       showSchedule: z.boolean().default(false),
+      // 本文の後ろに表示する「当日の流れ」（番号付きの手順）と「よくあるご質問」
+      steps: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
+      faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
       // 申込ボタン（募集していない時期は cta ごと消すかコメントアウトする）
       cta: z
         .object({
+          // 案内欄の見出し（省略時は label）
+          title: z.string().optional(),
           label: z.string(),
           href: z.url(),
           // Google Analytics に送るイベント名（例: reserve_experience）
