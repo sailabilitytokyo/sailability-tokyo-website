@@ -16,3 +16,13 @@ export function formatDate(ymd: string | Date, lang: Locale, opts: { weekday?: b
 export function toYmd(d: Date): string {
   return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(d);
 }
+
+/** 括弧書き。日本語・中国語は全角「（…）」、英語は半角「 (…)」 */
+export function paren(lang: Locale, text: string): string {
+  return lang === 'en' ? ` (${text})` : `（${text}）`;
+}
+
+/** 「見出し：内容」の区切り。日本語・中国語は全角「：」、英語は「: 」 */
+export function colon(lang: Locale): string {
+  return lang === 'en' ? ': ' : '：';
+}

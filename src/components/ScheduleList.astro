@@ -4,7 +4,7 @@ import Icon from './Icon.astro';
 import type { Locale } from '../i18n/locales';
 import { useTranslations } from '../i18n/ui';
 import { getPlace, pick, site, upcomingSchedule } from '../lib/data';
-import { formatDate } from '../lib/format';
+import { colon, formatDate, paren } from '../lib/format';
 
 interface Props {
   lang: Locale;
@@ -48,7 +48,7 @@ const badge = (item: (typeof items)[number]) => {
                   <Icon name="clock" size={16} />
                   {item.start}
                   {item.end && `〜${item.end}`}
-                  {item.note && `（${pick(item.note, lang)}）`}
+                  {item.note && paren(lang, pick(item.note, lang))}
                 </p>
               )}
               <p class="schedule__meta">
@@ -64,7 +64,7 @@ const badge = (item: (typeof items)[number]) => {
               {!item.start && item.note && <p class="schedule__deadline">{pick(item.note, lang)}</p>}
               {item.kind === 'experience' && item.status === 'scheduled' && (
                 <p class="schedule__deadline">
-                  {t('schedule.deadline')}：{formatDate(item.deadline, lang, { weekday: true, year: false })}
+                  {t('schedule.deadline')}{colon(lang)}{formatDate(item.deadline, lang, { weekday: true, year: false })}
                 </p>
               )}
             </li>

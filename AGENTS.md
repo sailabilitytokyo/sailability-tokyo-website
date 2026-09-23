@@ -68,7 +68,9 @@ todo/                         管理者（人間）がやるべき作業リス�
 | 役員・連絡先・SNS を変える | `src/data/site.yaml` |
 | リンク切れの Issue・「外部リンクの確認」が赤い | 該当のリンク（`src/data/site.yaml` か本文）を正しい URL に直し、`npm run build && npm run check:external` で確認 |
 | トップページの見出し・安心ポイント・会員募集の文 | `src/content/pages/ja/home.md` の frontmatter（`hero` / `highlights` / `intro` / `membership`） |
-| ページ上部の小見出し・リード文・タグ | 各ページの frontmatter（`eyebrow` / `lead` / `tags`） |
+| ページ上部の小見出し・リード文・タグ | 各ページの frontmatter（`eyebrow` / `badge` / `lead` / `tags`） |
+| 当日の流れ・よくあるご質問・地図 | 各ページの frontmatter（`steps` / `faq` / `map`） |
+| 翻訳ページの文言 | `src/content/pages/{en,zh-hans,zh-hant}/*.md`（日本語を変えたら一緒に） |
 
 ## 作業の進め方（必ず守る）
 
@@ -134,7 +136,12 @@ todo/                         管理者（人間）がやるべき作業リス�
 
 ## コンテンツを書くときのルール
 
-- **日本語が正本。** 翻訳（`en` / `zh-hans` / `zh-hant`）がある場合、日本語を変えたら翻訳も同じ PR で更新する。翻訳がまだないページは触らなくてよい。
+- **日本語が正本。** 翻訳があるのは **トップ（home）・セーリング体験会・About** の3ページ × 英語（`en`）・簡体字（`zh-hans`）・繁体字（`zh-hant`）。
+  - これらの日本語ページを変えたら、**同じ PR で3言語の翻訳も更新する**（`src/content/pages/<言語>/<ページ>.md`）。事実（料金・時間・条件）が食い違わないように特に注意する
+  - About の翻訳は要点をまとめた版（安全性の詳しい説明は訳していない）
+  - 画面の固定文言（ボタン名など）は `src/i18n/ui.ts` の4言語すべてに書く。`site.yaml` / `schedule.yaml` の文言は `ja:` / `en:` / `zh-hans:` / `zh-hant:` で書き分けられる（日本語だけでもよい。その場合は日本語が表示される）
+  - 翻訳ページ内のリンクは `/en/sailing-experience` のように言語付きで書く
+  - 翻訳のないページ（小学生ヨット教室・会員募集・プライバシーポリシー・お知らせ）は、各言語のメニューから日本語のページにリンクされる
 - 固定ページ・お知らせには必ず `description`（検索結果に出る説明文、80〜120字程度）を書く。
 - 見出しは `##` から始める（`#` はページタイトルとして自動で付くため本文では使わない）。
 - 画像には内容がわかる `imageAlt`（代替テキスト）を書く。
@@ -151,6 +158,7 @@ npm run dev             # 開発サーバー（http://localhost:4321）。AI は
 npm run verify          # 公開前チェック一式（check → build → check:links → test）
 npm run check:external  # 外部リンク切れの確認（ビルド後。外部サイトにアクセスするので verify には含めない）
 npm run photos -- <写真ファイル or フォルダ>   # 写真を縮小・EXIF 削除して src/assets/photos/ へ
+node scripts/make-favicons.mjs                # ロゴからファビコン一式を作り直す（ロゴを差し替えたとき）
 npm run test:update-screenshots               # スクリーンショット基準画像の更新（通常は CI の Update screenshots で行う）
 ```
 

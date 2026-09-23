@@ -2,10 +2,10 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/logo-horizontal.png';
 import Icon from './Icon.astro';
-import { DEFAULT_LOCALE, LOCALE_META, localePath, type Locale } from '../i18n/locales';
-import { useTranslations } from '../i18n/ui';
+import { DEFAULT_LOCALE, LOCALES, LOCALE_META, localePath, type Locale } from '../i18n/locales';
+import { navLabel, useTranslations } from '../i18n/ui';
 import { pick, site } from '../lib/data';
-import { getPage, newsUrl, pageUrl } from '../lib/content';
+import { getPage, newsLang, newsUrl, pageUrl } from '../lib/content';
 
 interface Props {
   lang: Locale;
@@ -18,23 +18,56 @@ const t = useTranslations(lang);
 // メニュー項目。翻訳がないページは日本語ページにリンクする
 const nav = await Promise.all(
   site.nav.map(async (slug) => {
-    if (slug === 'news') return { href: newsUrl(lang), label: t('nav.news') };
-    const page = (await getPage(lang, slug)) ?? (await getPage(DEFAULT_LOCALE, slug));
+    if (slug === 'news') return { href: newsUrl(await newsLang(lang)), label: t('nav.news') };
+    const own = await getPage(lang, slug);
+    const page = own ?? (await getPage(DEFAULT_LOCALE, slug));
     if (!page) throw new Error(`site.yaml の nav にある "${slug}" のページが src/content/pages/${DEFAULT_LOCALE}/ にありません`);
-    const pageLang = page.id.startsWith(`${lang}/`) ? lang : DEFAULT_LOCALE;
-    return { href: pageUrl(pageLang, slug), label: page.data.navLabel ?? page.data.title };
+    // 翻訳ページがなければ日本語ページにリンクし、名前は画面の文言（nav.<ページ名>）の訳を使う
+    const label = own ? (own.data.navLabel ?? own.data.title) : (navLabel(lang, slug) ?? page.data.navLabel ?? page.data.title);
+    return { href: pageUrl(own ? lang : DEFAULT_LOCALE, slug), label };
   }),
 );
 const experienceLang = (await getPage(lang, 'sailing-experience')) ? lang : DEFAULT_LOCALE;
+// 言語の切り替え: そのページの翻訳があればそこへ、なければその言語のトップページへ
+const langsWithHome = (await Promise.all(LOCALES.map(async (l) => ((await getPage(l, 'home')) ? l : undefined)))).filter(
+  (l): l is Locale => !!l,
+);
+const langLinks = langsWithHome.map((l) => ({
+  lang: l,
+  href: alternates.find((a) => a.lang === l)?.href ?? localePath(l, '/'),
+}));
 const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => current === href || (href !== '/' && current.startsWith(`${href}/`));
 ---
 
 <header class="site-header">
+  {
+    langLinks.length > 1 && (
+      <div class="lang-bar">
+        <div class="container lang-bar__inner">
+          <Icon name="globe" size={14} />
+          <ul class="lang-bar__list" aria-label={t('lang.label')}>
+            {langLinks.map((a) => (
+              <li>
+                <a
+                  href={a.href}
+                  hreflang={LOCALE_META[a.lang].htmlLang}
+                  lang={LOCALE_META[a.lang].htmlLang}
+                  aria-current={a.lang === lang ? 'true' : undefined}
+                >
+                  {LOCALE_META[a.lang].label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    )
+  }
   <div class="container site-header__inner">
     <a class="site-header__brand" href={localePath(lang, '/')}>
       <Image class="site-header__logo" src={logo} alt={site.name} height={34} loading="eager" />
-      <span class="site-header__org">{pick(site.legalName, lang)}</span>
+      {lang !== 'en' && <span class="site-header__org">{pick(site.legalName, lang)}</span>}
     </a>
 
     <nav class="site-nav" id="site-nav" aria-label={t('nav.menu')}>
@@ -49,24 +82,6 @@ const isCurrent = (href: string) => current === href || (href !== '/' && current
           ))
         }
       </ul>
-      {
-        alternates.length > 1 && (
-          <ul class="site-nav__langs" aria-label={t('lang.label')}>
-            {alternates.map((a) => (
-              <li>
-                <a
-                  href={a.href}
-                  hreflang={LOCALE_META[a.lang].htmlLang}
-                  lang={LOCALE_META[a.lang].htmlLang}
-                  aria-current={a.lang === lang ? 'true' : undefined}
-                >
-                  {LOCALE_META[a.lang].label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
     </nav>
 
     <a class="button button--primary button--sm site-header__cta" href={`${pageUrl(experienceLang, 'sailing-experience')}#schedule`} data-track="header_cta">

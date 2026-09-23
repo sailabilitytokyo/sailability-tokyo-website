@@ -158,6 +158,14 @@
   --measure-wide: 64em;
 }
 
+/* 中国語のページ（簡体字・繁体字）は中国語のフォントを使う */
+:root:lang(zh-Hans) {
+  --font-sans: 'Figtree', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+:root:lang(zh-Hant) {
+  --font-sans: 'Figtree', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+}
+
 /* ── 余白・かたち（tokens/spacing.css） ───────────────────────────────── */
 :root {
   --space-0: 0;

@@ -9,10 +9,15 @@ name: Sailability Tokyo
 legalName:
   ja: 一般社団法人 セイラビリティ東京
   en: Sailability Tokyo (General Incorporated Association)
+  zh-hans: 一般社团法人 Sailability Tokyo
+  zh-hant: 一般社團法人 Sailability Tokyo
 tagline: Sailing for Everyone
 # 検索結果やSNSでの共有時に表示される、サイト全体の説明文（120字程度まで）
 description:
-  ja: セイラビリティ東京は「Sailing for Everyone」をモットーに、子どもや障がいのある方、経験の有無に関わらず、誰もが水辺を楽しめるヨット・セーリングの体験会や小学生ヨット教室を東京・豊洲で開催しています。
+  ja: セイラビリティ東京は、東京・豊洲でセーリング体験会と小学生ヨット教室を開いています。年齢や障がいの有無、経験を問わず、誰でもヨットに乗れます。
+  en: Sailability Tokyo runs inclusive sailing sessions in Toyosu, Tokyo. Anyone can sail, regardless of age, disability or experience.
+  zh-hans: Sailability Tokyo 在东京丰洲举办帆船体验活动。无论年龄、有无障碍、有无经验，人人都能乘坐帆船。
+  zh-hant: Sailability Tokyo 在東京豐洲舉辦帆船體驗活動。無論年齡、有無障礙、有無經驗，人人都能搭乘帆船。
 foundedYear: 2013
 email: sailabilitytokyo@gmail.com
 
@@ -31,9 +36,13 @@ places:
     name:
       ja: 豊洲ぐるり公園乗船場
       en: Toyosu Gururi Park Pier
+      zh-hans: 丰洲Gururi公园乘船处（豊洲ぐるり公園乗船場）
+      zh-hant: 豐洲Gururi公園乘船處（豊洲ぐるり公園乗船場）
     note:
       ja: 豊洲西小学校裏／有楽町線・ゆりかもめ「豊洲駅」から徒歩10分
-      en: Behind Toyosu-nishi Elementary School, 10 min walk from Toyosu Station (Yurakucho Line / Yurikamome)
+      en: Behind Toyosu-nishi Elementary School. 10 minutes' walk from Toyosu Station (Yurakucho Line / Yurikamome)
+      zh-hans: 丰洲西小学后方／从有乐町线・百合海鸥线「丰洲站」步行10分钟
+      zh-hant: 豐洲西小學後方／從有樂町線・百合海鷗線「豐洲站」步行10分鐘
     addressLocality: 江東区
     addressRegion: 東京都
     mapUrl: https://www.google.com/maps/search/?api=1&query=%E8%B1%8A%E6%B4%B2%E3%81%90%E3%82%8B%E3%82%8A%E5%85%AC%E5%9C%92%E4%B9%97%E8%88%B9%E5%A0%B4
@@ -43,6 +52,8 @@ places:
     name:
       ja: 東京夢の島マリーナ
       en: Tokyo Yumenoshima Marina
+      zh-hans: 东京梦之岛码头
+      zh-hant: 東京夢之島碼頭
     addressLocality: 江東区
     addressRegion: 東京都
     mapUrl: https://yumenoshima-marina.com/

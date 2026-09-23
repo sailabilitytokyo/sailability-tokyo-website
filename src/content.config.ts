@@ -51,6 +51,8 @@ const pages = defineCollection({
         .optional(),
 
       // ── ここから下はトップページ（home.md）専用 ──
+      // 「活動のご案内」に並べるページ（省略時は sailing-experience と junior-sailing-courses）
+      featured: z.array(z.string()).optional(),
       hero: z
         .object({
           badge: z.string().optional(),

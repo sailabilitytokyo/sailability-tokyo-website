@@ -442,8 +442,7 @@ button {
   align-items: center;
   gap: var(--space-4);
 }
-.site-nav__list,
-.site-nav__langs {
+.site-nav__list {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-1);
@@ -469,14 +468,6 @@ button {
 .site-nav__list a[aria-current] {
   color: var(--text-heading);
   background: var(--sst-blue-50);
-}
-.site-nav__langs a {
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-}
-.site-nav__langs a[aria-current] {
-  color: var(--text-heading);
-  font-weight: var(--weight-bold);
 }
 .site-nav__toggle {
   display: inline-flex;
@@ -548,6 +539,45 @@ button {
     clip-path: inset(50%);
     white-space: nowrap;
   }
+}
+
+/* 言語の切り替え（ヘッダーの上の細い帯） */
+.lang-bar {
+  background: var(--surface-subtle);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  font-size: var(--text-xs);
+}
+.lang-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  min-height: 32px;
+  color: var(--text-muted);
+}
+.lang-bar__list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.lang-bar__list li + li::before {
+  content: '｜';
+  color: var(--border-default);
+}
+.lang-bar__list a {
+  padding: var(--space-1) var(--space-2);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.lang-bar__list a:hover {
+  color: var(--text-heading);
+  text-decoration: underline;
+}
+.lang-bar__list a[aria-current] {
+  color: var(--text-heading);
+  font-weight: var(--weight-bold);
 }
 
 /* ── ヒーロー（トップ） ─────────────────────────────────────────────── */

@@ -4,7 +4,8 @@
 import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
 import { DEFAULT_LOCALE, LOCALE_META, type Locale } from '../i18n/locales';
-import { pick, site } from '../lib/data';
+import { useTranslations } from '../i18n/ui';
+import { site } from '../lib/data';
 
 interface Props {
   lang: Locale;
@@ -21,9 +22,9 @@ interface Props {
 
 const { lang, title, description, alternates, image, imageAlt, type = 'website', jsonLd = [] } = Astro.props;
 const siteUrl = Astro.site!;
-const fullTitle = title
-  ? `${title} | ${site.name}`
-  : `${site.name}（${pick(site.legalName, lang).replace(/^一般社団法人\s*/, '')}）| ${site.tagline}`;
+const fullTitle = title ? `${title} | ${site.name}` : useTranslations(lang)('site.homeTitle');
+// OGP の言語コード
+const ogLocale = { ja: 'ja_JP', en: 'en_US', 'zh-hans': 'zh_CN', 'zh-hant': 'zh_TW' }[lang];
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const ogImage = image ? await getImage({ src: image, width: 1200, format: 'jpg' }) : undefined;
 const xDefault = alternates.find((a) => a.lang === DEFAULT_LOCALE);
@@ -43,7 +44,7 @@ const xDefault = alternates.find((a) => a.lang === DEFAULT_LOCALE);
 <meta property="og:title" content={title ?? fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-<meta property="og:locale" content={LOCALE_META[lang].htmlLang.replace('-', '_')} />
+<meta property="og:locale" content={ogLocale} />
 {ogImage && <meta property="og:image" content={new URL(ogImage.src, siteUrl).href} />}
 {ogImage && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
 <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
