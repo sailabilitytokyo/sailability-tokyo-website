@@ -2,6 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 // 表示確認テスト。`npm run build` 後に `npm test` で実行する。
 // ビルド済みの dist/ を astro preview で配信し、ブラウザで各ページを開いて確認する。
+// 開発サーバー（npm run dev, 4321番）と混ざらないよう、テスト専用のポートを使う。
+const PORT = 4329;
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -9,7 +11,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: `http://localhost:${PORT}`,
     trace: 'retain-on-failure',
   },
   // スクリーンショット比較の許容差（フォントのわずかな描画差で失敗しないように）
@@ -21,8 +23,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
-    command: 'npx astro preview --port 4321 --ignore-lock',
-    url: 'http://localhost:4321',
+    command: `npx astro preview --port ${PORT} --ignore-lock`,
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
   },
 });
