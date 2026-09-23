@@ -1,8 +1,9 @@
-# 公開中サイトの死活監視（毎朝9時）。
-# 問題があれば「監視」ラベル付きの Issue を作る（GitHub からメール通知が届く）。復旧したら自動で閉じる。
+# 毎朝9時の監視。問題があれば「監視」ラベル付きの Issue を作る（GitHub からメール通知が届く）。復旧したら自動で閉じる。
 #
-# 監視先はリポジトリ変数 MONITOR_BASE_URL（Settings > Secrets and variables > Actions > Variables）。
-# 未設定の間は何もしない。本番公開後に https://www.sailabilitytokyo.jp を設定する。
+# 1. 外部リンクの確認（スポンサー・SNS・予約フォーム・お知らせ本文のリンクなど）… 常に実行
+# 2. 公開中サイトの死活監視（全ページ・GA タグ・予約フォームの受付状態・旧ブログ）… 監視先が設定されているときだけ実行
+#    監視先はリポジトリ変数 MONITOR_BASE_URL（Settings > Secrets and variables > Actions > Variables）。
+#    本番公開後に https://www.sailabilitytokyo.jp を設定する。
 name: Monitor
 
 on:
@@ -17,39 +18,41 @@ permissions:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     env:
       BASE_URL: ${{ vars.MONITOR_BASE_URL }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TITLE: 'サイト監視: 問題が見つかりました'
     steps:
       - uses: actions/checkout@v7
-        if: env.BASE_URL != ''
 
       - uses: actions/setup-node@v7
-        if: env.BASE_URL != ''
         with:
           node-version-file: .nvmrc
           cache: npm
 
       - run: npm ci
-        if: env.BASE_URL != ''
+      - run: npm run build
 
       - name: 監視
         id: check
-        if: env.BASE_URL != ''
         run: |
           set +e
-          node scripts/monitor.mjs "$BASE_URL" > report.txt 2>&1
-          code=$?
+          failed=false
+          echo "## 外部リンク" > report.txt
+          npm run --silent check:external >> report.txt 2>&1 || failed=true
+          if [ -n "$BASE_URL" ]; then
+            printf '\n## 公開中サイト（%s）\n' "$BASE_URL" >> report.txt
+            node scripts/monitor.mjs "$BASE_URL" >> report.txt 2>&1 || failed=true
+          fi
           cat report.txt
-          echo "failed=$([ $code -ne 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
 
       - name: Issue を作成・更新
         if: steps.check.outputs.failed == 'true'
         run: |
           gh label create monitor --color B60205 --description "サイト監視" 2>/dev/null || true
-          body=$(printf '%s の監視で問題が見つかりました（%s）。\n\n```\n%s\n```\n\n直し方がわからない場合は、この Issue の内容を AI に渡して「原因を調べて直して」と依頼してください。' "$BASE_URL" "$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')" "$(cat report.txt)")
+          body=$(printf '毎朝の監視で問題が見つかりました（%s）。\n\n```\n%s\n```\n\n直し方がわからない場合は、この Issue の内容を AI に渡して「原因を調べて直して」と依頼してください。' "$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')" "$(cat report.txt)")
           num=$(gh issue list --label monitor --state open --json number --jq '.[0].number')
           if [ -n "$num" ]; then gh issue comment "$num" --body "$body"; else gh issue create --title "$TITLE" --label monitor --body "$body"; fi
 

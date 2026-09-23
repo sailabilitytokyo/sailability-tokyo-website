@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "check": "astro check && node scripts/check-images.mjs",
     "check:links": "node scripts/check-links.mjs",
+    "check:external": "node scripts/check-external-links.mjs",
     "verify": "npm run check && npm run build && npm run check:links && npm test",
     "test": "playwright test",
     "test:update-screenshots": "playwright test tests/visual.spec.ts --update-snapshots=all",

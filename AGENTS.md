@@ -66,6 +66,7 @@ todo/                         管理者（人間）がやるべき作業リス�
 | スポンサーを追加する | `src/data/site.yaml` の `sponsors`（ロゴは `npm run photos -- --out src/assets/sponsors <ファイル>`） |
 | 写真を追加する | `npm run photos -- <ファイル>` → frontmatter の `image` / `imageAlt` |
 | 役員・連絡先・SNS を変える | `src/data/site.yaml` |
+| リンク切れの Issue・「外部リンクの確認」が赤い | 該当のリンク（`src/data/site.yaml` か本文）を正しい URL に直し、`npm run build && npm run check:external` で確認 |
 | トップページの見出し・安心ポイント・会員募集の文 | `src/content/pages/ja/home.md` の frontmatter（`hero` / `highlights` / `intro` / `membership`） |
 | ページ上部の小見出し・リード文・タグ | 各ページの frontmatter（`eyebrow` / `lead` / `tags`） |
 
@@ -132,6 +133,7 @@ todo/                         管理者（人間）がやるべき作業リス�
 npm ci                  # 依存関係のインストール（初回）
 npm run dev             # 開発サーバー（http://localhost:4321）。AI はバックグラウンドで: npx astro dev --background
 npm run verify          # 公開前チェック一式（check → build → check:links → test）
+npm run check:external  # 外部リンク切れの確認（ビルド後。外部サイトにアクセスするので verify には含めない）
 npm run photos -- <写真ファイル or フォルダ>   # 写真を縮小・EXIF 削除して src/assets/photos/ へ
 npm run test:update-screenshots               # スクリーンショット基準画像の更新（通常は CI の Update screenshots で行う）
 ```
