@@ -12,7 +12,7 @@ tags:
   - { label: ペット同乗可, icon: dog }
   - { label: 豊洲駅から徒歩10分, icon: map-pin }
 image: ../../../assets/photos/fleet-hansa-toyosu.jpg
-imageAlt: 東電堀を走るハンザの艇群
+imageAlt: 赤いセールのハンザが豊洲の水辺を走る様子
 showSchedule: true
 ---
 

@@ -2,11 +2,13 @@
 //  - 長辺 2400px に縮小（大きすぎる写真でリポジトリが重くならないように）
 //  - EXIF（撮影日時・位置情報・カメラ情報など）を削除
 //  - 向き（回転）を正しく補正
-//  - JPEG に統一（ページ表示時は Astro が WebP などに自動変換する）
+//  - JPEG に統一（透明な部分がある PNG だけは PNG のまま。ページ表示時は Astro が WebP などに自動変換する）
+//  - ファイル名は小文字・英数字とハイフンに揃える（例: Hero Sailing.JPG → hero-sailing.jpg）
 //
 // 使い方:
 //   npm run photos -- ~/Downloads/photo1.jpg ~/Downloads/photo2.HEIC
 //   npm run photos -- ~/Downloads/album/          （フォルダ内の写真をすべて）
+// ※ 写真の場所は ~/ や /home/ から始まる場所（フルパス）で指定する（npm がフォルダを移動して実行するため）
 // 保存先を変えたい場合: npm run photos -- --out src/assets/sponsors ~/Downloads/logo.png
 import { mkdirSync, readdirSync, statSync } from 'node:fs';
 import { basename, extname, join } from 'node:path';
@@ -35,7 +37,8 @@ const files = inputs.flatMap((p) =>
 
 mkdirSync(outDir, { recursive: true });
 for (const file of files) {
-  const isPng = /\.png$/i.test(file);
+  // 透明な部分がある画像（ロゴなど）だけ PNG のまま。写真は PNG でも JPEG にする
+  const isPng = /\.png$/i.test(file) && !(await sharp(file).stats()).isOpaque;
   // ファイル名は英数字・ハイフンのみに（URL で扱いやすくするため）
   const name =
     basename(file, extname(file))

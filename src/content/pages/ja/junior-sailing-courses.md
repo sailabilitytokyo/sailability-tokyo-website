@@ -11,8 +11,8 @@ tags:
   - { label: 前期・後期 各全6回, icon: calendar-days }
   - { label: 2026年後期 開講中, icon: sailboat }
   - { label: 後援 江東区, icon: anchor }
-image: ../../../assets/photos/instructor-briefing-kids.jpg
-imageAlt: インストラクターから説明を受ける小学生たち
+image: ../../../assets/photos/white-sail-hansa-toyosu.jpg
+imageAlt: 白いセールのハンザと色とりどりのセールの艇が豊洲の水辺を走る様子
 # 募集期間中は下の cta を有効にする（先頭の # を外す）
 # cta:
 #   label: 申し込む
