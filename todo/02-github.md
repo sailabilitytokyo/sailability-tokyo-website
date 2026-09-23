@@ -12,13 +12,13 @@
 - [ ] （推奨）信頼できるメンバーをもう1人 Owner に追加する（オーナーが1人だけだと、その人がログインできなくなったときに管理できない）
 - [x] Organization にリポジトリを作る: 名前 `sailability-tokyo-website`、**Public**、README などは追加しない（空で作る）
 
-## 【対応中】Organization が 404 になる問題（2026-09-23）
+## 【解決済み】Organization が 404 になる問題（2026-09-23）
 
 Organization `sailabilitytokyo` と、誤って作った個人アカウント `sailability-tokyo` が、他の人から 404 に見える状態です。
 GitHub の不正利用対策で誤ってフラグが付いた可能性が高いため、GitHub サポートにチケットを作成済みです。
 
 - [x] GitHub サポートにチケットを作成（返事は d-zenju のメールアドレスに届く）
-- [ ] 解除されたら AI に「GitHub の制限が解除された」と伝える（未プッシュのコミットをプッシュし、下の設定に進む）
+- [x] 解除されたら AI に「GitHub の制限が解除された」と伝える（2026-09-23 解除・プッシュ済み）
 - [ ] 返事が来ない・時間がかかる場合は、個人アカウント `d-zenju` にリポジトリを置いて先に進め、解除後に Organization へ移す（Transfer）
 
 ## このパソコンから GitHub に接続
@@ -30,14 +30,16 @@ GitHub の不正利用対策で誤ってフラグが付いた可能性が高い�
 
 ## リポジトリの設定（プッシュ後）
 
-- [ ] Settings > General > Pull Requests:
+（2026-09-23 AI が gh で設定済み。ルールセット名「main を保護」）
+
+- [x] Settings > General > Pull Requests:
   - **Allow auto-merge** を ON（ライブラリ更新の自動マージに必要）
   - **Automatically delete head branches** を ON（マージ後の作業ブランチを自動で削除）
-- [ ] Settings > Rules > Rulesets（または Branches）で main ブランチを保護:
+- [x] Settings > Rules > Rulesets（または Branches）で main ブランチを保護:
   - Require a pull request before merging（承認数は 0 で OK。1人運用のため）
   - Require status checks to pass → `ビルドと表示確認` を追加
   - Block force pushes
-- [ ] Settings > Code security（Advanced Security）:
+- [x] Settings > Code security（Advanced Security）:
   - **Dependabot alerts** を ON
   - **Dependabot security updates** を ON
   - **Secret Protection / Push protection** を ON（パスワード等の誤コミットを防ぐ。公開リポジトリは無料）
