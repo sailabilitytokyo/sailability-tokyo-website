@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: meta
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
 
       - name: マイナー・パッチ更新なら自動マージを予約
         if: steps.meta.outputs.update-type != 'version-update:semver-major'

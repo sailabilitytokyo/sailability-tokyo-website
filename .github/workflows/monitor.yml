@@ -23,10 +23,10 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TITLE: 'サイト監視: 問題が見つかりました'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         if: env.BASE_URL != ''
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         if: env.BASE_URL != ''
         with:
           node-version-file: .nvmrc
