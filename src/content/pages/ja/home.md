@@ -6,9 +6,9 @@ description: セイラビリティ東京は「Sailing for Everyone」をモッ�
 hero:
   badge: 豊洲ぐるり公園乗船場
   background: ../../../assets/photos/hero-sailing-toyosu.jpg
-  backgroundAlt: 豊洲ぐるり公園の前をセーリングするハンザ
+  backgroundAlt: 青空の下、豊洲の水辺を走る3艇のハンザ
   photo: ../../../assets/photos/kids-onboard-smiling.jpg
-  photoAlt: ハンザに乗って笑う子どもたち
+  photoAlt: 色とりどりのセールで出艇するハンザと、桟橋で見守るスタッフ
   title: |-
     海に出よう。
     誰でも、今日から。
@@ -48,7 +48,7 @@ intro:
   eyebrow: Sailing for Everyone
   title: 誰もが水辺を楽しめるセーリングを
   photo: ../../../assets/photos/pontoon-toyosu.jpg
-  photoAlt: 豊洲ぐるり公園乗船場の桟橋
+  photoAlt: 豊洲ぐるり公園乗船場と「Sailing for Everyone!」の横断幕、奥に並ぶハンザ
   link:
     label: セイラビリティ東京について
     href: /about

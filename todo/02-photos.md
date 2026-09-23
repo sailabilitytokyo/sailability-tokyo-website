@@ -1,25 +1,23 @@
 # 02. 写真・ロゴの用意
 
-今のサイトには「DUMMY PHOTO」と書かれたダミー画像が入っています（`src/assets/photos/`）。
-本物の写真を**同じファイル名**で置き換えるだけで差し替わります。
+2026-09-23 に写真を取り込みました（`src/assets/photos/`。元の写真はリポジトリの外の `~/work/sailability-tokyo/photos-raw/`）。
 
-| 場所 | ファイル |
-| --- | --- |
-| トップ一番上の背景 | hero-sailing-toyosu.jpg |
-| トップ一番上の右側 | kids-onboard-smiling.jpg |
-| トップの団体紹介 | pontoon-toyosu.jpg |
-| セーリング体験会（ページ上部・トップのカード） | fleet-hansa-toyosu.jpg |
-| 小学生ヨット教室（ページ上部・トップのカード） | instructor-briefing-kids.jpg |
-| 会員募集ページ上部 | sailing-summer.jpg |
-| About ページ上部 | school-land-lesson.jpg |
-| （未使用） | pet-aboard-dog.jpg |
-
-## 用意してほしいもの
-
-- [ ] **上の表の写真**（Claude Design に入れた写真の元ファイル、または Google フォトの元データ。Claude Design からは 1 ファイル 256KB までしか読み込めず取り込めなかった）
 - [ ] **スポンサーのロゴ**（今のサイトに載っている 8 社分。今のサイトの画像を右クリックで保存したものでも可）。今は名前を文字で表示している
 - [ ] About ページにあった「ハンザ303 ローラーファーリング」「ジブセールの取り付け（正しい/間違った）」の写真
 - [ ] （あれば）車いすの方の乗り移りの写真、法人ロゴ入りのセールの写真（デザイン仕様書で「不足している素材」とされているもの）
+
+| 場所 | ファイル | 写っているもの |
+| --- | --- | --- |
+| トップ一番上の背景 | hero-sailing-toyosu.jpg | 豊洲の水辺を走る3艇 |
+| トップ一番上の右側 | kids-onboard-smiling.jpg | 色とりどりのセールで出艇するハンザと、桟橋のスタッフ |
+| トップの団体紹介 | pontoon-toyosu.jpg | 乗船場と横断幕 |
+| セーリング体験会 | fleet-hansa-toyosu.jpg | 赤いセールのハンザ |
+| 小学生ヨット教室 | white-sail-hansa-toyosu.jpg | 白いセールのハンザと色とりどりの艇 |
+| 会員募集 | sailing-summer.jpg | 色とりどりのセール |
+| About | school-land-lesson.jpg | 桟橋に並ぶハンザ |
+| （未使用） | pet-aboard-dog.jpg | 艇上の犬 |
+
+- 艇上で笑う女の子2人の写真（`photos-raw/instructor-briefing-kids.jpg`）は、掲載同意は取れているが今回は使わないことにした（2026-09-23）。使う場合は AI に「女の子の写真をトップ右側（または小学生ヨット教室）に使って」と伝える
 
 ## 注意
 

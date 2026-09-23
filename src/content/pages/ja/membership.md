@@ -7,7 +7,7 @@ tags:
   - { label: '個人会員 年会費5,000円', icon: users }
   - { label: '法人会員 年会費20,000円', icon: anchor }
 image: ../../../assets/photos/sailing-summer.jpg
-imageAlt: 色とりどりのセールで東電堀を走るハンザ
+imageAlt: 色とりどりのセールで並んで走るハンザ
 description: セイラビリティ東京では、活動に賛同しお手伝いいただける個人・家族会員、ご支援いただける法人会員を募集しています。入会金・年会費とお申し込み手順のご案内です。
 ---
 
