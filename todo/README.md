@@ -7,7 +7,7 @@
 
 - [x] [01. Claude Design のデザイン取り込みのための認証](01-design-login.md)
 - [ ] [02. GitHub の準備（Organization・リポジトリ・設定）](02-github.md)
-- [ ] [03. Cloudflare Pages で仮公開（メンバー確認用 URL）](03-cloudflare.md)
+- [x] [03. Cloudflare で仮公開（メンバー確認用 URL）](03-cloudflare.md)
 
 ## 素材・内容の確認
 

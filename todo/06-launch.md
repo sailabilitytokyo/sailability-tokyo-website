@@ -19,7 +19,7 @@
 
 ## 新サイトにドメインをつなぐ
 
-- [ ] Pages プロジェクト > カスタムドメイン > `www.sailabilitytokyo.jp` を追加
+- [ ] Workers & Pages > `sailability-tokyo-website` > Settings > **Domains & Routes** > Add > Custom domain で `www.sailabilitytokyo.jp` を追加
 - [ ] 同じく `sailabilitytokyo.jp`（www なし）も追加し、www へ転送する設定にする
   （Cloudflare の「リダイレクトルール」で `sailabilitytokyo.jp/*` → `https://www.sailabilitytokyo.jp/$1`（301）でも可）
 - [ ] https://www.sailabilitytokyo.jp/ を開いて新サイトが表示されることを確認

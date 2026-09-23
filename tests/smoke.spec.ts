@@ -56,3 +56,13 @@ test('存在しないページは 404 ページを表示する', async ({ page }
   const res = await page.goto('/this-page-does-not-exist');
   expect(res?.status()).toBe(404);
 });
+
+test('開催日がすべて過ぎたら「開催日はありません」を表示する', async ({ page }) => {
+  // ブラウザの時計を遠い未来にして、ビルド後に日程が過ぎた状態を再現する
+  await page.clock.setFixedTime(new Date('2099-01-01T00:00:00+09:00'));
+  await page.goto('/sailing-experience');
+  await expect(page.locator('.schedule__item:visible')).toHaveCount(0);
+  await expect(page.locator('.schedule__empty')).toBeVisible();
+  await expect(page.locator('[data-schedule-cta]')).toBeHidden();
+  await expect(page.locator('.sticky-cta')).toBeHidden();
+});

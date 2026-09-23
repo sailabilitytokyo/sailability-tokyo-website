@@ -27,16 +27,15 @@ const badge = (item: (typeof items)[number]) => {
 ---
 
 <div class="schedule">
+  <p class="schedule__empty" hidden={items.length > 0}>{t('schedule.empty')}</p>
   {
-    items.length === 0 ? (
-      <p class="schedule__empty">{t('schedule.empty')}</p>
-    ) : (
+    items.length > 0 && (
       <ul class="grid schedule__list">
         {items.map((item) => {
           const place = getPlace(item.place);
           const b = badge(item);
           return (
-            <li class="schedule__item" data-date={item.date} data-status={item.status}>
+            <li class="schedule__item" data-date={item.date} data-status={item.status} data-reservable={String(item.kind === 'experience' && item.status === 'scheduled')}>
               <div class="schedule__head">
                 <time class="schedule__date" datetime={item.date}>
                   {formatDate(item.date, lang, { weekday: true, year: false })}
@@ -76,7 +75,7 @@ const badge = (item: (typeof items)[number]) => {
   }
   {
     hasReservable && (
-      <p class="schedule__cta">
+      <p class="schedule__cta" data-schedule-cta>
         <a class:list={['button', primary ? 'button--primary button--lg' : 'button--secondary']} href={site.forms.experience} rel="noopener" data-track="reserve_experience">
           {t('schedule.reserve')}
           <Icon name="arrow-right" size={18} />
@@ -87,9 +86,19 @@ const badge = (item: (typeof items)[number]) => {
 </div>
 
 <script>
-  // ビルド後に日付が過ぎた日程を隠す（サイトは毎日再生成されるが、その間の補助）
+  // サイトは更新（ビルド）したときの日付で作られるため、その後に過ぎた日程をブラウザ側で隠す。
+  // すべての日程が過ぎていたら「現在ご案内できる開催日はありません」を表示する。
   const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date());
-  document.querySelectorAll<HTMLElement>('.schedule__item[data-date]').forEach((el) => {
-    if ((el.dataset.date ?? '') < today) el.hidden = true;
+  document.querySelectorAll<HTMLElement>('.schedule').forEach((schedule) => {
+    const items = [...schedule.querySelectorAll<HTMLElement>('.schedule__item[data-date]')];
+    items.forEach((el) => {
+      if ((el.dataset.date ?? '') < today) el.hidden = true;
+    });
+    const upcoming = items.filter((el) => !el.hidden);
+    const reservable = upcoming.some((el) => el.dataset.reservable === 'true');
+    const empty = schedule.querySelector<HTMLElement>('.schedule__empty');
+    const cta = schedule.querySelector<HTMLElement>('[data-schedule-cta]');
+    if (empty) empty.hidden = upcoming.length > 0;
+    if (cta) cta.hidden = !reservable;
   });
 </script>

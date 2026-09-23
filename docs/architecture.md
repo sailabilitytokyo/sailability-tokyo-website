@@ -19,11 +19,11 @@
    ↓
 GitHub（sailabilitytokyo 組織の公開リポジトリ）
    ├─ プルリクエスト ──→ GitHub Actions: 公開前チェック（ビルド・リンク切れ・表示テスト）
-   │                 └─→ Cloudflare Pages: プレビュー URL を自動発行（検索エンジンには載らない）
-   └─ main にマージ ──→ Cloudflare Pages: 本番サイトに自動公開
+   │                 └─→ Cloudflare Workers Builds: プレビュー URL を自動発行し PR にコメント（検索エンジンには載らない）
+   └─ main にマージ ──→ Cloudflare Workers Builds: 本番サイトに自動公開
                         www.sailabilitytokyo.jp
 
-毎日: GitHub Actions が 0:05 に再ビルド依頼（過去の日程を非表示に）、9:00 に死活監視
+毎日: GitHub Actions が 9:00 に死活監視
 毎週: Dependabot がライブラリ更新 PR を作成 → CI が通れば自動マージ
 ```
 
@@ -40,11 +40,11 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
   - 利用者が多く、どの AI もよく知っている。
 - **見送った案**: 素の HTML（ページごとにヘッダー等が重複し、AI の編集ミスが起きやすい）、WordPress（サーバー費用と保守が必要）、Google Sites の継続（デザインの自由度・AI による更新ができない）。
 
-### 2. ホスティング: Cloudflare Pages（無料プラン）
+### 2. ホスティング: Cloudflare Workers（静的アセット・無料プラン）
 
-- **理由**: 団体利用でも無料、転送量無制限、**PR ごとにプレビュー URL が出る**（コードが読めない人でも公開前に見た目を確認できる）。
+- **理由**: 団体利用でも無料、静的ファイルの配信は無制限、**PR ごとにプレビュー URL が出て PR にコメントされる**（コードが読めない人でも公開前に見た目を確認できる）。
+- 当初は Cloudflare Pages の予定だったが、Cloudflare が新規には Workers を推奨しているため、Workers（Workers Builds で GitHub と連携）で作成した（2026-09-23）。`npm run build` の出力（`dist/`）を配信するだけなので、Pages とほぼ同じ。`_headers` / `_redirects` もそのまま使える。
 - **見送った案**: GitHub Pages（プレビュー URL がない）、Vercel Hobby（非商用・個人利用限定の規約）、Netlify（無料枠の条件が変わりやすい）。
-- **補足**: Cloudflare は Pages の機能を Workers に統合する方向で進めている。将来 Pages が終了する場合は Workers（静的アセット）へ移行する。どちらも `npm run build` の出力（`dist/`）を置くだけなので移行は容易。
 
 ### 3. リポジトリ: GitHub の団体用 Organization・公開リポジトリ
 
@@ -82,7 +82,7 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 - ページごとの `title` / `description` / canonical URL / OGP（SNS 共有時の表示）
 - 構造化データ（JSON-LD）: 団体情報（SportsOrganization）、体験会の日程（Event: 日時・場所・参加費）、お知らせ（NewsArticle）。Google 検索でイベントとして表示される可能性がある。
 - サイトマップ（`/sitemap-index.xml`）と robots.txt を自動生成。多言語ページには hreflang を出力。
-- プレビュー URL（`*.pages.dev`）には `X-Robots-Tag: noindex` を付け、検索結果に重複して出ないようにしている（`public/_headers`）。
+- 仮公開・プレビュー URL（`*.workers.dev`）には `X-Robots-Tag: noindex` を付け、検索結果に重複して出ないようにしている（`public/_headers`）。
 - 旧 URL を維持し、変更したものは 301 転送。
 - 画像は Astro が自動で WebP 化・サイズ最適化。静的サイトなので表示が速い（Core Web Vitals に有利）。
 
@@ -108,8 +108,8 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 | Dependabot（`dependabot.yml`） | 毎週月曜 | ライブラリ更新の PR を作成（公開後7日以上経ったバージョンのみ） |
 | 自動マージ（`dependabot-automerge.yml`） | Dependabot の PR | マイナー・パッチ更新は CI が通れば自動マージ。メジャー更新は人か AI が確認 |
 | 死活監視（`monitor.yml`） | 毎日 9:00 | 全ページ・GA タグ・予約フォーム・旧ブログを確認し、問題があれば Issue を作成 |
-| 再ビルド（`rebuild.yml`） | 毎日 0:05 | 過去の日程を表示から外すためにサイトを作り直す |
 
+- **過去の日程の非表示**: サイトは更新（ビルド）した日の日付で作られるため、その後に過ぎた日程はブラウザ側の JavaScript で隠す。すべて過ぎたら「現在ご案内できる開催日はありません」を表示する（テストあり）。Workers Builds には外部から再ビルドを起動する仕組み（Pages のデプロイフック）がないため、毎日の再ビルドはやめた。検索エンジン向けのイベント情報は次の更新時に最新になる。
 - **依存ライブラリは最小限にする方針**。CSS フレームワークや UI ライブラリは使わない（更新の手間と壊れるリスクを減らすため）。Markdown の改行も、プラグインではなく CSS で対応している。
 - GitHub は、リポジトリに 60 日間更新がないと定期実行ワークフローを止める。Dependabot の自動マージで定期的に更新が入るため、通常は問題ない。止まった場合は Actions タブから再開する。
 

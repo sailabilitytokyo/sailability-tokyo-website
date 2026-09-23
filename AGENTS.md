@@ -23,7 +23,7 @@
 | スタイル | 素の CSS（`src/styles/global.css`） | CSS フレームワークは使わない |
 | フォント・アイコン | Figtree＋Noto Sans JP（Google Fonts）、Lucide（`src/icons/` に SVG 同梱） | |
 | テスト | Playwright（表示確認・スクリーンショット比較）＋ 自作チェックスクリプト（`scripts/`） | |
-| ホスティング | Cloudflare Pages（無料プラン） | main へのマージで自動公開、プルリクエストごとにプレビュー URL |
+| ホスティング | Cloudflare Workers（静的アセット・無料プラン、Workers Builds で自動ビルド） | main へのマージで自動公開、PR ごとにプレビュー URL（PR にコメントされる） |
 | CI・自動化 | GitHub Actions（`.github/workflows/`）＋ Dependabot | |
 | アクセス解析 | Google Analytics 4 | 本番ドメインでのみ計測 |
 | フォーム | Google フォーム（外部リンク） | |
@@ -75,7 +75,7 @@ todo/                         管理者（人間）がやるべき作業リス�
    - 表示テストには Chromium が必要（`npx playwright install chromium`）。実行できない環境では、その旨を PR に書き、CI の結果で確認する。
 3. PR の説明は**プログラミングをしない人が読める日本語**で書く:
    - 何を変えたか（箇条書き）
-   - 確認してほしいページ（Cloudflare のプレビュー URL で見る場所）
+   - 確認してほしいページ（PR に Cloudflare がコメントするプレビュー URL で見る場所）
    - 判断が必要な点・気になった点
 4. CI が失敗したら、原因を調べて同じ PR で直す。
 5. 依頼が曖昧なとき（日付・金額・名前など事実が不明なとき）は、推測で埋めずに質問する。
@@ -137,5 +137,5 @@ npm run test:update-screenshots               # スクリーンショット基�
 ## 参考ドキュメント
 
 - Astro: https://docs.astro.build/ （コンテンツコレクション: /en/guides/content-collections/、多言語: /en/guides/internationalization/）
-- Cloudflare Pages: https://developers.cloudflare.com/pages/
+- Cloudflare Workers（静的アセット）: https://developers.cloudflare.com/workers/static-assets/ （`_headers` / `_redirects` もここ）
 - 構造化データ（イベント）: https://developers.google.com/search/docs/appearance/structured-data/event

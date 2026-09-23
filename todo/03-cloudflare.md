@@ -1,30 +1,21 @@
-# 03. Cloudflare Pages で仮公開（メンバー確認用 URL）
+# 03. Cloudflare で仮公開（メンバー確認用 URL）
 
-02（GitHub へのプッシュ）が終わってから行います。この段階ではドメインは変更しません（今の Google Sites はそのまま）。
+この段階ではドメインは変更しません（今の Google Sites はそのまま）。
 
-## Cloudflare アカウントとプロジェクト
+## Cloudflare アカウントとプロジェクト（2026-09-23 完了）
 
-- [ ] https://dash.cloudflare.com/sign-up で無料アカウントを作る（団体用のメールアドレス推奨: sailabilitytokyo@gmail.com など）
-- [ ] 「Workers & Pages」> 作成 > **Pages** > 「Git に接続（Import an existing Git repository）」
-  - GitHub を連携し、`sailabilitytokyo/sailability-tokyo-website` を選ぶ（リポジトリへのアクセスはこのリポジトリだけに限定して OK）
-  - プロジェクト名: `sailability-tokyo`（→ URL が `https://sailability-tokyo.pages.dev` になる）
-  - 本番ブランチ: `main`
-  - フレームワーク プリセット: **Astro**
-  - ビルドコマンド: `npm run build`
-  - ビルド出力ディレクトリ: `dist`
-  - 環境変数: `NODE_VERSION` = `24`
-- [ ] デプロイが終わったら `https://sailability-tokyo.pages.dev` を開いて表示を確認
-- [ ] この URL をメンバーに共有して感想を集める（検索エンジンには載らない設定になっています）
+- [x] Cloudflare の無料アカウントを作る
+- [x] 「Workers & Pages」で GitHub の `sailabilitytokyo/sailability-tokyo-website` と連携（**Workers** として作成。Cloudflare が新規には Workers を推奨しているため）
+- [x] 仮公開 URL で表示を確認: https://sailability-tokyo-website.noreply-sailabilitytokyo.workers.dev
+- [x] 検索エンジンに載らない設定（`*.workers.dev` に `X-Robots-Tag: noindex`）… `public/_headers` で設定済み
+- 「Protect with Cloudflare Access」は使わない（内容は公開情報で、メンバーにログインの手間をかけないため）
 
-※ Cloudflare の画面が変わっていて「Pages」が見つからない場合は、AI に画面のスクリーンショットを渡して相談してください（Workers の静的サイト機能でも同じことができます）。
+## 次にやること
 
-## 毎日の自動再ビルド（任意・推奨）
+- [ ] **ダミー画像のままであることを伝えたうえで**、仮公開 URL をメンバーに共有して感想を集める
+- [ ] PR を作ったときに、Cloudflare からプレビュー URL のコメントが付くことを確認する（付かない場合は Workers & Pages > sailability-tokyo-website > Settings > Build で、本番以外のブランチのビルド（Preview / Non-production branch builds）が有効か確認）
+- [ ] （任意）URL を短くする: Workers & Pages の右側「Account details」> **Subdomain** の「Change」で `noreply-sailabilitytokyo` を `sailabilitytokyo` などに変える（→ `sailability-tokyo-website.sailabilitytokyo.workers.dev`）。変えたら AI に伝えて docs を直す
 
-- [ ] Pages プロジェクト > 設定 > ビルド > **デプロイフック** を追加（名前: `daily-rebuild`、ブランチ: `main`）→ 表示された URL をコピー
-- [ ] GitHub のリポジトリ > Settings > Secrets and variables > Actions > **New repository secret**
-  - Name: `CLOUDFLARE_DEPLOY_HOOK`
-  - Secret: コピーした URL
+## 補足
 
-## プレビュー URL を PR に表示
-
-- [ ] Cloudflare と GitHub の連携が済んでいれば、PR を作ると自動でプレビュー URL がコメントされます。表示されない場合は Pages プロジェクト > 設定 > ビルド > 「プレビューデプロイ」が有効か確認
+- 当初予定していた「毎日の自動再ビルド（デプロイフック）」は、Workers には同じ仕組みがないためやめました。過去の日程はブラウザ側で自動的に隠れるので、見た目上の問題はありません（docs/operations.md 参照）。

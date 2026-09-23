@@ -4,9 +4,10 @@
 
 ## 公開の仕組み
 
-- **main ブランチにマージされると、Cloudflare Pages が自動でビルドして本番に公開**します（数分）。
-- PR を作ると、Cloudflare Pages がプレビュー URL（`https://<ランダム>.sailability-tokyo.pages.dev`）を発行し、PR にコメントします。
-- Cloudflare Pages のビルド設定:
+- **main ブランチにマージされると、Cloudflare（Workers Builds）が自動でビルドして公開**します（数分）。
+- PR を作ると、Cloudflare がプレビュー URL（`https://<ランダム>-sailability-tokyo-website.<アカウント名>.workers.dev`）を発行し、PR にコメントします。
+- 仮公開 URL: https://sailability-tokyo-website.noreply-sailabilitytokyo.workers.dev （本番ドメイン接続までの間）
+- Cloudflare のビルド設定（Workers & Pages > sailability-tokyo-website > Settings > Build）:
 
 | 項目 | 値 |
 | --- | --- |
@@ -62,11 +63,11 @@ AI に次のように依頼します。
 - 問題があれば `monitor` ラベルの Issue が作られ、GitHub からメールが届きます。復旧すると自動で閉じます。
 - 監視先は、リポジトリ変数 `MONITOR_BASE_URL` で設定します（未設定の間は何もしません）。
 
-## 毎日の再ビルド
+## 過去の日程の扱い
 
-- 過去の日程を表示から外すため、毎日 0:05 にサイトを作り直します。
-- Cloudflare Pages の「デプロイフック」の URL を、GitHub のシークレット `CLOUDFLARE_DEPLOY_HOOK` に設定すると有効になります。
-- （ブラウザ側でも過去の日程は隠す処理をしているので、再ビルドが止まっても表示上の問題はほぼありません。）
+- 日程表・予約バーは、ブラウザ側で「今日より前の日程」を隠します。サイトを作り直さなくても、過ぎた日程は表示されません。
+- すべての日程が過ぎたら「現在ご案内できる開催日はありません」と表示されます。
+- 検索エンジン向けのイベント情報（構造化データ）は、次にサイトを更新したときに最新になります。
 
 ## Google Analytics
 
