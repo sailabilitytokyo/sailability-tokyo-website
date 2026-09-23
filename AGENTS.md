@@ -45,11 +45,12 @@ src/
   assets/brand/               ロゴ
   assets/photos/              写真（npm run photos で変換したもの）
 public/                       そのまま公開するファイル（PDF・favicon・Cloudflare 設定 _headers/_redirects）
+wrangler.jsonc                Cloudflare Workers の配信設定
 scripts/                      チェック・写真変換・監視スクリプト
 tests/                        Playwright テスト
 design/                       デザイン仕様書（Claude Design から取り込んだもの。design.md がルール）
 docs/                         人間向けドキュメント（更新手順・運用・設計記録）
-todo/                         管理者（人間）がやるべき作業リスト
+todo/                         管理者（人間）がやるべき作業リスト（終わった項目は消す。記録は docs/architecture.md へ）
 ```
 
 ## よくある依頼と、触るファイル
@@ -87,7 +88,8 @@ todo/                         管理者（人間）がやるべき作業リス�
 - 依頼に関連する SEO の改善（description の追加、見出し構造の整理、alt の追加）
 - テストが失敗する原因の修正
 - Dependabot の PR の確認・修正（メジャーアップデートで壊れた箇所の対応）
-- `docs/` の手順書を、実際の手順に合わせて更新すること（手順が変わったら必ず更新する）
+- `docs/` の手順書を、実際の手順に合わせて更新すること（手順や設定が変わったら必ず同じ PR で更新する）
+- `todo/` の終わった項目を消すこと（決定事項や経緯は `docs/architecture.md` の「立ち上げの記録」に残す）
 
 ## やってはいけないこと
 

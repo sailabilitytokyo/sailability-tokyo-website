@@ -43,10 +43,12 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 ### 2. ホスティング: Cloudflare Workers（静的アセット・無料プラン）
 
 - **理由**: 団体利用でも無料、静的ファイルの配信は無制限、**PR ごとにプレビュー URL が出て PR にコメントされる**（コードが読めない人でも公開前に見た目を確認できる）。
-- 当初は Cloudflare Pages の予定だったが、Cloudflare が新規には Workers を推奨しているため、Workers（Workers Builds で GitHub と連携）で作成した（2026-09-23）。`npm run build` の出力（`dist/`）を配信するだけなので、Pages とほぼ同じ。`_headers` / `_redirects` もそのまま使える。
+- 当初は Cloudflare Pages の予定だったが、Cloudflare が新規には Workers を推奨しているため、Workers（Workers Builds で GitHub と連携）で作成した（2026-09-23）。`npm run build` の出力（`dist/`）を配信するだけなので、Pages とほぼ同じ。`_headers` / `_redirects` もそのまま使える。配信の設定はリポジトリの `wrangler.jsonc` に書いている。
 - **見送った案**: GitHub Pages（プレビュー URL がない）、Vercel Hobby（非商用・個人利用限定の規約）、Netlify（無料枠の条件が変わりやすい）。
 
 ### 3. リポジトリ: GitHub の団体用 Organization・公開リポジトリ
+
+- `sailabilitytokyo/sailability-tokyo-website`（Organization の種類は「A business or institution」、連絡先は団体のメールアドレス）
 
 - **理由**: 個人アカウントに紐づけないことで引き継ぎやすくする。公開リポジトリは GitHub Actions が無料で使い放題。サイトの内容はもともと公開情報。
 - **注意点**（AGENTS.md の「やってはいけないこと」に反映済み）:
@@ -120,6 +122,41 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 - アイコンは Lucide（ISC ライセンス）の SVG を `src/icons/` に同梱し、ビルド時に埋め込む（実行時に外部から取得しない）。
 - デザイン見本にあった料金・所要時間などの事実は仮のもので、サイトには確認済みの事実（一律1,500円・15〜20分・前期/後期 各全6回）を載せている。
 
+## 立ち上げの記録（2026-09-23）
+
+TODO から消した作業・決定の経緯です。
+
+### 事実の確認（デザイン見本との食い違い）
+
+Claude Design の見本には仮の事実が含まれていたため、次のとおり確認してサイトに反映した。
+
+| 項目 | 確認した内容 |
+| --- | --- |
+| 体験会の参加費 | 一律 1,500円（見本の「予約1,000円／当日1,500円」は誤り） |
+| 1回の乗船時間 | 15〜20分（見本の「20分」は誤り） |
+| 予約 | 事前予約のほか、当日も空きがあれば乗船できる |
+| ペット | 体験会もペットと一緒に乗船できる |
+| 小学生ヨット教室 | 前期・後期制で各全6回。2026年後期（8〜11月）を開講中。URL は固定し、期ごとに差分だけ更新する |
+
+### 移行時に変えた点（旧 Google Sites / Blogger から）
+
+- 予約フォームは 2 つの短縮 URL が同じフォームを指していたため、`forms.gle/F7Vif…` に統一。旧ブログの「メールで予約」の記述はやめ、Google フォームに統一
+- トップの Instagram・YouTube の埋め込みは外し、リンクにした
+- About の出典 PDF（旧 WordPress 時代の URL）はリンク切れだったため、出典の文言だけ残した
+- 英文の誤り「Sailability Tokyo is embraces」を「embraces」に修正
+- 小学生ヨット教室ページの見出しの絵文字は、デザインの方針（絵文字を使わない）に合わせて外した
+- フッターの役員名の表記（「– Jiro Fujiwara –」形式）はそのまま移行
+- 場所の英語表記（Toyosu Gururi Park Pier など）は仮の訳。英語版を作るときに確認する
+
+### アカウントまわり
+
+- Claude Design のデザインは `/design-login` で取り込んだ。ロゴは取り込めたが、写真は 1 ファイル 256KB の上限で取り込めず、ダミー画像にしている
+- GitHub の Organization 作成で「Your browser did something unexpected」が続き、誤って個人アカウント `sailability-tokyo` を作成。Organization は `sailabilitytokyo` で作成した
+- 作成直後に Organization と上記アカウントが外から 404 になった（不正利用対策の誤判定とみられる）。GitHub サポートに問い合わせ、同日中に解除された
+- Organization の「OAuth アプリの制限」が有効だと `gh` / git から書き込めないため、制限を解除した
+- Cloudflare は Pages ではなく Workers（Workers Builds）で作成された。Pages 向けだった設定（検索除外・毎日の再ビルド）を Workers 向けに直した
+- 「Protect with Cloudflare Access」は使わない（内容は公開情報で、メンバーにログインの手間をかけないため）
+
 ## 依存ライブラリ一覧
 
 | ライブラリ | 用途 |
@@ -130,3 +167,5 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 | `sharp` | 画像の最適化・写真変換スクリプト |
 | `yaml` | `src/data/*.yaml` の読み込み |
 | `@playwright/test`（開発用） | 表示テスト |
+
+※ Cloudflare への公開には `wrangler`（Cloudflare 側のビルド環境で `npx` により実行）を使う。リポジトリの依存には入れていない。

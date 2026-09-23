@@ -7,6 +7,7 @@
 - **main ブランチにマージされると、Cloudflare（Workers Builds）が自動でビルドして公開**します（数分）。
 - PR を作ると、Cloudflare がプレビュー URL（`https://<ランダム>-sailability-tokyo-website.<アカウント名>.workers.dev`）を発行し、PR にコメントします。
 - 仮公開 URL: https://sailability-tokyo-website.noreply-sailabilitytokyo.workers.dev （本番ドメイン接続までの間）
+- 配信の設定はリポジトリの `wrangler.jsonc`（404 ページ・.html なし URL・プレビュー URL）と `public/_headers`・`public/_redirects`。
 - Cloudflare のビルド設定（Workers & Pages > sailability-tokyo-website > Settings > Build）:
 
 | 項目 | 値 |
@@ -16,13 +17,17 @@
 | 出力ディレクトリ | `dist` |
 | 環境変数 | `NODE_VERSION` = `24` |
 
-## main ブランチの保護（必須の設定）
+## GitHub の設定（2026-09-23 設定済み）
 
-GitHub の Settings > Branches（または Rules）で main に次のルールを設定します。
+| 設定 | 場所 | 内容 |
+| --- | --- | --- |
+| main ブランチの保護 | Settings > Rules > Rulesets「main を保護」 | PR 経由でのみ変更可（承認は不要）、必須チェック `ビルドと表示確認`、強制プッシュ・削除の禁止 |
+| 自動マージ | Settings > General > Pull Requests | Allow auto-merge、マージ後に作業ブランチを自動削除 |
+| セキュリティ | Settings > Advanced Security | Dependabot alerts / security updates、Secret scanning / Push protection |
+| 外部アプリの制限 | Organization の Settings > Third-party access | OAuth アプリの制限は解除済み（`gh` や AI ツールから操作できるようにするため） |
+| ラベル | Issues > Labels | `dependencies`（Dependabot 用）、`monitor`（死活監視用） |
 
-- プルリクエスト経由でのみ変更可能にする
-- 必須のステータスチェック: `ビルドと表示確認`（CI ワークフロー）
-- Settings > General > Pull Requests で **Allow auto-merge** を ON（Dependabot の自動マージに必要）
+- main を保護しているため、**AI も人も、変更は必ず作業用ブランチ → PR → CI 成功 → マージ**の順で行います。
 
 ## ライブラリの自動更新（Dependabot）
 
@@ -33,6 +38,7 @@ GitHub の Settings > Branches（または Rules）で main に次のルール�
 | 脆弱性の修正 | 見つかり次第 PR 作成（Settings > Code security で Dependabot security updates を ON） |
 
 - 公開から 7 日未満のバージョンは採用しない設定です（公開直後の不具合や乗っ取られたパッケージを避けるため）。
+- **一時的に止めている更新**: TypeScript のメジャー更新（型チェック用の `@astrojs/check` が TypeScript 7 に未対応のため。`.github/dependabot.yml` の `ignore`）。対応したら `ignore` を消す。
 - CI では、全ページの表示・JavaScript エラー・スマホのメニュー動作・**スクリーンショットの見た目の比較**を確認するので、ライブラリ更新で見た目や動きが壊れた場合はマージされずに PR が残ります。
 
 ### メジャー更新の PR が来たら
@@ -77,7 +83,7 @@ AI に次のように依頼します。
 
 ## Google Search Console（検索エンジン）
 
-- 本番公開後に登録し、サイトマップ `https://www.sailabilitytokyo.jp/sitemap-index.xml` を送信します（todo/ 参照）。
+- 本番公開後に登録し、サイトマップ `https://www.sailabilitytokyo.jp/sitemap-index.xml` を送信します（todo/05 参照）。
 - 検索結果での表示状況・エラー（ページがインデックスされない等）を確認できます。
 
 ## ローカルでの開発（任意）
@@ -90,3 +96,4 @@ npm run verify     # 公開前チェック一式
 ```
 
 表示テストを実行するには `npx playwright install --with-deps chromium` が必要です（Linux では sudo が必要）。
+表示テストはテスト専用のポート（4329）でビルド済みのサイトを開くので、開発サーバー（4321）を動かしたままでも実行できます。

@@ -2,9 +2,9 @@
 # 実際のマージは、必須チェック（CI）がすべて成功した時点で GitHub が行う。
 # CI が失敗した場合はマージされず、プルリクエストが残る → AI に「CI を直して」と頼む。
 #
-# 前提となるリポジトリ設定（todo/ 参照）:
+# 前提となるリポジトリ設定（2026-09-23 設定済み。docs/operations.md 参照）:
 #   - Settings > General > Allow auto-merge を ON
-#   - main ブランチの保護ルールで「CI / ビルドと表示確認」を必須チェックにする
+#   - ルールセット「main を保護」で「ビルドと表示確認」を必須チェックにする
 name: Dependabot auto-merge
 
 on: pull_request
