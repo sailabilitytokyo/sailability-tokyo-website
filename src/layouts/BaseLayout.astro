@@ -58,3 +58,58 @@ const fonts = `https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700
     <Footer lang={lang} />
   </body>
 </html>
+
+<script>
+  // スクロールで要素がふわっと現れる動き（見た目は global.css の .reveal）。
+  // - 最初から画面に見えている要素は隠さない（表示直後のちらつきを防ぐ）
+  // - 「動きを減らす」設定の人と、古いブラウザでは何もしない（最初からすべて表示）
+  // - 現れ終わったら class を外し、カードの hover などの元の動きに戻す
+  const TARGETS = [
+    '.section-head',
+    '.feature',
+    '.card',
+    '.split > *',
+    '.schedule__item',
+    '.steps__item',
+    '.faq__item',
+    '.news-list > li',
+    '.member-points > li',
+    '.sponsors__item',
+    '.cta-panel',
+    '.prose > h2',
+    '.prose > p:has(> img)',
+    '.prose > .gallery',
+    '.prose > table',
+    '.prose > blockquote',
+  ].join(',');
+  const STAGGER_MS = 90;
+  const MAX_DELAY_MS = 450;
+
+  if (matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // 同時に見えてきた要素（カードの列など）は、少しずつ時間をずらして出す
+        const shown = entries.filter((e) => e.isIntersecting).map((e) => e.target as HTMLElement);
+        shown.forEach((el, i) => {
+          observer.unobserve(el);
+          el.style.setProperty('--reveal-delay', `${Math.min(i * STAGGER_MS, MAX_DELAY_MS)}ms`);
+          el.classList.add('is-revealed');
+          const done = () => {
+            el.classList.remove('reveal', 'is-revealed');
+            el.style.removeProperty('--reveal-delay');
+          };
+          el.addEventListener('transitionend', done, { once: true });
+          setTimeout(done, 1500); // transitionend が来ない場合の保険
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px' },
+    );
+    for (const el of document.querySelectorAll<HTMLElement>(TARGETS)) {
+      // 対象の中にある対象（地図欄の見出しなど）は、外側と一緒に動かす（二重に動かさない）
+      if (el.parentElement?.closest(TARGETS)) continue;
+      if (el.getBoundingClientRect().top < window.innerHeight) continue;
+      el.classList.add('reveal');
+      observer.observe(el);
+    }
+  }
+</script>
