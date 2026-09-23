@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { DEFAULT_LOCALE } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations(DEFAULT_LOCALE);
+---
+
+<BaseLayout lang={DEFAULT_LOCALE} title={t('notFound.title')} description={t('notFound.body')} alternates={[]}>
+  <PageHero eyebrow="404" title={t('notFound.title')} lead={t('notFound.body')} />
+  <section class="section">
+    <div class="container">
+      <a class="button button--secondary" href="/">{t('notFound.home')}</a>
+    </div>
+  </section>
+</BaseLayout>

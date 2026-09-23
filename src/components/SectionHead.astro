@@ -1,0 +1,17 @@
+---
+// セクションの見出し（英字の小見出し＋見出し＋リード文）
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  id?: string;
+}
+
+const { eyebrow, title, lead, id } = Astro.props;
+---
+
+<div class="section-head">
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <h2 id={id}>{title}</h2>
+  {lead && <p class="section-head__lead">{lead}</p>}
+</div>

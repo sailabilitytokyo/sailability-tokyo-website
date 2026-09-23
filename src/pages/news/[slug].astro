@@ -1,0 +1,15 @@
+---
+import type { GetStaticPaths } from 'astro';
+import NewsPostView from '../../views/NewsPostView.astro';
+import { DEFAULT_LOCALE } from '../../i18n/locales';
+import { getNews, splitId } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const posts = await getNews(DEFAULT_LOCALE);
+  return posts.map((post) => ({ params: { slug: splitId(post.id).slug }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+---
+
+<NewsPostView lang={DEFAULT_LOCALE} post={post} />

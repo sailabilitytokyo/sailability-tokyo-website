@@ -1,0 +1,99 @@
+# 団体の基本情報。ヘッダー・フッター・各ページ・検索エンジン向け情報（構造化データ）に使われます。
+# 文言は「日本語だけ」でも「言語ごと」でも書けます:
+#   tagline: Sailing for Everyone
+#   description:
+#     ja: 日本語の説明
+#     en: English description
+
+name: Sailability Tokyo
+legalName:
+  ja: 一般社団法人 セイラビリティ東京
+  en: Sailability Tokyo (General Incorporated Association)
+tagline: Sailing for Everyone
+# 検索結果やSNSでの共有時に表示される、サイト全体の説明文（120字程度まで）
+description:
+  ja: セイラビリティ東京は「Sailing for Everyone」をモットーに、子どもや障がいのある方、経験の有無に関わらず、誰もが水辺を楽しめるヨット・セーリングの体験会や小学生ヨット教室を東京・豊洲で開催しています。
+foundedYear: 2013
+email: sailabilitytokyo@gmail.com
+
+# フッターに表示する役員など
+officers:
+  - 藤原治郎 – Jiro Fujiwara –
+  - マークダグラス・スミス – Mark Douglas Smith –
+  - 飯田俶子 – Yoshiko Iida –
+  - 村橋俊之 – Toshiyuki Murahashi –
+  - 古山栄一 – Eiichi Koyama –
+officersNote: and more…
+
+# 活動場所。schedule.yaml の place からこの id で参照します。
+places:
+  - id: toyosu
+    name:
+      ja: 豊洲ぐるり公園乗船場
+      en: Toyosu Gururi Park Pier
+    note:
+      ja: 豊洲西小学校裏／有楽町線・ゆりかもめ「豊洲駅」から徒歩10分
+      en: Behind Toyosu-nishi Elementary School, 10 min walk from Toyosu Station (Yurakucho Line / Yurikamome)
+    addressLocality: 江東区
+    addressRegion: 東京都
+    mapUrl: https://www.google.com/maps/search/?api=1&query=%E8%B1%8A%E6%B4%B2%E3%81%90%E3%82%8B%E3%82%8A%E5%85%AC%E5%9C%92%E4%B9%97%E8%88%B9%E5%A0%B4
+  - id: yumenoshima
+    name:
+      ja: 東京夢の島マリーナ
+      en: Tokyo Yumenoshima Marina
+    addressLocality: 江東区
+    addressRegion: 東京都
+    mapUrl: https://yumenoshima-marina.subaru-kougyou.jp/
+
+# 申込フォーム（Googleフォーム）
+forms:
+  experience: https://forms.gle/F7VifEKq8Ca2YYCdA
+
+# セーリング体験会の参加費（円・1人）。Google検索のイベント情報に使う。
+# 変更したら src/content/pages/*/sailing-experience.md の本文も直すこと。
+experience:
+  price: 1500
+
+# ヘッダーのメニュー（src/content/pages/<言語>/ のファイル名、または news）
+nav:
+  - junior-sailing-courses
+  - sailing-experience
+  - news
+  - about
+  - membership
+
+social:
+  - name: Instagram
+    url: https://www.instagram.com/sailabilitytokyo/
+  - name: YouTube
+    url: https://www.youtube.com/@-sailabilitytokyo-1391/featured
+
+# 2026年8月以前のお知らせ（Blogger）。アーカイブとして残している。
+blogArchiveUrl: https://blog.sailabilitytokyo.jp/
+
+analytics:
+  # Google Analytics 4 の測定ID
+  ga4: G-M389XQJK35
+  # 計測するホスト名。プレビュー（*.pages.dev）やローカルでは計測しない。
+  hosts:
+    - www.sailabilitytokyo.jp
+    - sailabilitytokyo.jp
+
+# パートナー・スポンサー（表示順）。ロゴ画像を用意したら logo に src/assets/ からのパスを書く。
+sponsors:
+  - name: 江東区
+    url: https://www.city.koto.lg.jp/
+  - name: 東京夢の島マリーナ
+    url: https://yumenoshima-marina.subaru-kougyou.jp/
+  - name: 株式会社三栄堂
+    url: https://toyosu-saneido.com/
+  - name: 万福食堂
+    url: https://www.toyosu-manpuku.com/
+  - name: NPO法人 江東区の水辺に親しむ会
+    url: https://koto-mizube.org/
+  - name: Tokyo Sail and Power Squadron
+    url: https://tspsjapan.org/
+  - name: 一般社団法人ハンザセイリングジャパン
+    url: https://www.hansajapan.com/
+  - name: Sailing For Everyone Foundation
+    url: https://s4e.org/

@@ -1,0 +1,38 @@
+# 見た目の比較テストの「基準画像」を作り直して、実行したブランチにコミットする。
+# デザインを意図的に変えたプルリクエストのブランチで実行する（Actions タブ > Update screenshots > Run workflow）。
+# main ブランチでは実行できない（基準画像の変更もプルリクエストで確認するため）。
+name: Update screenshots
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:update-screenshots
+
+      - name: 基準画像をコミット
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/visual.spec.ts-snapshots
+          git diff --cached --quiet && echo "変更なし" && exit 0
+          git commit -m "test: スクリーンショットの基準画像を更新"
+          git push

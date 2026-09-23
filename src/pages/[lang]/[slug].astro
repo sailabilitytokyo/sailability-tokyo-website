@@ -1,0 +1,22 @@
+---
+// 日本語以外の固定ページ（/en/about など）。翻訳ファイルがあるページだけ生成される
+import type { GetStaticPaths } from 'astro';
+import PageView from '../../views/PageView.astro';
+import { NON_DEFAULT_LOCALES } from '../../i18n/locales';
+import { getPages, splitId } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const paths = [];
+  for (const lang of NON_DEFAULT_LOCALES) {
+    for (const page of await getPages(lang)) {
+      const { slug } = splitId(page.id);
+      if (slug !== 'home') paths.push({ params: { lang, slug }, props: { lang, page } });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+const { lang, page } = Astro.props;
+---
+
+<PageView lang={lang} page={page} />

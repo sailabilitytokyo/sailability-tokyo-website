@@ -1,0 +1,37 @@
+# Dependabot のプルリクエストのうち、マイナー・パッチ更新は「CI が成功したら自動マージ」を予約する。
+# 実際のマージは、必須チェック（CI）がすべて成功した時点で GitHub が行う。
+# CI が失敗した場合はマージされず、プルリクエストが残る → AI に「CI を直して」と頼む。
+#
+# 前提となるリポジトリ設定（todo/ 参照）:
+#   - Settings > General > Allow auto-merge を ON
+#   - main ブランチの保護ルールで「CI / ビルドと表示確認」を必須チェックにする
+name: Dependabot auto-merge
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - id: meta
+        uses: dependabot/fetch-metadata@v2
+
+      - name: マイナー・パッチ更新なら自動マージを予約
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: メジャー更新は確認が必要であることをコメント
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+        run: |
+          gh pr comment "$PR_URL" --body "メジャーアップデートのため自動マージしません。AI に『このプルリクエストの変更内容と影響を確認して、問題なければ対応して』と依頼してください（手順: docs/operations.md）。"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

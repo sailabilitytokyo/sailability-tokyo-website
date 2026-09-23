@@ -1,0 +1,40 @@
+---
+// Google Analytics 4。
+// site.yaml の analytics.hosts に含まれるホスト（本番ドメイン）でだけ読み込む。
+// プレビュー（*.pages.dev）やローカル開発では計測しないので、確認作業でデータが汚れない。
+//
+// クリック計測: data-track="イベント名" を付けたリンクがクリックされると GA4 にイベントを送る。
+//   例) <a href="https://forms.gle/..." data-track="reserve_experience">予約する</a>
+import { site } from '../lib/data';
+
+const id = site.analytics.ga4;
+const hosts = site.analytics.hosts;
+---
+
+{
+  id && (
+    <script is:inline define:vars={{ id, hosts }}>
+      if (hosts.includes(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          dataLayer.push(arguments);
+        };
+        gtag('js', new Date());
+        gtag('config', id);
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+        document.head.appendChild(s);
+        document.addEventListener('click', (e) => {
+          const el = e.target instanceof Element ? e.target.closest('[data-track]') : null;
+          if (!el) return;
+          gtag('event', el.getAttribute('data-track'), {
+            link_url: el.getAttribute('href') || undefined,
+            link_text: (el.textContent || '').trim().slice(0, 100),
+            page_path: location.pathname,
+          });
+        });
+      }
+    </script>
+  )
+}

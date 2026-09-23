@@ -1,0 +1,55 @@
+---
+// 画面下に固定する黄色の予約バー（次の開催日＋予約ボタン）。
+// schedule.yaml に今後の日程がないときは表示しない。
+import Icon from './Icon.astro';
+import { DEFAULT_LOCALE, type Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { getPlace, pick, site, upcomingSchedule } from '../lib/data';
+import { getPage, pageUrl } from '../lib/content';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const next = upcomingSchedule().find((s) => s.status !== 'cancelled');
+const reservable = next?.kind === 'experience' && next.status === 'scheduled';
+const experienceLang = (await getPage(lang, 'sailing-experience')) ? lang : DEFAULT_LOCALE;
+const label = next && (pick(next.title, lang) || pick(getPlace(next.place).name, lang));
+---
+
+{
+  next && (
+    <aside class="sticky-cta" data-date={next.date} aria-label={t('sticky.next')}>
+      <div class="container sticky-cta__inner">
+        <Icon name="sailboat" size={22} />
+        <p class="sticky-cta__text">
+          {t('sticky.next')}：{formatDate(next.date, lang, { weekday: true, year: false })}
+          {next.start && ` ${next.start}〜`}
+          {label && `（${label}）`}
+        </p>
+        <div class="sticky-cta__actions">
+          <a class="button button--outline button--sm" href={`${pageUrl(experienceLang, 'sailing-experience')}#schedule`}>
+            {t('sticky.dates')}
+          </a>
+          {reservable && (
+            <a class="button button--secondary button--sm" href={site.forms.experience} rel="noopener" data-track="reserve_experience">
+              {t('sticky.reserve')}
+              <Icon name="arrow-right" size={16} />
+            </a>
+          )}
+        </div>
+      </div>
+    </aside>
+  )
+}
+
+<script>
+  // ビルド後に開催日が過ぎていたら隠す（サイトは毎日再生成されるが、その間の補助）
+  const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date());
+  document.querySelectorAll<HTMLElement>('.sticky-cta[data-date]').forEach((el) => {
+    if ((el.dataset.date ?? '') < today) el.hidden = true;
+  });
+</script>

@@ -1,0 +1,237 @@
+/*
+ * デザイントークン（Summer Sky Theme v2）
+ * Claude Design「Sailability Tokyo Design System」の tokens/*.css をそのまま移したもの。
+ * 値を変えるときは design/design.md も更新すること。部品のスタイルは global.css に書く。
+ */
+
+/* ── 色（tokens/colors.css） ───────────────────────────────────────────── */
+:root {
+  /* Summer Sky: 5色 */
+  --sst-persian-blue: #072ac8; /* 見出し・主要テキスト（このブランドの「黒」） */
+  --sst-school-bus-yellow: #ffc600; /* 主ボタン（CTA）の面 */
+  --sst-dodger-blue: #1e96fc; /* 副ボタン・リンク */
+  --sst-bright-lemon: #fcf300; /* アクセント（NEW バッジ・hover） */
+  --sst-icy-blue: #a2d6f9; /* 背景（白と組み合わせる） */
+
+  /* ロゴ専用のネイビー。UI には使わない */
+  --sst-logo-navy: #3c527b;
+
+  --sst-blue-50: #edf3ff;
+  --sst-blue-100: #d6e3ff;
+  --sst-blue-200: #a9c4ff;
+  --sst-blue-400: #3d5be0;
+  --sst-blue-500: #072ac8;
+  --sst-blue-600: #0622a4;
+  --sst-blue-700: #051a7e;
+  --sst-blue-900: #03104f;
+
+  --sst-sky-50: #f0f9ff;
+  --sst-sky-100: #e1f1fe;
+  --sst-sky-200: #a2d6f9;
+  --sst-sky-300: #72bef7;
+  --sst-sky-400: #1e96fc;
+  --sst-sky-500: #0b84ec;
+  --sst-sky-600: #0a6cc2;
+
+  --sst-yellow-200: #fff0b0;
+  --sst-yellow-300: #ffe066;
+  --sst-yellow-400: #ffd426;
+  --sst-yellow-500: #ffc600;
+  --sst-yellow-600: #e5ac00;
+  --sst-yellow-700: #b88900;
+  --sst-lemon-400: #fcf300;
+  --sst-lemon-200: #fdf980;
+
+  /* 青みを帯びた中性色（純グレーは使わない） */
+  --sst-white: #ffffff;
+  --sst-neutral-25: #fbfcfe;
+  --sst-neutral-50: #f5f7fb;
+  --sst-neutral-100: #ebeef5;
+  --sst-neutral-200: #dce1ec;
+  --sst-neutral-300: #c2c9da;
+  --sst-neutral-400: #9aa3ba;
+  --sst-neutral-500: #727c95;
+  --sst-neutral-600: #525b73;
+  --sst-neutral-700: #3a4258;
+  --sst-neutral-800: #242b3d;
+  --sst-neutral-900: #141a28;
+
+  /* ステータス */
+  --sst-success: #0e8a5f;
+  --sst-success-bg: #e4f6ee;
+  --sst-warning: #b88900;
+  --sst-warning-bg: #fff6db;
+  --sst-danger: #c81e3c;
+  --sst-danger-bg: #fdebee;
+  --sst-info: #0a6cc2;
+  --sst-info-bg: #e1f1fe;
+
+  /* 意味で名付けた色（まずこちらを使う） */
+  --text-heading: var(--sst-persian-blue);
+  --text-body: var(--sst-neutral-800);
+  --text-muted: var(--sst-neutral-600);
+  --text-faint: var(--sst-neutral-500);
+  --text-link: var(--sst-sky-500);
+  --text-link-hover: var(--sst-blue-500);
+  --text-inverse: var(--sst-white);
+  --text-on-accent: var(--sst-persian-blue);
+  --text-on-sky: var(--sst-white);
+
+  --surface-page: var(--sst-white);
+  --surface-card: var(--sst-white);
+  --surface-subtle: var(--sst-sky-50);
+  --surface-sunken: var(--sst-neutral-50);
+  --surface-base: var(--sst-icy-blue);
+  --surface-accent: var(--sst-school-bus-yellow);
+  --surface-lively: var(--sst-dodger-blue);
+  --surface-inverse: var(--sst-blue-700);
+  --surface-scrim: rgba(3, 16, 79, 0.56);
+
+  --border-subtle: var(--sst-neutral-200);
+  --border-default: var(--sst-neutral-300);
+  --border-strong: var(--sst-persian-blue);
+  --border-on-inverse: rgba(255, 255, 255, 0.28);
+  --focus-ring: var(--sst-dodger-blue);
+  --focus-ring-contrast: var(--sst-persian-blue);
+
+  --action-primary-bg: var(--sst-school-bus-yellow);
+  --action-primary-fg: var(--sst-persian-blue);
+  --action-primary-bg-hover: var(--sst-lemon-400);
+  --action-primary-bg-active: var(--sst-yellow-600);
+
+  --action-secondary-bg: var(--sst-dodger-blue);
+  --action-secondary-fg: var(--sst-white);
+  --action-secondary-bg-hover: var(--sst-sky-500);
+  --action-secondary-bg-active: var(--sst-sky-600);
+
+  --action-outline-fg: var(--sst-persian-blue);
+  --action-outline-border: var(--sst-persian-blue);
+  --action-outline-bg-hover: var(--sst-blue-50);
+  --action-outline-bg-active: var(--sst-blue-100);
+
+  --accent-highlight: var(--sst-bright-lemon);
+  --accent-underline: var(--sst-school-bus-yellow);
+}
+
+/* ── 文字（tokens/typography.css） ────────────────────────────────────── */
+:root {
+  --font-sans: 'Figtree', 'Noto Sans JP', -apple-system, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+  --font-jp: 'Noto Sans JP', 'Figtree', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* 本文は 17px。読者は小学生から70代まで。本文を --text-sm より小さくしない */
+  --text-3xs: 0.75rem; /* 12 */
+  --text-2xs: 0.8125rem; /* 13 */
+  --text-xs: 0.875rem; /* 14 */
+  --text-sm: 0.9375rem; /* 15 */
+  --text-base: 1.0625rem; /* 17 */
+  --text-md: 1.1875rem; /* 19 */
+  --text-lg: 1.375rem; /* 22 */
+  --text-xl: 1.625rem; /* 26 */
+  --text-2xl: 2rem; /* 32 */
+  --text-3xl: 2.5rem; /* 40 */
+  --text-4xl: 3.25rem; /* 52 */
+  --text-5xl: 4rem; /* 64 */
+
+  --display-hero: clamp(2.25rem, 1.3rem + 4.2vw, 4rem);
+  --display-section: clamp(1.75rem, 1.2rem + 2.2vw, 2.5rem);
+  --display-card: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem);
+
+  --leading-tight: 1.18;
+  --leading-snug: 1.34;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.85;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-caps: 0.12em;
+
+  --measure-narrow: 34ch;
+  --measure-body: 42em;
+  --measure-wide: 64em;
+}
+
+/* ── 余白・かたち（tokens/spacing.css） ───────────────────────────────── */
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  --section-y: clamp(56px, 7vw, 112px);
+  --section-y-tight: clamp(40px, 4.5vw, 72px);
+  --gutter: clamp(20px, 5vw, 48px);
+
+  --container-sm: 720px;
+  --container-md: 960px;
+  --container-lg: 1160px;
+  --container-xl: 1320px;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-pill: 999px;
+
+  --border-width: 1px;
+  --border-width-thick: 2px;
+  --rule-accent: 4px;
+
+  --tap-min: 48px;
+}
+
+/* ── 影（tokens/elevation.css） ───────────────────────────────────────── */
+:root {
+  /* 影は Persian Blue で色づけする（黒い影は使わない） */
+  --shadow-xs: 0 1px 2px rgba(7, 42, 200, 0.06);
+  --shadow-sm: 0 2px 6px rgba(7, 42, 200, 0.08);
+  --shadow-md: 0 6px 18px rgba(7, 42, 200, 0.1);
+  --shadow-lg: 0 16px 40px rgba(7, 42, 200, 0.14);
+  --shadow-xl: 0 28px 64px rgba(7, 42, 200, 0.18);
+  --shadow-focus: 0 0 0 3px rgba(30, 150, 252, 0.45);
+
+  --scrim-bottom: linear-gradient(to top, rgba(3, 16, 79, 0.78) 0%, rgba(3, 16, 79, 0.42) 42%, rgba(3, 16, 79, 0) 78%);
+  --scrim-full: linear-gradient(to right, rgba(3, 16, 79, 0.8) 0%, rgba(3, 16, 79, 0.38) 58%, rgba(3, 16, 79, 0.1) 100%);
+
+  --z-sticky: 100;
+  --z-header: 200;
+}
+
+/* ── 動き（tokens/motion.css） ───────────────────────────────────────── */
+:root {
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 380ms;
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-swell: cubic-bezier(0.37, 0, 0.24, 1);
+
+  --transition-control:
+    background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+  --transition-surface: box-shadow var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+
+  --press-scale: 0.98;
+  --lift-y: -2px;
+}

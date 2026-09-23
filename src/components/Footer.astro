@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import logoWhite from '../assets/brand/logo-full-white.png';
+import Icon from './Icon.astro';
+import { DEFAULT_LOCALE, type Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { getPlace, pick, site } from '../lib/data';
+import { getPage, newsUrl, pageUrl } from '../lib/content';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+async function link(slug: string) {
+  const own = await getPage(lang, slug);
+  const page = own ?? (await getPage(DEFAULT_LOCALE, slug));
+  return { href: pageUrl(own ? lang : DEFAULT_LOCALE, slug), label: page?.data.navLabel ?? page?.data.title ?? slug };
+}
+const programs = await Promise.all(['sailing-experience', 'junior-sailing-courses', 'membership'].map(link));
+const about = [await link('about'), { href: newsUrl(lang), label: t('nav.news') }, await link('privacy-policy')];
+const socialIcon: Record<string, string> = { Instagram: 'instagram', YouTube: 'youtube' };
+const home = getPlace('toyosu');
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <Image class="site-footer__logo" src={logoWhite} alt={site.name} height={86} loading="eager" />
+      <p class="site-footer__org">
+        {pick(site.legalName, lang)}（{t('footer.founded')}）<br />
+        {pick(home.name, lang)}
+      </p>
+      <ul class="site-footer__officers">
+        {site.officers.map((o) => <li>{o}</li>)}
+        {site.officersNote && <li>{site.officersNote}</li>}
+      </ul>
+    </div>
+    <div>
+      <p class="site-footer__heading">{t('footer.programs')}</p>
+      <ul class="site-footer__links">
+        {
+          programs.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <p class="site-footer__heading">{t('footer.about')}</p>
+      <ul class="site-footer__links">
+        {
+          about.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <p class="site-footer__heading">{t('footer.contact')}</p>
+      <ul class="site-footer__links">
+        <li>
+          <a href={`mailto:${site.email}`}><Icon name="mail" size={16} />{site.email}</a>
+        </li>
+        {
+          site.social.map((s) => (
+            <li>
+              <a href={s.url} rel="noopener" data-track="social_click">
+                {socialIcon[s.name] && <Icon name={socialIcon[s.name]} size={16} />}
+                {s.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer__bottom">
+    <div class="container">© {new Date().getFullYear()} {pick(site.legalName, lang)}</div>
+  </div>
+</footer>

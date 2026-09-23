@@ -1,0 +1,44 @@
+---
+// 固定ページ・お知らせの上部（英字の小見出し・タイトル・リード文・タグ・写真）
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Tags from './Tags.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  tags?: (string | { label: string; icon?: string })[];
+  image?: ImageMetadata;
+  imageAlt?: string;
+  /** お知らせの日付など、タイトルの上に出す一言 */
+  meta?: string;
+}
+
+const { eyebrow, title, lead, tags = [], image, imageAlt, meta } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="container page-hero__inner">
+    <div class="page-hero__body">
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      {meta && <p class="page-hero__date">{meta}</p>}
+      <h1>{title}</h1>
+      {lead && <p class="page-hero__lead">{lead}</p>}
+      <Tags tags={tags} />
+    </div>
+    {
+      image && (
+        <Image
+          class="page-hero__photo"
+          src={image}
+          alt={imageAlt ?? ''}
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 1160px) 540px, (min-width: 640px) 50vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,18 @@
+---
+// 日本語の固定ページ（/about など）
+import type { GetStaticPaths } from 'astro';
+import PageView from '../views/PageView.astro';
+import { DEFAULT_LOCALE } from '../i18n/locales';
+import { getPages, splitId } from '../lib/content';
+
+export const getStaticPaths = (async () => {
+  const pages = await getPages(DEFAULT_LOCALE);
+  return pages
+    .filter((page) => splitId(page.id).slug !== 'home')
+    .map((page) => ({ params: { slug: splitId(page.id).slug }, props: { page } }));
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<PageView lang={DEFAULT_LOCALE} page={page} />

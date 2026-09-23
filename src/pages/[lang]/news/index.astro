@@ -1,0 +1,15 @@
+---
+import type { GetStaticPaths } from 'astro';
+import NewsIndexView from '../../../views/NewsIndexView.astro';
+import { NON_DEFAULT_LOCALES } from '../../../i18n/locales';
+import { localesWithNews } from '../../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const langs = await localesWithNews();
+  return NON_DEFAULT_LOCALES.filter((lang) => langs.includes(lang)).map((lang) => ({ params: { lang }, props: { lang } }));
+}) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+---
+
+<NewsIndexView lang={lang} />

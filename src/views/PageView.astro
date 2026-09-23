@@ -1,0 +1,71 @@
+---
+// 固定ページ（About・会員募集など）の表示。src/content/pages/<言語>/<ページ名>.md の内容を表示する。
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import ScheduleList from '../components/ScheduleList.astro';
+import SectionHead from '../components/SectionHead.astro';
+import type { Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { upcomingSchedule } from '../lib/data';
+import { localesWithPage, pageUrl, splitId, type PageEntry } from '../lib/content';
+import { eventJsonLd } from '../lib/structured-data';
+
+interface Props {
+  lang: Locale;
+  page: PageEntry;
+}
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+const { slug } = splitId(page.id);
+const { Content } = await render(page);
+const { title, description, summary, eyebrow, lead, tags, image, imageAlt, showSchedule, cta } = page.data;
+const alternates = (await localesWithPage(slug)).map((l) => ({ lang: l, href: pageUrl(l, slug) }));
+const jsonLd = showSchedule ? upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.site!, pageUrl(lang, slug))) : [];
+---
+
+<BaseLayout lang={lang} title={title} description={description} alternates={alternates} image={image} imageAlt={imageAlt} jsonLd={jsonLd}>
+  <PageHero eyebrow={eyebrow} title={title} lead={lead ?? summary ?? description} tags={tags} image={image} imageAlt={imageAlt} />
+
+  {
+    showSchedule && (
+      <section class="section section--subtle" id="schedule" aria-labelledby="schedule-heading">
+        <div class="container">
+          <SectionHead id="schedule-heading" eyebrow={t('schedule.eyebrow')} title={t('schedule.heading')} lead={t('schedule.lead')} />
+          <ScheduleList lang={lang} primary />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  {
+    cta && (
+      <section class="section section--tight">
+        <div class="container">
+          <div class="cta-panel">
+            <div>
+              <h2>{cta.label}</h2>
+              {cta.note && <p>{cta.note}</p>}
+            </div>
+            <p>
+              <a class="button button--primary button--lg" href={cta.href} rel="noopener" data-track={cta.event}>
+                {cta.label}
+                <Icon name="arrow-right" size={22} />
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

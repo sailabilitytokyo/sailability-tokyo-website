@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo-horizontal.png';
+import Icon from './Icon.astro';
+import { DEFAULT_LOCALE, LOCALE_META, localePath, type Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { pick, site } from '../lib/data';
+import { getPage, newsUrl, pageUrl } from '../lib/content';
+
+interface Props {
+  lang: Locale;
+  alternates: { lang: Locale; href: string }[];
+}
+
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+
+// メニュー項目。翻訳がないページは日本語ページにリンクする
+const nav = await Promise.all(
+  site.nav.map(async (slug) => {
+    if (slug === 'news') return { href: newsUrl(lang), label: t('nav.news') };
+    const page = (await getPage(lang, slug)) ?? (await getPage(DEFAULT_LOCALE, slug));
+    if (!page) throw new Error(`site.yaml の nav にある "${slug}" のページが src/content/pages/${DEFAULT_LOCALE}/ にありません`);
+    const pageLang = page.id.startsWith(`${lang}/`) ? lang : DEFAULT_LOCALE;
+    return { href: pageUrl(pageLang, slug), label: page.data.navLabel ?? page.data.title };
+  }),
+);
+const experienceLang = (await getPage(lang, 'sailing-experience')) ? lang : DEFAULT_LOCALE;
+const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => current === href || (href !== '/' && current.startsWith(`${href}/`));
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href={localePath(lang, '/')}>
+      <Image class="site-header__logo" src={logo} alt={site.name} height={34} loading="eager" />
+      <span class="site-header__org">{pick(site.legalName, lang)}</span>
+    </a>
+
+    <nav class="site-nav" id="site-nav" aria-label={t('nav.menu')}>
+      <ul class="site-nav__list">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      {
+        alternates.length > 1 && (
+          <ul class="site-nav__langs" aria-label={t('lang.label')}>
+            {alternates.map((a) => (
+              <li>
+                <a
+                  href={a.href}
+                  hreflang={LOCALE_META[a.lang].htmlLang}
+                  lang={LOCALE_META[a.lang].htmlLang}
+                  aria-current={a.lang === lang ? 'true' : undefined}
+                >
+                  {LOCALE_META[a.lang].label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </nav>
+
+    <a class="button button--primary button--sm site-header__cta" href={`${pageUrl(experienceLang, 'sailing-experience')}#schedule`} data-track="header_cta">
+      {t('header.cta')}
+      <Icon name="arrow-right" size={16} />
+    </a>
+    <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>
+      <Icon name="menu" size={22} />
+      <span class="site-nav__toggle-label">{t('nav.menu')}</span>
+    </button>
+  </div>
+</header>
+
+<script>
+  // スマートフォン・タブレットではメニューを折りたたむ（JavaScript が動かない環境では常に表示）
+  const header = document.querySelector('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.site-nav__toggle');
+  if (header && toggle) {
+    header.setAttribute('data-js', '');
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', String(open));
+      header.toggleAttribute('data-open', open);
+    });
+  }
+</script>

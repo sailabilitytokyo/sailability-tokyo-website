@@ -1,0 +1,20 @@
+---
+// 日本語以外のトップページ（/en など）。src/content/pages/<言語>/home.md がある言語だけ生成される
+import type { GetStaticPaths } from 'astro';
+import HomeView from '../../views/HomeView.astro';
+import { NON_DEFAULT_LOCALES } from '../../i18n/locales';
+import { getPage } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const paths = [];
+  for (const lang of NON_DEFAULT_LOCALES) {
+    const page = await getPage(lang, 'home');
+    if (page) paths.push({ params: { lang }, props: { lang, page } });
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+const { lang, page } = Astro.props;
+---
+
+<HomeView lang={lang} page={page} />

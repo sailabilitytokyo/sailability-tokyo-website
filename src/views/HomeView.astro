@@ -1,0 +1,205 @@
+---
+// トップページ。文言は src/content/pages/<言語>/home.md の frontmatter（hero / highlights / intro / membership）と本文、
+// 活動紹介カードは各ページの title / summary / tags / image、日程は schedule.yaml、お知らせは news から作る。
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import NewsList from '../components/NewsList.astro';
+import ScheduleList from '../components/ScheduleList.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Sponsors from '../components/Sponsors.astro';
+import Tags from '../components/Tags.astro';
+import { DEFAULT_LOCALE, type Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { getPlace, pick, upcomingSchedule } from '../lib/data';
+import { getNews, getPage, localesWithPage, newsUrl, pageUrl, type PageEntry } from '../lib/content';
+import { eventJsonLd } from '../lib/structured-data';
+
+interface Props {
+  lang: Locale;
+  page: PageEntry;
+}
+
+// トップページで紹介するページ（表示順）。最初のカードに黄色のライン（おすすめ）が付く
+const FEATURED = ['sailing-experience', 'junior-sailing-courses'];
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+const { Content } = await render(page);
+const { description, hero, highlights, intro, membership } = page.data;
+const alternates = (await localesWithPage('home')).map((l) => ({ lang: l, href: pageUrl(l, 'home') }));
+const featured = await Promise.all(
+  FEATURED.map(async (slug) => {
+    const own = await getPage(lang, slug);
+    const entry = own ?? (await getPage(DEFAULT_LOCALE, slug))!;
+    return { slug, href: pageUrl(own ? lang : DEFAULT_LOCALE, slug), data: entry.data };
+  }),
+);
+const news = (await getNews(lang)).slice(0, 3);
+const place = getPlace('toyosu');
+const jsonLd = upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.site!, pageUrl(lang, 'sailing-experience')));
+---
+
+<BaseLayout lang={lang} description={description} alternates={alternates} image={hero?.background ?? hero?.photo} imageAlt={hero?.backgroundAlt ?? hero?.photoAlt} jsonLd={jsonLd}>
+  {
+    hero && (
+      <section class="hero">
+        {hero.background && (
+          <Image class="hero__bg" src={hero.background} alt={hero.backgroundAlt ?? ''} widths={[800, 1280, 2048]} sizes="100vw" loading="eager" fetchpriority="high" />
+        )}
+        <div class="hero__scrim" />
+        <div class="container hero__inner">
+          <div class="hero__body">
+            {hero.badge && (
+              <span class="hero__badge">
+                <Icon name="map-pin" size={14} />
+                {hero.badge}
+              </span>
+            )}
+            <h1 class="hero__title">{hero.title}</h1>
+            <p class="hero__lead">{hero.lead}</p>
+            <div class="button-row">
+              <a class="button button--primary button--lg" href={hero.primary.href} data-track="hero_cta">
+                {hero.primary.label}
+                <Icon name="arrow-right" size={22} />
+              </a>
+              {hero.secondary && (
+                <a class="button button--inverse button--lg" href={hero.secondary.href}>
+                  {hero.secondary.label}
+                </a>
+              )}
+            </div>
+            <Tags tags={hero.tags} tone="solid" />
+          </div>
+          {hero.photo && <Image class="hero__photo" src={hero.photo} alt={hero.photoAlt ?? ''} widths={[480, 800, 1200]} sizes="(min-width: 1160px) 520px, 100vw" loading="eager" />}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    highlights && (
+      <section class="section--tight section">
+        <div class="container">
+          <SectionHead eyebrow={highlights.eyebrow} title={highlights.title} lead={highlights.lead} />
+          <div class="grid" style="--grid-min: 220px">
+            {highlights.items.map((h) => (
+              <div class="feature">
+                <Icon name={h.icon} size={26} />
+                <h3>{h.title}</h3>
+                <p>{h.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section" aria-labelledby="programs-heading">
+    <div class="container">
+      <SectionHead id="programs-heading" eyebrow={t('programs.eyebrow')} title={t('programs.heading')} />
+      <div class="grid" style="--grid-min: 300px">
+        {
+          featured.map((f, i) => (
+            <article class:list={['card', i === 0 && 'card--accent']}>
+              {f.data.image && <Image class="card__media" src={f.data.image} alt={f.data.imageAlt ?? ''} widths={[480, 800]} sizes="(min-width: 1160px) 540px, 100vw" />}
+              <div class="card__inner">
+                {f.data.eyebrow && <span class="eyebrow">{f.data.eyebrow}</span>}
+                <h3 class="card__title">
+                  <a href={f.href}>{f.data.title}</a>
+                </h3>
+                <p class="card__body">{f.data.summary ?? f.data.description}</p>
+                <Tags tags={f.data.tags} />
+              </div>
+              <div class="card__footer">
+                <span class:list={['button', i === 0 ? 'button--secondary' : 'button--outline']}>
+                  {t('common.more')}
+                  <Icon name="arrow-right" size={18} />
+                </span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--subtle" aria-labelledby="schedule-heading">
+    <div class="container">
+      <SectionHead id="schedule-heading" eyebrow={t('schedule.eyebrow')} title={t('schedule.heading')} lead={t('schedule.lead')} />
+      <ScheduleList lang={lang} limit={4} />
+    </div>
+  </section>
+
+  {
+    intro && (
+      <section class="section section--base">
+        <div class="container split">
+          <div>
+            <SectionHead eyebrow={intro.eyebrow} title={intro.title} />
+            <div class="prose">
+              <Content />
+            </div>
+            <p class="schedule__meta" style="margin-top: var(--space-6)">
+              <Icon name="map-pin" size={18} />
+              {pick(place.name, lang)}（{pick(place.note, lang)}）
+            </p>
+            {intro.link && (
+              <p style="margin-top: var(--space-6)">
+                <a class="button button--outline" href={intro.link.href}>
+                  {intro.link.label}
+                  <Icon name="arrow-right" size={18} />
+                </a>
+              </p>
+            )}
+          </div>
+          {intro.photo && <Image class="page-hero__photo" src={intro.photo} alt={intro.photoAlt ?? ''} widths={[480, 800, 1200]} sizes="(min-width: 1160px) 540px, 100vw" />}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    membership && (
+      <section class="section section--tight section--inverse">
+        <div class="container split">
+          <div class="page-hero__body">
+            {membership.eyebrow && <span class="eyebrow">{membership.eyebrow}</span>}
+            <h2 style="font-size: var(--display-section)">{membership.title}</h2>
+            <p class="section-head__lead">{membership.text}</p>
+            <a class="button button--inverse" href={membership.link.href}>
+              {membership.link.label}
+              <Icon name="arrow-right" size={18} />
+            </a>
+          </div>
+          <ul class="member-points">
+            {membership.points.map((p) => (
+              <li>
+                <Icon name="anchor" size={22} />
+                <span>
+                  <strong>{p.title}</strong>
+                  <span>{p.text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section" aria-labelledby="news-heading">
+    <div class="container">
+      <SectionHead id="news-heading" eyebrow={t('news.eyebrow')} title={t('news.heading')} />
+      <NewsList lang={lang} items={news} />
+      <a class="more-link" href={newsUrl(lang)}>
+        {t('news.more')}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+  </section>
+
+  <Sponsors lang={lang} />
+</BaseLayout>

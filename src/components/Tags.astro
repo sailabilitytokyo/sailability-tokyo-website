@@ -1,0 +1,26 @@
+---
+// 特徴タグの一覧（「1回15〜20分」「4歳から」など）
+import Icon from './Icon.astro';
+
+type Tag = string | { label: string; icon?: string };
+interface Props {
+  tags: Tag[];
+  tone?: 'default' | 'sky' | 'solid';
+}
+
+const { tags, tone = 'sky' } = Astro.props;
+const items = tags.map((t) => (typeof t === 'string' ? { label: t, icon: undefined } : t));
+---
+
+{
+  items.length > 0 && (
+    <ul class="tag-list">
+      {items.map((t) => (
+        <li class:list={['tag', tone !== 'default' && `tag--${tone}`]}>
+          {t.icon && <Icon name={t.icon} size={14} />}
+          {t.label}
+        </li>
+      ))}
+    </ul>
+  )
+}

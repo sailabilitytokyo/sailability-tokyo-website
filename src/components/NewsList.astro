@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import type { Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { formatDate } from '../lib/format';
+import { newsUrl, splitId, type NewsEntry } from '../lib/content';
+
+interface Props {
+  lang: Locale;
+  items: NewsEntry[];
+}
+
+const { lang, items } = Astro.props;
+const t = useTranslations(lang);
+// 公開から30日以内のお知らせに NEW を付ける（ビルド時点で判定）
+const NEW_DAYS = 30;
+const isNew = (d: Date) => Date.now() - d.getTime() < NEW_DAYS * 24 * 60 * 60 * 1000;
+---
+
+<ul class="news-list">
+  {
+    items.map((item) => (
+      <li>
+        <a class="news-list__link" href={newsUrl(lang, splitId(item.id).slug)}>
+          <time class="news-list__date" datetime={item.data.date.toISOString()}>
+            {formatDate(item.data.date, lang)}
+          </time>
+          {isNew(item.data.date) && <span class="badge badge--new">{t('news.new')}</span>}
+          <span class="news-list__title">{item.data.title}</span>
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </li>
+    ))
+  }
+</ul>

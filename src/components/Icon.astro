@@ -1,0 +1,26 @@
+---
+// Lucide アイコン（src/icons/*.svg、ISC ライセンス）をインラインで埋め込む。
+// 色は文字色（currentColor）を引き継ぐ。装飾扱いなので読み上げ対象外（aria-hidden）。
+// アイコンを追加するときは https://lucide.dev/icons/ で名前を調べ、
+//   curl -o src/icons/<名前>.svg https://unpkg.com/lucide-static@0.544.0/icons/<名前>.svg
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 20, class: className } = Astro.props;
+const icons = import.meta.glob<string>('../icons/*.svg', { query: '?raw', import: 'default', eager: true });
+const raw = icons[`../icons/${name}.svg`];
+if (!raw) throw new Error(`アイコン "${name}" が src/icons/ にありません`);
+// ルートの <svg> タグの属性だけ差し替える（内部の図形の width/height は残す）
+const svg = raw
+  .replace(/<!--.*?-->/s, '')
+  .replace(/<svg[^>]*>/, (tag) =>
+    tag
+      .replace(/\s(width|height|class)="[^"]*"/g, '')
+      .replace('<svg', `<svg width="${size}" height="${size}" class="icon${className ? ` ${className}` : ''}" aria-hidden="true" focusable="false"`),
+  );
+---
+
+<Fragment set:html={svg} />

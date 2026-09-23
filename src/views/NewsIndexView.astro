@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import NewsList from '../components/NewsList.astro';
+import PageHero from '../components/PageHero.astro';
+import type { Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { site } from '../lib/data';
+import { getNews, localesWithNews, newsUrl } from '../lib/content';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const items = await getNews(lang);
+const alternates = (await localesWithNews()).map((l) => ({ lang: l, href: newsUrl(l) }));
+---
+
+<BaseLayout lang={lang} title={t('news.heading')} description={t('news.description')} alternates={alternates}>
+  <PageHero eyebrow={t('news.eyebrow')} title={t('news.heading')} lead={t('news.description')} />
+  <section class="section">
+    <div class="container">
+      <NewsList lang={lang} items={items} />
+      <a class="more-link" href={site.blogArchiveUrl} rel="noopener">
+        {t('news.archive')}
+        <Icon name="external-link" size={18} />
+      </a>
+    </div>
+  </section>
+</BaseLayout>

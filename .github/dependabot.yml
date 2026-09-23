@@ -1,0 +1,34 @@
+# ライブラリの自動更新（Dependabot）。
+# - 毎週月曜に更新をチェックし、まとめて1つのプルリクエストにする
+# - 公開から7日以上たったバージョンだけを採用する（公開直後に見つかる不具合や、乗っ取られたパッケージを避けるため）
+# - マイナー・パッチ更新は CI が成功すれば自動でマージされる（.github/workflows/dependabot-automerge.yml）
+# - メジャー更新（互換性が壊れる可能性がある）は自動マージしない。AI か人が確認してからマージする
+# - 脆弱性の修正（セキュリティアップデート）は、この設定とは別に随時プルリクエストが作られる
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '09:00'
+      timezone: Asia/Tokyo
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    labels: [dependencies]
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+      timezone: Asia/Tokyo
+    cooldown:
+      default-days: 7
+    labels: [dependencies]
+    groups:
+      actions:
+        patterns: ['*']

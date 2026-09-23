@@ -1,0 +1,95 @@
+---
+// セーリング体験会・イベントの開催日（src/data/schedule.yaml から表示）
+import Icon from './Icon.astro';
+import type { Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { getPlace, pick, site, upcomingSchedule } from '../lib/data';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  lang: Locale;
+  /** 表示する最大件数 */
+  limit?: number;
+  /** 予約ボタンを主ボタン（黄色）にする。1画面に黄色のボタンはひとつだけ */
+  primary?: boolean;
+}
+
+const { lang, limit, primary = false } = Astro.props;
+const t = useTranslations(lang);
+const items = upcomingSchedule().slice(0, limit);
+const hasReservable = items.some((i) => i.kind === 'experience' && i.status === 'scheduled');
+const badge = (item: (typeof items)[number]) => {
+  if (item.status === 'cancelled') return { tone: 'danger', label: t('schedule.cancelled') };
+  if (item.status === 'full') return { tone: 'danger', label: t('schedule.full') };
+  if (item.kind === 'event') return { tone: 'info', label: t('schedule.event') };
+  return { tone: 'success', label: t('schedule.open') };
+};
+---
+
+<div class="schedule">
+  {
+    items.length === 0 ? (
+      <p class="schedule__empty">{t('schedule.empty')}</p>
+    ) : (
+      <ul class="grid schedule__list">
+        {items.map((item) => {
+          const place = getPlace(item.place);
+          const b = badge(item);
+          return (
+            <li class="schedule__item" data-date={item.date} data-status={item.status}>
+              <div class="schedule__head">
+                <time class="schedule__date" datetime={item.date}>
+                  {formatDate(item.date, lang, { weekday: true, year: false })}
+                </time>
+                <span class={`badge badge--${b.tone}`}>{b.label}</span>
+              </div>
+              {item.title && <p class="schedule__title">{pick(item.title, lang)}</p>}
+              {item.start && (
+                <p class="schedule__meta">
+                  <Icon name="clock" size={16} />
+                  {item.start}
+                  {item.end && `–${item.end}`}
+                  {item.note && `（${pick(item.note, lang)}）`}
+                </p>
+              )}
+              <p class="schedule__meta">
+                <Icon name="map-pin" size={16} />
+                {place.mapUrl ? (
+                  <a href={place.mapUrl} rel="noopener">
+                    {pick(place.name, lang)}
+                  </a>
+                ) : (
+                  pick(place.name, lang)
+                )}
+              </p>
+              {!item.start && item.note && <p class="schedule__deadline">{pick(item.note, lang)}</p>}
+              {item.kind === 'experience' && item.status === 'scheduled' && (
+                <p class="schedule__deadline">
+                  {t('schedule.deadline')}：{formatDate(item.deadline, lang, { weekday: true, year: false })}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    )
+  }
+  {
+    hasReservable && (
+      <p class="schedule__cta">
+        <a class:list={['button', primary ? 'button--primary button--lg' : 'button--secondary']} href={site.forms.experience} rel="noopener" data-track="reserve_experience">
+          {t('schedule.reserve')}
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </p>
+    )
+  }
+</div>
+
+<script>
+  // ビルド後に日付が過ぎた日程を隠す（サイトは毎日再生成されるが、その間の補助）
+  const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date());
+  document.querySelectorAll<HTMLElement>('.schedule__item[data-date]').forEach((el) => {
+    if ((el.dataset.date ?? '') < today) el.hidden = true;
+  });
+</script>

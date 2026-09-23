@@ -1,0 +1,10 @@
+---
+import HomeView from '../views/HomeView.astro';
+import { DEFAULT_LOCALE } from '../i18n/locales';
+import { getPage } from '../lib/content';
+
+const page = await getPage(DEFAULT_LOCALE, 'home');
+if (!page) throw new Error(`src/content/pages/${DEFAULT_LOCALE}/home.md がありません`);
+---
+
+<HomeView lang={DEFAULT_LOCALE} page={page} />

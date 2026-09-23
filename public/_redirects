@@ -1,0 +1,4 @@
+# Cloudflare Pages のリダイレクト設定（旧 Google Sites の URL から転送）
+# https://developers.cloudflare.com/pages/configuration/redirects/
+/home  /  301
+/blog  /news  301
