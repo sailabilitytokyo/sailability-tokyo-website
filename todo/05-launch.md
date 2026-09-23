@@ -26,7 +26,7 @@
 
 ## 公開後の設定
 
-- [ ] Google Analytics のリアルタイムレポートで、自分のアクセスが計測されていることを確認
+- [ ] Google Analytics の確認（todo/07 の「本番公開の後に確認すること」）
 - [ ] GitHub > Settings > Secrets and variables > Actions > **Variables** に `MONITOR_BASE_URL` = `https://www.sailabilitytokyo.jp` を追加（死活監視が動き始める）
 - [ ] Actions タブ > Monitor > Run workflow で、監視が成功することを確認
 - [ ] [Google Search Console](https://search.google.com/search-console) にドメインを登録（Cloudflare の DNS に TXT レコードを追加して所有権を確認）→ サイトマップ `https://www.sailabilitytokyo.jp/sitemap-index.xml` を送信

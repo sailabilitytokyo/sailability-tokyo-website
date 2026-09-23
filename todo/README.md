@@ -9,4 +9,5 @@
 | [03](03-content.md) | 内容の確認事項 | いま |
 | [04](04-accounts.md) | GitHub・Cloudflare のアカウントまわりの残り | 早めに |
 | [05](05-launch.md) | 本番公開（ドメイン切り替え） | 02・03 が終わったら |
+| [07](07-analytics.md) | Google Analytics の設定 | いま（一部は公開後） |
 | [06](06-optional.md) | 余裕があれば | 公開後 |
