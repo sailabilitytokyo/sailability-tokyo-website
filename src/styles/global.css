@@ -551,11 +551,18 @@ button {
 }
 
 /* ── ヒーロー（トップ） ─────────────────────────────────────────────── */
+/* 通常は明るい空色（hero--light）。背景写真を指定したときだけ濃い青＋写真（hero--photo） */
 .hero {
   position: relative;
+  overflow: hidden;
+}
+.hero--light {
+  background: var(--surface-base);
+  color: var(--text-body);
+}
+.hero--photo {
   background: var(--sst-blue-700);
   color: var(--text-inverse);
-  overflow: hidden;
 }
 .hero__bg {
   position: absolute;
@@ -576,7 +583,8 @@ button {
   gap: var(--space-12);
   align-items: center;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-  padding-block: clamp(56px, 9vw, 96px);
+  /* 下は波の分だけ余白を多めに */
+  padding-block: clamp(48px, 7vw, 88px) clamp(80px, 10vw, 128px);
 }
 .hero__body {
   display: flex;
@@ -597,20 +605,59 @@ button {
 }
 .hero__title {
   font-size: var(--display-hero);
-  color: var(--sst-white);
   white-space: pre-line;
 }
 .hero__lead {
   font-size: var(--text-md);
-  color: rgba(255, 255, 255, 0.94);
   max-width: 26em;
+}
+.hero--photo .hero__title {
+  color: var(--sst-white);
+}
+.hero--photo .hero__lead {
+  color: rgba(255, 255, 255, 0.94);
+}
+.hero--light .hero__lead {
+  color: var(--text-body);
+}
+
+/* 右側の写真（1枚目を大きく、2・3枚目を右に小さく並べる） */
+.hero__photos {
+  display: grid;
+  gap: var(--space-4);
+  aspect-ratio: 5 / 4;
+}
+.hero__photos[data-count='2'] {
+  grid-template-columns: 1fr 1fr;
+}
+.hero__photos[data-count='3'] {
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.hero__photos[data-count='3'] .hero__photo:first-child {
+  grid-row: span 2;
 }
 .hero__photo {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 100%;
+  min-height: 0;
   object-fit: cover;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+.hero__photos[data-count='1'] .hero__photo {
   border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-xl);
+}
+
+/* 下の縁の波（色は次のセクションの背景＝白） */
+.hero__wave {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: clamp(28px, 5vw, 72px);
+  color: var(--surface-page);
+  pointer-events: none;
 }
 
 /* ページ上部（固定ページ） */

@@ -50,11 +50,14 @@ const pages = defineCollection({
           tags: z.array(tag).default([]),
           primary: link,
           secondary: link.optional(),
-          // 背景の写真と、右側に重ねる写真
+          // 右側の写真（1〜3枚。1枚目が大きく表示される）。position は写真の見せる位置（例: '50% 80%' で下寄り）
+          photos: z
+            .array(z.object({ src: image(), alt: z.string(), position: z.string().optional() }))
+            .max(3)
+            .default([]),
+          // 背景写真（指定すると濃い青の背景＋写真になる。省略すると明るい空色の背景）
           background: image().optional(),
           backgroundAlt: z.string().optional(),
-          photo: image().optional(),
-          photoAlt: z.string().optional(),
         })
         .optional(),
       highlights: z

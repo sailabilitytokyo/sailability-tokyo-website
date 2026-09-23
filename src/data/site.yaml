@@ -74,26 +74,36 @@ blogArchiveUrl: https://blog.sailabilitytokyo.jp/
 analytics:
   # Google Analytics 4 の測定ID
   ga4: G-M389XQJK35
-  # 計測するホスト名。プレビュー（*.pages.dev）やローカルでは計測しない。
+  # 計測するホスト名。仮公開・プレビュー（*.workers.dev）やローカルでは計測しない。
   hosts:
     - www.sailabilitytokyo.jp
     - sailabilitytokyo.jp
 
-# パートナー・スポンサー（表示順）。ロゴ画像を用意したら logo に src/assets/ からのパスを書く。
+# パートナー・スポンサー（表示順）。logo は src/assets/ からの場所（ロゴがなければ名前を表示）。
+# ロゴの追加: npm run photos -- --png --out src/assets/sponsors <ロゴのファイル>
 sponsors:
   - name: 江東区
     url: https://www.city.koto.lg.jp/
+    logo: sponsors/koto-ku-logo.png
   - name: 東京夢の島マリーナ
     url: https://yumenoshima-marina.subaru-kougyou.jp/
+    logo: sponsors/yumenoshima-marina-logo.png
   - name: 株式会社三栄堂
     url: https://toyosu-saneido.com/
+    logo: sponsors/saneido-logo.png
   - name: 万福食堂
     url: https://www.toyosu-manpuku.com/
+    logo: sponsors/manpuku-logo.png
   - name: NPO法人 江東区の水辺に親しむ会
     url: https://koto-mizube.org/
+    logo: sponsors/koto-mizube-logo.png
   - name: Tokyo Sail and Power Squadron
     url: https://tspsjapan.org/
+    logo: sponsors/tsps-logo.png
   - name: 一般社団法人ハンザセイリングジャパン
     url: https://www.hansajapan.com/
-  - name: Sailing For Everyone Foundation
-    url: https://s4e.org/
+    logo: sponsors/hansa-sailing-japan-logo.png
+  # 旧サイトの s4e.org（Sailing For Everyone Foundation）はリンク切れのため差し替え（2026-09-23）
+  - name: Hansa Sailing
+    url: https://hansasailing.com/
+    logo: sponsors/hansa-sailing-logo.png

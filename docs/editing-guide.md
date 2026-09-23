@@ -132,7 +132,7 @@ imageAlt: 豊洲の水面を進むハンザ
     logo: sponsors/example.png   # src/assets/ からの場所。ロゴがなければこの行は不要（名前が表示される）
 ```
 
-ロゴの変換: `npm run photos -- --out src/assets/sponsors ~/Downloads/logo.png`
+ロゴの変換: `npm run photos -- --png --out src/assets/sponsors ~/Downloads/logo.png`（`--png` でくっきりした PNG のまま保存。GIF も可）
 
 ## 7. 翻訳を追加する（英語・中国語）
 
@@ -151,7 +151,7 @@ imageAlt: 豊洲の水面を進むハンザ
 
 | 項目 | 表示される場所 |
 | --- | --- |
-| `hero` | 一番上の大きな見出し・説明・ボタン・タグと、右側の写真（`photo`）。背景写真（`background`）も指定できるが、右の写真と重なってごちゃつくので使っていない |
+| `hero` | 一番上の大きな見出し・説明・ボタン・タグと、右側の写真（`photos`、1〜3枚。1枚目が大きく表示され、`position: 50% 85%` のように見せる位置を指定できる）。背景写真（`background`）も指定できるが、写真が重なってごちゃつくので使っていない（使うと濃い青の背景になる） |
 | `highlights` | 「はじめてでも、心配はいりません」の4項目（`icon` は `src/icons/` のファイル名） |
 | `intro` | 団体紹介の見出し（本文は `---` の下の Markdown） |
 | `membership` | 会員募集の帯 |
