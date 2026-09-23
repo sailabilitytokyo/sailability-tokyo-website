@@ -3,7 +3,6 @@ title: 首页
 description: Sailability Tokyo 在东京丰洲举办帆船体验活动。无论年龄、有无障碍、有无经验，人人都能乘坐帆船。每人1,500日元，4岁以下免费。
 
 # 译自 ja/home.md。日语页面更新时，本页也要一起更新。
-featured: [sailing-experience, about]
 hero:
   badge: 丰洲Gururi公园乘船处
   photos:
@@ -55,6 +54,19 @@ intro:
   link:
     label: 关于 Sailability Tokyo
     href: /zh-hans/about
+
+membership:
+  eyebrow: Membership
+  title: 想更多地乘坐帆船，欢迎成为会员。
+  text: 我们正在招募认同我们的理念、愿意一起参与活动的伙伴。会员分为个人・家庭会员和法人会员。
+  points:
+    - title: 个人会员・家庭会员
+      text: 可以参加帆船练习会
+    - title: 法人会员
+      text: 员工也可以乘坐帆船，并刊登贵公司的标志
+  link:
+    label: 关于会员招募
+    href: /zh-hans/membership
 ---
 
 帆船是一项无论年龄、有无障碍、有无经验都能享受的运动。

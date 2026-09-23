@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import logoWhite from '../assets/brand/logo-full-white.png';
 import Icon from './Icon.astro';
 import { DEFAULT_LOCALE, type Locale } from '../i18n/locales';
-import { navLabel, useTranslations } from '../i18n/ui';
+import { useTranslations } from '../i18n/ui';
 import { getPlace, pick, site } from '../lib/data';
 import { paren } from '../lib/format';
 import { getPage, newsLang, newsUrl, pageUrl } from '../lib/content';
@@ -15,15 +15,23 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-async function link(slug: string) {
-  const own = await getPage(lang, slug);
-  const page = own ?? (await getPage(DEFAULT_LOCALE, slug));
-  // 翻訳ページがなければ日本語ページにリンクし、名前は画面の文言（nav.<ページ名>）の訳を使う
-  const label = own ? (own.data.navLabel ?? own.data.title) : (navLabel(lang, slug) ?? page?.data.navLabel ?? page?.data.title ?? slug);
-  return { href: pageUrl(own ? lang : DEFAULT_LOCALE, slug), label };
+type FooterLink = { href: string; label: string; hreflang?: string };
+
+// 日本語以外では、その言語に翻訳があるページだけを載せる（日本語ページには飛ばさない）
+async function link(slug: string): Promise<FooterLink | undefined> {
+  const page = await getPage(lang, slug);
+  return page && { href: pageUrl(lang, slug), label: page.data.navLabel ?? page.data.title };
 }
-const programs = await Promise.all(['sailing-experience', 'junior-sailing-courses', 'membership'].map(link));
-const about = [await link('about'), { href: newsUrl(await newsLang(lang)), label: t('nav.news') }, await link('privacy-policy')];
+async function links(slugs: string[]) {
+  return (await Promise.all(slugs.map(link))).filter((l): l is FooterLink => !!l);
+}
+const programs = await links(['sailing-experience', 'junior-sailing-courses', 'membership']);
+// お知らせは日本語だけのことが多いので、その言語の記事がなければ「日本語」と明記して日本語の一覧にリンクする
+const news: FooterLink =
+  (await newsLang(lang)) === lang
+    ? { href: newsUrl(lang), label: t('nav.news') }
+    : { href: newsUrl(DEFAULT_LOCALE), label: t('nav.newsJa'), hreflang: 'ja' };
+const about = [...(await links(['about'])), news, ...(await links(['privacy-policy']))];
 const socialIcon: Record<string, string> = { Instagram: 'instagram', YouTube: 'youtube' };
 const home = getPlace('toyosu');
 ---
@@ -59,7 +67,9 @@ const home = getPlace('toyosu');
         {
           about.map((l) => (
             <li>
-              <a href={l.href}>{l.label}</a>
+              <a href={l.href} hreflang={l.hreflang}>
+                {l.label}
+              </a>
             </li>
           ))
         }

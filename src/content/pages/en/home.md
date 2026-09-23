@@ -3,7 +3,6 @@ title: Home
 description: Sailability Tokyo runs inclusive sailing sessions in Toyosu, Tokyo. Anyone can sail, regardless of age, disability or experience. 1,500 yen per person, free for children under 4.
 
 # Translated from ja/home.md. When the Japanese page changes, update this page too.
-featured: [sailing-experience, about]
 hero:
   badge: Toyosu Gururi Park Pier
   photos:
@@ -55,6 +54,19 @@ intro:
   link:
     label: About Sailability Tokyo
     href: /en/about
+
+membership:
+  eyebrow: Membership
+  title: Want to sail more? Become a member.
+  text: We are looking for people who share our goals and want to take part in our activities. We have individual and family memberships, and corporate memberships.
+  points:
+    - title: Individual and family members
+      text: Join our sailing practice sessions
+    - title: Corporate members
+      text: Your staff can sail too, and we show your logo
+  link:
+    label: About membership
+    href: /en/membership
 ---
 
 Sailing is a sport that anyone can enjoy, regardless of age, disability or experience.

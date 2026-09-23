@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import logo from '../assets/brand/logo-horizontal.png';
 import Icon from './Icon.astro';
 import { DEFAULT_LOCALE, LOCALES, LOCALE_META, localePath, type Locale } from '../i18n/locales';
-import { navLabel, useTranslations } from '../i18n/ui';
+import { useTranslations } from '../i18n/ui';
 import { pick, site } from '../lib/data';
 import { getPage, newsLang, newsUrl, pageUrl } from '../lib/content';
 
@@ -15,18 +15,22 @@ interface Props {
 const { lang, alternates } = Astro.props;
 const t = useTranslations(lang);
 
-// メニュー項目。翻訳がないページは日本語ページにリンクする
-const nav = await Promise.all(
-  site.nav.map(async (slug) => {
-    if (slug === 'news') return { href: newsUrl(await newsLang(lang)), label: t('nav.news') };
-    const own = await getPage(lang, slug);
-    const page = own ?? (await getPage(DEFAULT_LOCALE, slug));
-    if (!page) throw new Error(`site.yaml の nav にある "${slug}" のページが src/content/pages/${DEFAULT_LOCALE}/ にありません`);
-    // 翻訳ページがなければ日本語ページにリンクし、名前は画面の文言（nav.<ページ名>）の訳を使う
-    const label = own ? (own.data.navLabel ?? own.data.title) : (navLabel(lang, slug) ?? page.data.navLabel ?? page.data.title);
-    return { href: pageUrl(own ? lang : DEFAULT_LOCALE, slug), label };
-  }),
-);
+// メニュー項目。日本語以外では、その言語に翻訳があるページだけを載せる（日本語ページには飛ばさない）
+const nav = (
+  await Promise.all(
+    site.nav.map(async (slug) => {
+      if (slug === 'news') {
+        // お知らせはその言語の記事があるときだけ（翻訳していない言語ではフッターから日本語の一覧にリンクする）
+        return (await newsLang(lang)) === lang ? { href: newsUrl(lang), label: t('nav.news') } : undefined;
+      }
+      if (!(await getPage(DEFAULT_LOCALE, slug))) {
+        throw new Error(`site.yaml の nav にある "${slug}" のページが src/content/pages/${DEFAULT_LOCALE}/ にありません`);
+      }
+      const page = await getPage(lang, slug);
+      return page && { href: pageUrl(lang, slug), label: page.data.navLabel ?? page.data.title };
+    }),
+  )
+).filter((item) => !!item);
 const experienceLang = (await getPage(lang, 'sailing-experience')) ? lang : DEFAULT_LOCALE;
 // 言語の切り替え: そのページの翻訳があればそこへ、なければその言語のトップページへ
 const langsWithHome = (await Promise.all(LOCALES.map(async (l) => ((await getPage(l, 'home')) ? l : undefined)))).filter(

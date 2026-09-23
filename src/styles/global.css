@@ -21,6 +21,7 @@ body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
+  /* 日本語の約物（句読点・括弧）を詰めて組む。中国語のページでは下で解除する */
   font-feature-settings: 'palt' 1;
   text-wrap: pretty;
   -webkit-font-smoothing: antialiased;
@@ -71,6 +72,11 @@ button {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+/* 中国語は句読点を全角幅のまま組むのが普通なので、約物を詰める設定（palt）を外す */
+:lang(zh-Hans),
+:lang(zh-Hant) {
+  font-feature-settings: normal;
 }
 .icon {
   flex: 0 0 auto;
