@@ -820,6 +820,16 @@ button {
   background: var(--surface-sunken);
   border-radius: var(--radius-md);
 }
+/* 画像が1枚だけの段落は、並べずに元の大きさ（本文の幅まで）で表示する */
+.prose > p:has(> img:only-child) {
+  display: block;
+}
+.prose > p:has(> img:only-child) img {
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: auto;
+  background: none;
+}
 .prose .gallery figure {
   margin: 0;
 }
