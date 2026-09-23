@@ -9,5 +9,4 @@
 
 ## Cloudflare
 
-- [ ] **PR ごとのプレビュー用ビルドが失敗している**ので、ログを AI に見せる（Workers & Pages > sailability-tokyo-website > Deployments / Builds で失敗したビルドを開き、エラー部分をコピー）
 - [ ] （任意）URL を短くする: Workers & Pages の右側「Account details」> **Subdomain** の「Change」で `noreply-sailabilitytokyo` を `sailabilitytokyo` などに変える（→ `sailability-tokyo-website.sailabilitytokyo.workers.dev`）。変えたら AI に伝えて docs を直す

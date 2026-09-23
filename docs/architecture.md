@@ -155,6 +155,7 @@ Claude Design の見本には仮の事実が含まれていたため、次のと
 - 作成直後に Organization と上記アカウントが外から 404 になった（不正利用対策の誤判定とみられる）。GitHub サポートに問い合わせ、同日中に解除された
 - Organization の「OAuth アプリの制限」が有効だと `gh` / git から書き込めないため、制限を解除した
 - Cloudflare は Pages ではなく Workers（Workers Builds）で作成された。Pages 向けだった設定（検索除外・毎日の再ビルド）を Workers 向けに直した
+- PR ごとのプレビュー（`npx wrangler preview`）には `wrangler.jsonc` の `"previews": {}` が必要だった（ないとビルドが失敗する）
 - 「Protect with Cloudflare Access」は使わない（内容は公開情報で、メンバーにログインの手間をかけないため）
 
 ## 依存ライブラリ一覧

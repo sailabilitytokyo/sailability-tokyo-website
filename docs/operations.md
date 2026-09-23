@@ -5,7 +5,9 @@
 ## 公開の仕組み
 
 - **main ブランチにマージされると、Cloudflare（Workers Builds）が自動でビルドして公開**します（数分）。
-- PR を作ると、Cloudflare がプレビュー URL（`https://<ランダム>-sailability-tokyo-website.<アカウント名>.workers.dev`）を発行し、PR にコメントします。
+- PR を作ると、Cloudflare がプレビュー URL を発行し、PR にコメントします。URL はブランチ名から作られます（例: ブランチ `docs/foo` → `https://docs-foo-sailability-tokyo-website.noreply-sailabilitytokyo.workers.dev`）。
+  - プレビューでは、存在しないページが自作の404ページではなく「Not found」の文字だけになります（Cloudflare のプレビュー機能がベータ版のため。本番では正しく表示される）。
+  - Cloudflare 側のビルドが失敗したときは、PR のチェック「Workers Builds」の Details からログを開き、AI に渡してください。
 - 仮公開 URL: https://sailability-tokyo-website.noreply-sailabilitytokyo.workers.dev （本番ドメイン接続までの間）
 - 配信の設定はリポジトリの `wrangler.jsonc`（404 ページ・.html なし URL・プレビュー URL）と `public/_headers`・`public/_redirects`。
 - Cloudflare のビルド設定（Workers & Pages > sailability-tokyo-website > Settings > Build）:
