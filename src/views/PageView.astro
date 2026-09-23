@@ -21,20 +21,20 @@ const { lang, page } = Astro.props;
 const t = useTranslations(lang);
 const { slug } = splitId(page.id);
 const { Content } = await render(page);
-const { title, description, summary, eyebrow, lead, tags, image, imageAlt, showSchedule, cta } = page.data;
+const { title, description, summary, eyebrow, badge, lead, tags, image, imageAlt, showSchedule, steps, faq, cta } = page.data;
 const alternates = (await localesWithPage(slug)).map((l) => ({ lang: l, href: pageUrl(l, slug) }));
 const jsonLd = showSchedule ? upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.site!, pageUrl(lang, slug))) : [];
 ---
 
 <BaseLayout lang={lang} title={title} description={description} alternates={alternates} image={image} imageAlt={imageAlt} jsonLd={jsonLd}>
-  <PageHero eyebrow={eyebrow} title={title} lead={lead ?? summary ?? description} tags={tags} image={image} imageAlt={imageAlt} />
+  <PageHero eyebrow={eyebrow} badge={badge} title={title} lead={lead ?? summary ?? description} tags={tags} image={image} imageAlt={imageAlt} />
 
   {
     showSchedule && (
       <section class="section section--subtle" id="schedule" aria-labelledby="schedule-heading">
         <div class="container">
           <SectionHead id="schedule-heading" eyebrow={t('schedule.eyebrow')} title={t('schedule.heading')} lead={t('schedule.lead')} />
-          <ScheduleList lang={lang} primary />
+          <ScheduleList lang={lang} primary={!cta} />
         </div>
       </section>
     )
@@ -49,12 +49,54 @@ const jsonLd = showSchedule ? upcomingSchedule().map((item) => eventJsonLd(item,
   </section>
 
   {
+    steps.length > 0 && (
+      <section class="section section--subtle" aria-labelledby="steps-heading">
+        <div class="container">
+          <SectionHead id="steps-heading" eyebrow={t('steps.eyebrow')} title={t('steps.heading')} />
+          <ol class="grid steps">
+            {steps.map((s, i) => (
+              <li class="steps__item">
+                <span class="steps__num" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    faq.length > 0 && (
+      <section class="section" aria-labelledby="faq-heading">
+        <div class="container">
+          <SectionHead id="faq-heading" eyebrow={t('faq.eyebrow')} title={t('faq.heading')} />
+          <div class="faq">
+            {faq.map((f) => (
+              <details class="faq__item">
+                <summary>
+                  <span>{f.q}</span>
+                  <Icon name="chevron-down" size={20} />
+                </summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
     cta && (
       <section class="section section--tight">
         <div class="container">
           <div class="cta-panel">
             <div>
-              <h2>{cta.label}</h2>
+              <h2>{cta.title ?? cta.label}</h2>
               {cta.note && <p>{cta.note}</p>}
             </div>
             <p>

@@ -2,10 +2,13 @@
 // 固定ページ・お知らせの上部（英字の小見出し・タイトル・リード文・タグ・写真）
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
 import Tags from './Tags.astro';
 
 interface Props {
   eyebrow?: string;
+  /** 黄色の札で目立たせる一言 */
+  badge?: string;
   title: string;
   lead?: string;
   tags?: (string | { label: string; icon?: string })[];
@@ -15,13 +18,21 @@ interface Props {
   meta?: string;
 }
 
-const { eyebrow, title, lead, tags = [], image, imageAlt, meta } = Astro.props;
+const { eyebrow, badge, title, lead, tags = [], image, imageAlt, meta } = Astro.props;
 ---
 
 <section class="page-hero">
   <div class="container page-hero__inner">
     <div class="page-hero__body">
       {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      {
+        badge && (
+          <span class="hero__badge">
+            <Icon name="check" size={14} />
+            {badge}
+          </span>
+        )
+      }
       {meta && <p class="page-hero__date">{meta}</p>}
       <h1>{title}</h1>
       {lead && <p class="page-hero__lead">{lead}</p>}

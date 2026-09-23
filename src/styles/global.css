@@ -895,6 +895,82 @@ button {
   color: rgba(255, 255, 255, 0.78);
 }
 
+/* 当日の流れ（番号付きの手順） */
+.steps {
+  --grid-min: 210px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--space-8) var(--space-6);
+}
+.steps__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.steps__num {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-black);
+  letter-spacing: -0.03em;
+  color: var(--sst-sky-300);
+  line-height: 1;
+}
+.steps__num::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: var(--rule-accent);
+  margin-top: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--accent-underline);
+}
+.steps__item h3 {
+  font-size: var(--text-lg);
+}
+.steps__item p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* よくあるご質問（開くと答えが出る） */
+.faq {
+  max-width: var(--measure-wide);
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+.faq__item {
+  border-bottom: var(--border-width) solid var(--border-subtle);
+}
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--tap-min);
+  padding: var(--space-4) 0;
+  font-weight: var(--weight-bold);
+  color: var(--text-heading);
+  cursor: pointer;
+  list-style: none;
+}
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.faq__item summary span {
+  flex: 1;
+}
+.faq__item summary .icon {
+  color: var(--sst-sky-500);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+.faq__item[open] summary .icon {
+  transform: rotate(180deg);
+}
+.faq__item p {
+  padding: 0 0 var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  max-width: 44em;
+}
+
 /* 申込バンド（固定ページの CTA） */
 .cta-panel {
   display: grid;
