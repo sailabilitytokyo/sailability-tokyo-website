@@ -1,6 +1,5 @@
 ---
 title: セイラビリティ東京について
-navLabel: About
 eyebrow: About
 lead: 年齢や障がいの有無、経験を問わず、誰もが水辺を楽しめるように。ハンザ（アクセスディンギー）を通して、セーリングの普及を目指しています。
 image: ../../../assets/photos/school-land-lesson.jpg

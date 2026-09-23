@@ -71,7 +71,10 @@ const isCurrent = (href: string) => current === href || (href !== '/' && current
   <div class="container site-header__inner">
     <a class="site-header__brand" href={localePath(lang, '/')}>
       <Image class="site-header__logo" src={logo} alt={site.name} height={34} loading="eager" />
-      {lang !== 'en' && <span class="site-header__org">{pick(site.legalName, lang)}</span>}
+      {
+        // 団体名の小さな表記。英語はロゴと同じ、日本語はメニューの「セイラビリティ東京について」と重なり、メニューが1行に収まらなくなるため出さない
+        !['en', 'ja'].includes(lang) && <span class="site-header__org">{pick(site.legalName, lang)}</span>
+      }
     </a>
 
     <nav class="site-nav" id="site-nav" aria-label={t('nav.menu')}>

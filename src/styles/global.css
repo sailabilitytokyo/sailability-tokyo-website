@@ -497,7 +497,8 @@ button {
   font-weight: var(--weight-bold);
 }
 
-@media (max-width: 63.99rem) {
+/* メニューが1行に収まらない幅（日本語のメニューが最も長い）では折りたたむ */
+@media (max-width: 69.99rem) {
   .site-header__org {
     display: none;
   }
@@ -521,7 +522,7 @@ button {
     font-size: var(--text-base);
   }
 }
-@media (min-width: 64rem) {
+@media (min-width: 70rem) {
   .site-nav__toggle {
     display: none;
   }
