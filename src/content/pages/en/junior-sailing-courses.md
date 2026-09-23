@@ -85,7 +85,7 @@ The course is held in Japanese.
 
 - Session 1: Sunday, August 30, 9:00 to 12:00
 - Session 2: Sunday, September 13, 9:00 to 12:00
-- Session 3: Sunday, September 20, 9:00 to 12:00
+- Session 3: Sunday, October 4, 9:00 to 12:00 (moved from September 20)
 - Session 4: Sunday, October 11, 9:00 to 12:00
 - Session 5: Sunday, October 25, 9:00 to 12:00
 - Session 6: Sunday, November 8, 9:00 to 12:00

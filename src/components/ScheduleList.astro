@@ -42,7 +42,17 @@ const badge = (item: (typeof items)[number]) => {
                 </time>
                 <span class={`badge badge--${b.tone}`}>{b.label}</span>
               </div>
-              {item.title && <p class="schedule__title">{pick(item.title, lang)}</p>}
+              {item.title && (
+                <p class="schedule__title">
+                  {item.url ? (
+                    <a href={item.url} rel="noopener">
+                      {pick(item.title, lang)}
+                    </a>
+                  ) : (
+                    pick(item.title, lang)
+                  )}
+                </p>
+              )}
               {item.start && (
                 <p class="schedule__meta">
                   <Icon name="clock" size={16} />
