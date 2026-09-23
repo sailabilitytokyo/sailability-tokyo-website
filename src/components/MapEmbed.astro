@@ -1,0 +1,60 @@
+---
+// 「アクセス」欄: 場所の名前・説明と、埋め込みの Googleマップ（site.yaml の places から表示）。
+// 地図は APIキー不要の埋め込み URL（maps.google.com/maps?q=...&output=embed）を使う。
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { LOCALE_META, type Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { getPlace, pick } from '../lib/data';
+
+interface Props {
+  lang: Locale;
+  /** site.yaml の places の id */
+  place: string;
+}
+
+const { lang, place: placeId } = Astro.props;
+const t = useTranslations(lang);
+const place = getPlace(placeId);
+const name = pick(place.name, lang);
+// Googleマップの表示言語（ja / en / zh-CN / zh-TW）
+const hl = { ja: 'ja', en: 'en', 'zh-hans': 'zh-CN', 'zh-hant': 'zh-TW' }[lang];
+const embed = place.mapQuery
+  ? `https://maps.google.com/maps?q=${encodeURIComponent(place.mapQuery)}&z=16&hl=${hl}&output=embed`
+  : undefined;
+---
+
+<section class="section" aria-labelledby="access-heading">
+  <div class="container split access">
+    <div>
+      <SectionHead id="access-heading" eyebrow={t('access.eyebrow')} title={t('access.heading')} />
+      <p class="access__name">
+        <Icon name="map-pin" size={20} />
+        {name}
+      </p>
+      {place.note && <p class="access__note">{pick(place.note, lang)}</p>}
+      {
+        place.mapUrl && (
+          <p class="access__link">
+            <a class="button button--outline" href={place.mapUrl} rel="noopener" lang={LOCALE_META[lang].htmlLang}>
+              {t('access.openMap')}
+              <Icon name="external-link" size={18} />
+            </a>
+          </p>
+        )
+      }
+    </div>
+    {
+      embed && (
+        <iframe
+          class="access__map"
+          src={embed}
+          title={`${t('access.mapTitle')}: ${name}`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        />
+      )
+    }
+  </div>
+</section>

@@ -13,6 +13,8 @@ tags:
   - { label: 2026年後期 開講中, icon: sailboat }
 image: ../../../assets/photos/white-sail-hansa-toyosu.jpg
 imageAlt: 白いセールのハンザと色とりどりのセールの艇が豊洲の水辺を走る様子
+# 本文の後ろに「アクセス」欄（地図）を表示する
+map: toyosu
 # 募集期間中は下の cta を有効にする（先頭の # を外す）
 # cta:
 #   title: 小学生ヨット教室の申し込み

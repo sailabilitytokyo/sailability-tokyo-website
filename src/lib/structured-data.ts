@@ -1,6 +1,8 @@
 // 検索エンジン向けの構造化データ（JSON-LD, https://schema.org/）。
 // Google 検索で団体情報やイベント日程がリッチに表示されやすくなる。
 import { DEFAULT_LOCALE, type Locale } from '../i18n/locales';
+import { useTranslations } from '../i18n/ui';
+import { paren } from './format';
 import { getPlace, pick, site, type ScheduleItem } from './data';
 
 export function organizationJsonLd(siteUrl: URL) {
@@ -23,7 +25,8 @@ export function organizationJsonLd(siteUrl: URL) {
 export function eventJsonLd(item: ScheduleItem, lang: Locale, siteUrl: URL, pageUrl: string) {
   const place = getPlace(item.place);
   const title =
-    pick(item.title, lang) || (item.kind === 'experience' ? `セーリング体験会（${pick(place.name, lang)}）` : site.name);
+    pick(item.title, lang) ||
+    (item.kind === 'experience' ? `${useTranslations(lang)('schedule.experienceName')}${paren(lang, pick(place.name, lang))}` : site.name);
   const withTime = (t?: string) => (t ? `${item.date}T${t.padStart(5, '0')}:00+09:00` : item.date);
   return {
     '@context': 'https://schema.org',

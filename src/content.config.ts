@@ -31,6 +31,8 @@ const pages = defineCollection({
       imageAlt: z.string().optional(),
       // ページ上部の直後に体験会の日程表を表示する
       showSchedule: z.boolean().default(false),
+      // 本文の後ろに「アクセス」欄（場所の説明と Googleマップ）を表示する。site.yaml の places の id（例: toyosu）
+      map: z.string().optional(),
       // 本文の後ろに表示する「当日の流れ」（番号付きの手順）と「よくあるご質問」
       steps: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
       faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
@@ -49,6 +51,8 @@ const pages = defineCollection({
         .optional(),
 
       // ── ここから下はトップページ（home.md）専用 ──
+      // 「活動のご案内」に並べるページ（省略時は sailing-experience と junior-sailing-courses）
+      featured: z.array(z.string()).optional(),
       hero: z
         .object({
           badge: z.string().optional(),

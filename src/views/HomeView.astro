@@ -15,28 +15,31 @@ import { useTranslations } from '../i18n/ui';
 import { getPlace, pick, upcomingSchedule } from '../lib/data';
 import { getNews, getPage, localesWithPage, newsUrl, pageUrl, type PageEntry } from '../lib/content';
 import { eventJsonLd } from '../lib/structured-data';
+import { paren } from '../lib/format';
 
 interface Props {
   lang: Locale;
   page: PageEntry;
 }
 
-// トップページで紹介するページ（表示順）。最初のカードに黄色のライン（おすすめ）が付く
-const FEATURED = ['sailing-experience', 'junior-sailing-courses'];
+// トップページで紹介するページ（表示順）。最初のカードに黄色のライン（おすすめ）が付く。
+// home.md の featured で言語ごとに変えられる（翻訳していないページは外す、など）
+const DEFAULT_FEATURED = ['sailing-experience', 'junior-sailing-courses'];
 
 const { lang, page } = Astro.props;
 const t = useTranslations(lang);
 const { Content } = await render(page);
-const { description, hero, highlights, intro, membership } = page.data;
+const { description, hero, highlights, intro, membership, featured: featuredSlugs } = page.data;
 const alternates = (await localesWithPage('home')).map((l) => ({ lang: l, href: pageUrl(l, 'home') }));
 const featured = await Promise.all(
-  FEATURED.map(async (slug) => {
+  (featuredSlugs ?? DEFAULT_FEATURED).map(async (slug) => {
     const own = await getPage(lang, slug);
     const entry = own ?? (await getPage(DEFAULT_LOCALE, slug))!;
     return { slug, href: pageUrl(own ? lang : DEFAULT_LOCALE, slug), data: entry.data };
   }),
 );
 const news = (await getNews(lang)).slice(0, 3);
+// その言語のお知らせがなければ、お知らせ欄は出さない（翻訳版のトップなど）
 const place = getPlace('toyosu');
 const jsonLd = upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.site!, pageUrl(lang, 'sailing-experience')));
 ---
@@ -163,7 +166,7 @@ const jsonLd = upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.si
             </div>
             <p class="schedule__meta" style="margin-top: var(--space-6)">
               <Icon name="map-pin" size={18} />
-              {pick(place.name, lang)}（{pick(place.note, lang)}）
+              {pick(place.name, lang)}{paren(lang, pick(place.note, lang))}
             </p>
             {intro.link && (
               <p style="margin-top: var(--space-6)">
@@ -209,16 +212,20 @@ const jsonLd = upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.si
     )
   }
 
-  <section class="section" aria-labelledby="news-heading">
-    <div class="container">
-      <SectionHead id="news-heading" eyebrow={t('news.eyebrow')} title={t('news.heading')} />
-      <NewsList lang={lang} items={news} />
-      <a class="more-link" href={newsUrl(lang)}>
-        {t('news.more')}
-        <Icon name="arrow-right" size={18} />
-      </a>
-    </div>
-  </section>
+  {
+    news.length > 0 && (
+      <section class="section" aria-labelledby="news-heading">
+        <div class="container">
+          <SectionHead id="news-heading" eyebrow={t('news.eyebrow')} title={t('news.heading')} />
+          <NewsList lang={lang} items={news} />
+          <a class="more-link" href={newsUrl(lang)}>
+            {t('news.more')}
+            <Icon name="arrow-right" size={18} />
+          </a>
+        </div>
+      </section>
+    )
+  }
 
   <Sponsors lang={lang} />
 </BaseLayout>

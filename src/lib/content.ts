@@ -43,9 +43,15 @@ export async function localesWithPage(slug: string): Promise<Locale[]> {
   return LOCALES.filter((l) => all.some((p) => p.id === `${l}/${slug}`));
 }
 
-/** お知らせ一覧が存在する言語 = トップページがある言語 */
+/** お知らせ一覧が存在する言語（日本語と、その言語のお知らせが1件以上ある言語） */
 export async function localesWithNews(): Promise<Locale[]> {
-  return localesWithPage('home');
+  const all = await getCollection('news');
+  return LOCALES.filter((l) => l === DEFAULT_LOCALE || all.some((n) => !n.data.draft && splitId(n.id).lang === l));
+}
+
+/** お知らせのリンク先の言語（その言語のお知らせがなければ日本語） */
+export async function newsLang(lang: Locale): Promise<Locale> {
+  return (await localesWithNews()).includes(lang) ? lang : DEFAULT_LOCALE;
 }
 
 export function isDefaultLocale(lang: Locale): boolean {

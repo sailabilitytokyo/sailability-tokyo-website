@@ -1,6 +1,5 @@
 ---
 title: 会員募集
-navLabel: Membership
 eyebrow: Membership
 lead: 活動に賛同し、一緒に活動してくださる仲間を募集しています。個人・家族会員と法人会員があります。
 tags:

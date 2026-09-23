@@ -42,6 +42,7 @@ const siteSchema = z.object({
       addressLocality: z.string().optional(),
       addressRegion: z.string().optional(),
       mapUrl: z.url().optional(),
+      mapQuery: z.string().optional(),
     }),
   ),
   forms: z.object({ experience: z.url() }),
@@ -90,7 +91,9 @@ for (const item of schedule) {
 }
 
 export function getPlace(id: string): Place {
-  return site.places.find((p) => p.id === id)!;
+  const place = site.places.find((p) => p.id === id);
+  if (!place) throw new Error(`場所 "${id}" が src/data/site.yaml の places にありません（${site.places.map((p) => p.id).join(', ')}）`);
+  return place;
 }
 
 /** 今日の日付（日本時間, YYYY-MM-DD） */

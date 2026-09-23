@@ -1,6 +1,6 @@
 # 05. 本番公開（ドメイン切り替え）
 
-メンバーの確認（01）、写真（02）、内容の確認（03）が終わってから行います。作業は 30 分〜1 時間程度。切り替え中も数時間は旧サイトと新サイトが混在して見えることがあります。
+メンバーの確認（2026-09-23 完了）、写真（02）、内容の確認（03）が終わってから行います。作業は 30 分〜1 時間程度。切り替え中も数時間は旧サイトと新サイトが混在して見えることがあります。
 
 ## 事前準備
 
@@ -26,7 +26,7 @@
 
 ## 公開後の設定
 
-- [ ] Google Analytics のリアルタイムレポートで、自分のアクセスが計測されていることを確認
+- [ ] Google Analytics の確認（todo/07 の「本番公開の後に確認すること」）
 - [ ] GitHub > Settings > Secrets and variables > Actions > **Variables** に `MONITOR_BASE_URL` = `https://www.sailabilitytokyo.jp` を追加（死活監視が動き始める）
 - [ ] Actions タブ > Monitor > Run workflow で、監視が成功することを確認
 - [ ] [Google Search Console](https://search.google.com/search-console) にドメインを登録（Cloudflare の DNS に TXT レコードを追加して所有権を確認）→ サイトマップ `https://www.sailabilitytokyo.jp/sitemap-index.xml` を送信

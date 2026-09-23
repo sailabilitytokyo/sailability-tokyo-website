@@ -83,6 +83,7 @@ AI に次のように依頼します。
 ## Google Analytics
 
 - 管理画面: https://analytics.google.com/ （測定 ID: `G-M389XQJK35`）
+- 設定手順（データ保持期間・キーイベントなど）は todo/07-analytics.md。本番ドメインでだけ計測する
 - 申込ボタンのクリック数は、GA4 の「レポート > エンゲージメント > イベント」で `reserve_experience` / `apply_junior_course` を見ます。
 - 小学生ヨット教室の募集期間中は、`apply_junior_course` を「キーイベント」に設定すると、流入元ごとの申込クリック数が見やすくなります。
 

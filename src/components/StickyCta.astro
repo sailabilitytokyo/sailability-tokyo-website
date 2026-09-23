@@ -6,7 +6,7 @@ import { DEFAULT_LOCALE, type Locale } from '../i18n/locales';
 import { useTranslations } from '../i18n/ui';
 import { getPlace, pick, site, upcomingSchedule } from '../lib/data';
 import { getPage, pageUrl } from '../lib/content';
-import { formatDate } from '../lib/format';
+import { colon, formatDate, paren } from '../lib/format';
 
 interface Props {
   lang: Locale;
@@ -26,9 +26,9 @@ const label = next && (pick(next.title, lang) || pick(getPlace(next.place).name,
       <div class="container sticky-cta__inner">
         <Icon name="sailboat" size={22} />
         <p class="sticky-cta__text">
-          {t('sticky.next')}：{formatDate(next.date, lang, { weekday: true, year: false })}
+          {t('sticky.next')}{colon(lang)}{formatDate(next.date, lang, { weekday: true, year: false })}
           {next.start && ` ${next.start}〜`}
-          {label && `（${label}）`}
+          {label && paren(lang, label)}
         </p>
         <div class="sticky-cta__actions">
           <a class="button button--outline button--sm" href={`${pageUrl(experienceLang, 'sailing-experience')}#schedule`}>

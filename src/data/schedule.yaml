@@ -7,7 +7,7 @@
 #   start/end: 開始・終了時刻（HH:MM）
 #   kind:     experience = 豊洲の定例体験会（予約フォームあり） / event = 外部イベントへの出展など
 #   place:    site.yaml の places の id（toyosu / yumenoshima など）
-#   title:    表示名（kind: event のとき推奨）
+#   title:    表示名（kind: event のとき推奨）。言語ごとに書く場合は ja: / en: / zh-hans: / zh-hant:
 #   deadline: 申込締切日（YYYY-MM-DD）。省略すると「開催日の2日前」になる
 #   note:     補足（任意）
 #   status:   scheduled（既定） / cancelled（中止）/ full（満員）
@@ -17,23 +17,39 @@
   end: '15:00'
   kind: experience
   place: toyosu
-  note: 午後の部のみ
+  note:
+    ja: 午後の部のみ
+    en: Afternoon only
+    zh-hans: 仅下午
+    zh-hant: 僅下午
 
 - date: 2026-09-13
   start: '13:00'
   end: '15:00'
   kind: experience
   place: toyosu
-  note: 午後の部のみ
+  note:
+    ja: 午後の部のみ
+    en: Afternoon only
+    zh-hans: 仅下午
+    zh-hant: 僅下午
 
 - date: 2026-09-20
   start: '13:00'
   end: '15:00'
   kind: experience
   place: toyosu
-  note: 午後の部のみ
+  note:
+    ja: 午後の部のみ
+    en: Afternoon only
+    zh-hans: 仅下午
+    zh-hant: 僅下午
 
 - date: 2026-09-27
   kind: event
   place: yumenoshima
-  title: 夢の島マリーナのイベントでハンザ乗船体験会
+  title:
+    ja: 夢の島マリーナのイベントでハンザ乗船体験会
+    en: Hansa sailing experience at an event in Yumenoshima Marina
+    zh-hans: 梦之岛码头活动中的Hansa帆船体验
+    zh-hant: 夢之島碼頭活動中的Hansa帆船體驗

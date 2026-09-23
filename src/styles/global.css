@@ -21,6 +21,7 @@ body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
+  /* 日本語の約物（句読点・括弧）を詰めて組む。中国語のページでは下で解除する */
   font-feature-settings: 'palt' 1;
   text-wrap: pretty;
   -webkit-font-smoothing: antialiased;
@@ -71,6 +72,11 @@ button {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+/* 中国語は句読点を全角幅のまま組むのが普通なので、約物を詰める設定（palt）を外す */
+:lang(zh-Hans),
+:lang(zh-Hant) {
+  font-feature-settings: normal;
 }
 .icon {
   flex: 0 0 auto;
@@ -442,8 +448,7 @@ button {
   align-items: center;
   gap: var(--space-4);
 }
-.site-nav__list,
-.site-nav__langs {
+.site-nav__list {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-1);
@@ -470,14 +475,6 @@ button {
   color: var(--text-heading);
   background: var(--sst-blue-50);
 }
-.site-nav__langs a {
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-}
-.site-nav__langs a[aria-current] {
-  color: var(--text-heading);
-  font-weight: var(--weight-bold);
-}
 .site-nav__toggle {
   display: inline-flex;
   align-items: center;
@@ -500,7 +497,8 @@ button {
   font-weight: var(--weight-bold);
 }
 
-@media (max-width: 63.99rem) {
+/* メニューが1行に収まらない幅（日本語のメニューが最も長い）では折りたたむ */
+@media (max-width: 69.99rem) {
   .site-header__org {
     display: none;
   }
@@ -524,7 +522,7 @@ button {
     font-size: var(--text-base);
   }
 }
-@media (min-width: 64rem) {
+@media (min-width: 70rem) {
   .site-nav__toggle {
     display: none;
   }
@@ -548,6 +546,45 @@ button {
     clip-path: inset(50%);
     white-space: nowrap;
   }
+}
+
+/* 言語の切り替え（ヘッダーの上の細い帯） */
+.lang-bar {
+  background: var(--surface-subtle);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  font-size: var(--text-xs);
+}
+.lang-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  min-height: 32px;
+  color: var(--text-muted);
+}
+.lang-bar__list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.lang-bar__list li + li::before {
+  content: '｜';
+  color: var(--border-default);
+}
+.lang-bar__list a {
+  padding: var(--space-1) var(--space-2);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.lang-bar__list a:hover {
+  color: var(--text-heading);
+  text-decoration: underline;
+}
+.lang-bar__list a[aria-current] {
+  color: var(--text-heading);
+  font-weight: var(--weight-bold);
 }
 
 /* ── ヒーロー（トップ） ─────────────────────────────────────────────── */
@@ -893,6 +930,38 @@ button {
 .member-points span {
   font-size: var(--text-xs);
   color: rgba(255, 255, 255, 0.78);
+}
+
+/* アクセス（場所と埋め込みの地図） */
+.access {
+  align-items: start;
+}
+.access__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--text-heading);
+}
+.access__name .icon {
+  color: var(--sst-sky-500);
+}
+.access__note {
+  margin-top: var(--space-2);
+  color: var(--text-muted);
+}
+.access__link {
+  margin-top: var(--space-6);
+}
+.access__map {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  background: var(--sst-sky-100);
 }
 
 /* 当日の流れ（番号付きの手順） */
