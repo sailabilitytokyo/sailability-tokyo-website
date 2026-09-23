@@ -1,0 +1,19 @@
+// Cloudflare Workers（静的アセット）の設定。
+// Cloudflare の Workers Builds が main へのマージ時（本番）と PR ごと（プレビュー）にこの設定で公開する。
+// https://developers.cloudflare.com/workers/static-assets/
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "sailability-tokyo-website",
+  "compatibility_date": "2026-09-23",
+  "assets": {
+    // npm run build の出力
+    "directory": "./dist",
+    // /about → about.html のように、.html なしの URL で表示する
+    "html_handling": "auto-trailing-slash",
+    // 存在しないページでは dist/404.html を表示する
+    "not_found_handling": "404-page"
+  },
+  // 仮公開 URL（*.workers.dev）と、PR ごとのプレビュー URL を有効にする
+  "workers_dev": true,
+  "preview_urls": true
+}
