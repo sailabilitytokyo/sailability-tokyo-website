@@ -895,6 +895,38 @@ button {
   color: rgba(255, 255, 255, 0.78);
 }
 
+/* アクセス（場所と埋め込みの地図） */
+.access {
+  align-items: start;
+}
+.access__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--text-heading);
+}
+.access__name .icon {
+  color: var(--sst-sky-500);
+}
+.access__note {
+  margin-top: var(--space-2);
+  color: var(--text-muted);
+}
+.access__link {
+  margin-top: var(--space-6);
+}
+.access__map {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  background: var(--sst-sky-100);
+}
+
 /* 当日の流れ（番号付きの手順） */
 .steps {
   --grid-min: 210px;

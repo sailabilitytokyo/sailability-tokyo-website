@@ -37,6 +37,8 @@ places:
     addressLocality: 江東区
     addressRegion: 東京都
     mapUrl: https://www.google.com/maps/search/?api=1&query=%E8%B1%8A%E6%B4%B2%E3%81%90%E3%82%8B%E3%82%8A%E5%85%AC%E5%9C%92%E4%B9%97%E8%88%B9%E5%A0%B4
+    # ページに埋め込む地図の検索語（Googleマップでこの名前を検索した場所にピンが立つ）
+    mapQuery: 豊洲ぐるり公園乗船場
   - id: yumenoshima
     name:
       ja: 東京夢の島マリーナ

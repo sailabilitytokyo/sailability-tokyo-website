@@ -14,6 +14,8 @@ tags:
 image: ../../../assets/photos/fleet-hansa-toyosu.jpg
 imageAlt: 赤いセールのハンザが豊洲の水辺を走る様子
 showSchedule: true
+# 本文の後ろに「アクセス」欄（地図）を表示する
+map: toyosu
 # 当日の流れ（番号付きで表示される）
 steps:
   - title: 乗船場へ
@@ -55,12 +57,6 @@ cta:
 心地よい風を受けて、一緒にセーリングを楽しみましょう。
 
 ご予約はGoogleフォームで受け付けています。イベント会場でもセーリング体験ができます。
-
-## 場所
-
-豊洲ぐるり公園乗船場（豊洲西小学校裏）
-有楽町線・ゆりかもめ「豊洲駅」から徒歩10分
-[Googleマップで見る](https://www.google.com/maps/search/?api=1&query=%E8%B1%8A%E6%B4%B2%E3%81%90%E3%82%8B%E3%82%8A%E5%85%AC%E5%9C%92%E4%B9%97%E8%88%B9%E5%A0%B4)
 
 ## 参加費
 
