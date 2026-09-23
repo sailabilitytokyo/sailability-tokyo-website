@@ -11,7 +11,7 @@ const ja = {
   'common.more': '詳しく見る',
   'schedule.eyebrow': 'Schedule',
   'schedule.heading': '開催日',
-  'schedule.lead': '天候によって中止する場合があります。中止の場合はお知らせでご案内します。',
+  'schedule.lead': '天候によって中止する場合があります。',
   'schedule.empty': '現在ご案内できる開催日はありません。決まり次第お知らせでご案内します。',
   'schedule.deadline': '申込締切',
   'schedule.reserve': '予約する（Googleフォーム）',
