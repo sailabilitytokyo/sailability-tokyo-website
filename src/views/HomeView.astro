@@ -92,9 +92,18 @@ const jsonLd = upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.si
             </div>
           )}
         </div>
-        {/* 下の縁の波（次のセクションの白につながる） */}
+        {/* 下の縁の波（次のセクションの白につながる）。2周期分の波を横に流してつなぎ目なく動かす（global.css の hero-wave） */}
         <svg class="hero__wave" viewBox="0 0 1440 72" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path d="M0 36 C 180 72 360 72 540 44 S 900 0 1080 20 S 1320 60 1440 34 L 1440 72 L 0 72 Z" fill="currentColor" />
+          <path
+            class="hero__wave-back"
+            d="M0 30 C 240 4 480 4 720 30 S 1200 56 1440 30 S 1920 4 2160 30 S 2640 56 2880 30 L 2880 72 L 0 72 Z"
+            fill="currentColor"
+          />
+          <path
+            class="hero__wave-front"
+            d="M0 44 C 240 18 480 18 720 44 S 1200 70 1440 44 S 1920 18 2160 44 S 2640 70 2880 44 L 2880 72 L 0 72 Z"
+            fill="currentColor"
+          />
         </svg>
       </section>
     )

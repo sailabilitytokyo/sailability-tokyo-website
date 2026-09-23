@@ -66,3 +66,24 @@ test('開催日がすべて過ぎたら「開催日はありません」を表�
   await expect(page.locator('[data-schedule-cta]')).toBeHidden();
   await expect(page.locator('.sticky-cta')).toBeHidden();
 });
+
+test('スクロールで現れる要素が、最後まで見ると全部表示されている', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  for (const path of ['/', '/sailing-experience', '/about']) {
+    await page.goto(path);
+    // ページの一番下まで少しずつスクロールする
+    const height = await page.evaluate(() => document.documentElement.scrollHeight);
+    for (let y = 0; y <= height; y += 300) {
+      await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), y);
+      await page.waitForTimeout(30);
+    }
+    // 隠れたまま残っている要素がない（動きが終わると .reveal は外れる）
+    await expect(page.locator('.reveal')).toHaveCount(0, { timeout: 5000 });
+  }
+});
+
+test('「動きを減らす」設定のときは、要素を隠さない', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('.reveal')).toHaveCount(0);
+});

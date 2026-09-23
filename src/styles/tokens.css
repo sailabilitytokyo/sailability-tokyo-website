@@ -229,6 +229,7 @@
   --duration-fast: 140ms;
   --duration-base: 220ms;
   --duration-slow: 380ms;
+  --duration-reveal: 700ms; /* スクロールで現れる・ヒーローの登場 */
 
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

@@ -11,6 +11,9 @@ import { allPagePaths } from './pages';
 
 const snapshotDir = new URL('./visual.spec.ts-snapshots', import.meta.url);
 
+// 動き（スクロールで現れる・波など）を止めて撮る。動きがあると毎回違う画像になるため
+test.use({ contextOptions: { reducedMotion: 'reduce' } });
+
 test.beforeEach(({}, testInfo) => {
   const updating = ['all', 'changed'].includes(testInfo.config.updateSnapshots);
   test.skip(!existsSync(snapshotDir) && !updating, '基準画像がまだありません（Update screenshots ワークフローで作成）');
