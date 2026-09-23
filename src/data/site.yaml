@@ -43,7 +43,7 @@ places:
       en: Tokyo Yumenoshima Marina
     addressLocality: 江東区
     addressRegion: 東京都
-    mapUrl: https://yumenoshima-marina.subaru-kougyou.jp/
+    mapUrl: https://yumenoshima-marina.com/
 
 # 申込フォーム（Googleフォーム）
 forms:
@@ -86,7 +86,7 @@ sponsors:
     url: https://www.city.koto.lg.jp/
     logo: sponsors/koto-ku-logo.png
   - name: 東京夢の島マリーナ
-    url: https://yumenoshima-marina.subaru-kougyou.jp/
+    url: https://yumenoshima-marina.com/
     logo: sponsors/yumenoshima-marina-logo.png
   - name: 株式会社三栄堂
     url: https://toyosu-saneido.com/

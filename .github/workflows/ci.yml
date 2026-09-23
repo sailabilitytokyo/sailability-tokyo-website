@@ -57,3 +57,23 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 14
+
+  # 外部サイトへのリンク（スポンサー・SNS・予約フォームなど）の確認。
+  # 外部サイトの一時的な不調で PR が止まらないよう、マージの必須条件にはしていない（赤くなったら内容を確認する）。
+  external-links:
+    name: 外部リンクの確認
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: 外部リンク切れチェック
+        run: npm run check:external
