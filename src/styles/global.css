@@ -75,6 +75,10 @@ button {
 .icon {
   flex: 0 0 auto;
 }
+/* hidden 属性（JavaScript で隠す要素）は、display を指定した部品でも必ず隠す */
+[hidden] {
+  display: none !important;
+}
 
 /* ── レイアウト ─────────────────────────────────────────────────────── */
 .container {

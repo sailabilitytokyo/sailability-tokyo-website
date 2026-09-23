@@ -1,11 +1,10 @@
-# 06. 本番公開（ドメイン切り替え）
+# 05. 本番公開（ドメイン切り替え）
 
-メンバーの確認が終わり、デザイン・内容が固まってから行います。作業は 30 分〜1 時間程度、切り替え中も数時間は旧サイトと新サイトが混在して見えることがあります。
+メンバーの確認（01）、写真（02）、内容の確認（03）が終わってから行います。作業は 30 分〜1 時間程度。切り替え中も数時間は旧サイトと新サイトが混在して見えることがあります。
 
 ## 事前準備
 
 - [ ] `src/assets/photos/` のダミー画像（DUMMY PHOTO）がすべて本物の写真に差し替わっている
-
 - [ ] バリュードメインのコントロールパネルにログインできることを確認
 - [ ] 今の DNS 設定をメモ（スクリーンショット）しておく
   - 2026年9月時点: `www` → `ghs.googlehosted.com`（Google Sites）、`blog` → `ghs.google.com`（Blogger）、ルート → バリュードメインの転送サービス、メール（MX）なし
@@ -19,9 +18,8 @@
 
 ## 新サイトにドメインをつなぐ
 
-- [ ] Pages プロジェクト > カスタムドメイン > `www.sailabilitytokyo.jp` を追加
-- [ ] 同じく `sailabilitytokyo.jp`（www なし）も追加し、www へ転送する設定にする
-  （Cloudflare の「リダイレクトルール」で `sailabilitytokyo.jp/*` → `https://www.sailabilitytokyo.jp/$1`（301）でも可）
+- [ ] Workers & Pages > `sailability-tokyo-website` > Settings > **Domains & Routes** > Add > Custom domain で `www.sailabilitytokyo.jp` を追加
+- [ ] `sailabilitytokyo.jp`（www なし）から `https://www.sailabilitytokyo.jp` へ転送する（Cloudflare の「リダイレクトルール」で `sailabilitytokyo.jp/*` → `https://www.sailabilitytokyo.jp/${1}`、301）
 - [ ] https://www.sailabilitytokyo.jp/ を開いて新サイトが表示されることを確認
 - [ ] 旧 URL（`/home`、`/blog`、`/about` など）が正しく表示・転送されることを確認
 - [ ] https://blog.sailabilitytokyo.jp/ （旧ブログ）が引き続き表示されることを確認

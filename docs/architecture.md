@@ -19,11 +19,11 @@
    ↓
 GitHub（sailabilitytokyo 組織の公開リポジトリ）
    ├─ プルリクエスト ──→ GitHub Actions: 公開前チェック（ビルド・リンク切れ・表示テスト）
-   │                 └─→ Cloudflare Pages: プレビュー URL を自動発行（検索エンジンには載らない）
-   └─ main にマージ ──→ Cloudflare Pages: 本番サイトに自動公開
+   │                 └─→ Cloudflare Workers Builds: プレビュー URL を自動発行し PR にコメント（検索エンジンには載らない）
+   └─ main にマージ ──→ Cloudflare Workers Builds: 本番サイトに自動公開
                         www.sailabilitytokyo.jp
 
-毎日: GitHub Actions が 0:05 に再ビルド依頼（過去の日程を非表示に）、9:00 に死活監視
+毎日: GitHub Actions が 9:00 に死活監視
 毎週: Dependabot がライブラリ更新 PR を作成 → CI が通れば自動マージ
 ```
 
@@ -40,13 +40,15 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
   - 利用者が多く、どの AI もよく知っている。
 - **見送った案**: 素の HTML（ページごとにヘッダー等が重複し、AI の編集ミスが起きやすい）、WordPress（サーバー費用と保守が必要）、Google Sites の継続（デザインの自由度・AI による更新ができない）。
 
-### 2. ホスティング: Cloudflare Pages（無料プラン）
+### 2. ホスティング: Cloudflare Workers（静的アセット・無料プラン）
 
-- **理由**: 団体利用でも無料、転送量無制限、**PR ごとにプレビュー URL が出る**（コードが読めない人でも公開前に見た目を確認できる）。
+- **理由**: 団体利用でも無料、静的ファイルの配信は無制限、**PR ごとにプレビュー URL が出て PR にコメントされる**（コードが読めない人でも公開前に見た目を確認できる）。
+- 当初は Cloudflare Pages の予定だったが、Cloudflare が新規には Workers を推奨しているため、Workers（Workers Builds で GitHub と連携）で作成した（2026-09-23）。`npm run build` の出力（`dist/`）を配信するだけなので、Pages とほぼ同じ。`_headers` / `_redirects` もそのまま使える。配信の設定はリポジトリの `wrangler.jsonc` に書いている。
 - **見送った案**: GitHub Pages（プレビュー URL がない）、Vercel Hobby（非商用・個人利用限定の規約）、Netlify（無料枠の条件が変わりやすい）。
-- **補足**: Cloudflare は Pages の機能を Workers に統合する方向で進めている。将来 Pages が終了する場合は Workers（静的アセット）へ移行する。どちらも `npm run build` の出力（`dist/`）を置くだけなので移行は容易。
 
 ### 3. リポジトリ: GitHub の団体用 Organization・公開リポジトリ
+
+- `sailabilitytokyo/sailability-tokyo-website`（Organization の種類は「A business or institution」、連絡先は団体のメールアドレス）
 
 - **理由**: 個人アカウントに紐づけないことで引き継ぎやすくする。公開リポジトリは GitHub Actions が無料で使い放題。サイトの内容はもともと公開情報。
 - **注意点**（AGENTS.md の「やってはいけないこと」に反映済み）:
@@ -82,7 +84,7 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 - ページごとの `title` / `description` / canonical URL / OGP（SNS 共有時の表示）
 - 構造化データ（JSON-LD）: 団体情報（SportsOrganization）、体験会の日程（Event: 日時・場所・参加費）、お知らせ（NewsArticle）。Google 検索でイベントとして表示される可能性がある。
 - サイトマップ（`/sitemap-index.xml`）と robots.txt を自動生成。多言語ページには hreflang を出力。
-- プレビュー URL（`*.pages.dev`）には `X-Robots-Tag: noindex` を付け、検索結果に重複して出ないようにしている（`public/_headers`）。
+- 仮公開・プレビュー URL（`*.workers.dev`）には `X-Robots-Tag: noindex` を付け、検索結果に重複して出ないようにしている（`public/_headers`）。
 - 旧 URL を維持し、変更したものは 301 転送。
 - 画像は Astro が自動で WebP 化・サイズ最適化。静的サイトなので表示が速い（Core Web Vitals に有利）。
 
@@ -108,8 +110,8 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 | Dependabot（`dependabot.yml`） | 毎週月曜 | ライブラリ更新の PR を作成（公開後7日以上経ったバージョンのみ） |
 | 自動マージ（`dependabot-automerge.yml`） | Dependabot の PR | マイナー・パッチ更新は CI が通れば自動マージ。メジャー更新は人か AI が確認 |
 | 死活監視（`monitor.yml`） | 毎日 9:00 | 全ページ・GA タグ・予約フォーム・旧ブログを確認し、問題があれば Issue を作成 |
-| 再ビルド（`rebuild.yml`） | 毎日 0:05 | 過去の日程を表示から外すためにサイトを作り直す |
 
+- **過去の日程の非表示**: サイトは更新（ビルド）した日の日付で作られるため、その後に過ぎた日程はブラウザ側の JavaScript で隠す。すべて過ぎたら「現在ご案内できる開催日はありません」を表示する（テストあり）。Workers Builds には外部から再ビルドを起動する仕組み（Pages のデプロイフック）がないため、毎日の再ビルドはやめた。検索エンジン向けのイベント情報は次の更新時に最新になる。
 - **依存ライブラリは最小限にする方針**。CSS フレームワークや UI ライブラリは使わない（更新の手間と壊れるリスクを減らすため）。Markdown の改行も、プラグインではなく CSS で対応している。
 - GitHub は、リポジトリに 60 日間更新がないと定期実行ワークフローを止める。Dependabot の自動マージで定期的に更新が入るため、通常は問題ない。止まった場合は Actions タブから再開する。
 
@@ -119,6 +121,41 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 - フォントは Google Fonts（Figtree＋Noto Sans JP、無料）から読み込む。読み込めない環境では OS の日本語フォントで表示される。
 - アイコンは Lucide（ISC ライセンス）の SVG を `src/icons/` に同梱し、ビルド時に埋め込む（実行時に外部から取得しない）。
 - デザイン見本にあった料金・所要時間などの事実は仮のもので、サイトには確認済みの事実（一律1,500円・15〜20分・前期/後期 各全6回）を載せている。
+
+## 立ち上げの記録（2026-09-23）
+
+TODO から消した作業・決定の経緯です。
+
+### 事実の確認（デザイン見本との食い違い）
+
+Claude Design の見本には仮の事実が含まれていたため、次のとおり確認してサイトに反映した。
+
+| 項目 | 確認した内容 |
+| --- | --- |
+| 体験会の参加費 | 一律 1,500円（見本の「予約1,000円／当日1,500円」は誤り） |
+| 1回の乗船時間 | 15〜20分（見本の「20分」は誤り） |
+| 予約 | 事前予約のほか、当日も空きがあれば乗船できる |
+| ペット | 体験会もペットと一緒に乗船できる |
+| 小学生ヨット教室 | 前期・後期制で各全6回。2026年後期（8〜11月）を開講中。URL は固定し、期ごとに差分だけ更新する |
+
+### 移行時に変えた点（旧 Google Sites / Blogger から）
+
+- 予約フォームは 2 つの短縮 URL が同じフォームを指していたため、`forms.gle/F7Vif…` に統一。旧ブログの「メールで予約」の記述はやめ、Google フォームに統一
+- トップの Instagram・YouTube の埋め込みは外し、リンクにした
+- About の出典 PDF（旧 WordPress 時代の URL）はリンク切れだったため、出典の文言だけ残した
+- 英文の誤り「Sailability Tokyo is embraces」を「embraces」に修正
+- 小学生ヨット教室ページの見出しの絵文字は、デザインの方針（絵文字を使わない）に合わせて外した
+- フッターの役員名の表記（「– Jiro Fujiwara –」形式）はそのまま移行
+- 場所の英語表記（Toyosu Gururi Park Pier など）は仮の訳。英語版を作るときに確認する
+
+### アカウントまわり
+
+- Claude Design のデザインは `/design-login` で取り込んだ。ロゴは取り込めたが、写真は 1 ファイル 256KB の上限で取り込めず、ダミー画像にしている
+- GitHub の Organization 作成で「Your browser did something unexpected」が続き、誤って個人アカウント `sailability-tokyo` を作成。Organization は `sailabilitytokyo` で作成した
+- 作成直後に Organization と上記アカウントが外から 404 になった（不正利用対策の誤判定とみられる）。GitHub サポートに問い合わせ、同日中に解除された
+- Organization の「OAuth アプリの制限」が有効だと `gh` / git から書き込めないため、制限を解除した
+- Cloudflare は Pages ではなく Workers（Workers Builds）で作成された。Pages 向けだった設定（検索除外・毎日の再ビルド）を Workers 向けに直した
+- 「Protect with Cloudflare Access」は使わない（内容は公開情報で、メンバーにログインの手間をかけないため）
 
 ## 依存ライブラリ一覧
 
@@ -130,3 +167,5 @@ GitHub（sailabilitytokyo 組織の公開リポジトリ）
 | `sharp` | 画像の最適化・写真変換スクリプト |
 | `yaml` | `src/data/*.yaml` の読み込み |
 | `@playwright/test`（開発用） | 表示テスト |
+
+※ Cloudflare への公開には `wrangler`（Cloudflare 側のビルド環境で `npx` により実行）を使う。リポジトリの依存には入れていない。

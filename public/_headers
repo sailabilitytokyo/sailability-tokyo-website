@@ -1,11 +1,9 @@
-# Cloudflare Pages のレスポンスヘッダー設定
-# https://developers.cloudflare.com/pages/configuration/headers/
+# Cloudflare（Workers 静的アセット）のレスポンスヘッダー設定
+# https://developers.cloudflare.com/workers/static-assets/headers/
 
-# プレビュー用 URL（*.pages.dev）は検索エンジンに載せない
-https://:project.pages.dev/*
-  X-Robots-Tag: noindex
-
-https://:version.:project.pages.dev/*
+# 仮公開・プレビュー用 URL（*.workers.dev）は検索エンジンに載せない。
+# 本番ドメイン（www.sailabilitytokyo.jp）にはこのヘッダーは付かない。
+https://:version.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
 
 /*

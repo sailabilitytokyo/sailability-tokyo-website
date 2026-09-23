@@ -21,7 +21,7 @@ https://www.sailabilitytokyo.jp/
 
 ## 構成（概要）
 
-- [Astro](https://astro.build/) で作った静的サイトを、Cloudflare Pages（無料）で公開しています。
+- [Astro](https://astro.build/) で作った静的サイトを、Cloudflare Workers（無料）で公開しています。
 - 文章は `src/content/`（Markdown）、日程や団体情報は `src/data/`（YAML）にあります。
 - 運営費は 0 円（ドメイン代を除く）です。
 

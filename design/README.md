@@ -16,7 +16,7 @@
 | `tokens/fonts.css`（Figtree + Noto Sans JP） | `src/layouts/BaseLayout.astro` の Google Fonts 読み込み |
 | `tokens/base.css` と各コンポーネントの CSS | `src/styles/global.css`（`.button` `.card` `.tag` `.badge` など） |
 | `assets/logo-*.png` | `src/assets/brand/`（白抜き版はロゴから自動生成） |
-| `assets/photos/*` | `src/assets/photos/`（元データの受け取り待ち。todo/04 参照） |
+| `assets/photos/*` | `src/assets/photos/`（今はダミー画像。元データの受け取り待ち。todo/02 参照） |
 | Icon コンポーネント（Lucide を実行時に取得） | `src/icons/*.svg` を同梱し、ビルド時に埋め込み（`src/components/Icon.astro`） |
 | `ui_kits/website/*.jsx`（React の画面見本） | `src/views/`・`src/components/`（Astro で再実装。React は使わない） |
 

@@ -47,7 +47,7 @@ const label = next && (pick(next.title, lang) || pick(getPlace(next.place).name,
 }
 
 <script>
-  // ビルド後に開催日が過ぎていたら隠す（サイトは毎日再生成されるが、その間の補助）
+  // サイトを更新（ビルド）した後に開催日が過ぎていたら隠す
   const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(new Date());
   document.querySelectorAll<HTMLElement>('.sticky-cta[data-date]').forEach((el) => {
     if ((el.dataset.date ?? '') < today) el.hidden = true;
