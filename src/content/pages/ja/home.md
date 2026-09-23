@@ -2,11 +2,10 @@
 title: ホーム
 description: セイラビリティ東京は「Sailing for Everyone」をモットーに、子どもや障がいのある方、経験の有無に関わらず、誰もが水辺を楽しめるヨット・セーリングの体験会や小学生ヨット教室を東京・豊洲で開催しています。
 
-# ページ上部。background（背景）と photo（右側の写真）は src/assets/photos/ の写真
+# ページ上部。photo（右側の写真）は src/assets/photos/ の写真。
+# background（背景写真）も指定できるが、写真が2枚重なってごちゃつくため使っていない（2026-09-23）
 hero:
   badge: 豊洲ぐるり公園乗船場
-  background: ../../../assets/photos/hero-sailing-toyosu.jpg
-  backgroundAlt: 青空の下、豊洲の水辺を走る3艇のハンザ
   photo: ../../../assets/photos/kids-onboard-smiling.jpg
   photoAlt: 色とりどりのセールで出艇するハンザと、桟橋で見守るスタッフ
   title: |-
