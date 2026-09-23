@@ -62,6 +62,8 @@ const scheduleSchema = z.array(
     kind: z.enum(['experience', 'event']).default('experience'),
     place: z.string(),
     title: localized.optional(),
+    // イベントの公式サイトなど（表示名がリンクになる）
+    url: z.url().optional(),
     deadline: date.optional(),
     note: localized.optional(),
     status: z.enum(['scheduled', 'cancelled', 'full']).default('scheduled'),
