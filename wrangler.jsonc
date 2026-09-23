@@ -15,5 +15,8 @@
   },
   // 仮公開 URL（*.workers.dev）と、PR ごとのプレビュー URL を有効にする
   "workers_dev": true,
-  "preview_urls": true
+  "preview_urls": true,
+  // PR ごとのプレビュー（Workers Builds の `npx wrangler preview`）に必要。中身は空でよい
+  // https://developers.cloudflare.com/workers/previews/configuration/#wrangler-configuration-file
+  "previews": {}
 }
