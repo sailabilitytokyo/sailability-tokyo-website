@@ -144,6 +144,7 @@ Claude Design の見本には仮の事実が含まれていたため、次のと
 - トップの Instagram・YouTube の埋め込みは外し、リンクにした
 - About の出典 PDF（旧 WordPress 時代の URL）はリンク切れだったため、出典の文言だけ残した
 - 英文の誤り「Sailability Tokyo is embraces」を「embraces」に修正
+- スポンサーの s4e.org（Sailing For Everyone Foundation）はリンク切れのため、hansasailing.com（Hansa Sailing）に差し替え
 - 小学生ヨット教室ページの見出しの絵文字は、デザインの方針（絵文字を使わない）に合わせて外した
 - フッターの役員名の表記（「– Jiro Fujiwara –」形式）はそのまま移行
 - 場所の英語表記（Toyosu Gururi Park Pier など）は仮の訳。英語版を作るときに確認する

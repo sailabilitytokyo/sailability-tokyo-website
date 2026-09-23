@@ -132,7 +132,7 @@ imageAlt: 豊洲の水面を進むハンザ
     logo: sponsors/example.png   # src/assets/ からの場所。ロゴがなければこの行は不要（名前が表示される）
 ```
 
-ロゴの変換: `npm run photos -- --out src/assets/sponsors ~/Downloads/logo.png`
+ロゴの変換: `npm run photos -- --png --out src/assets/sponsors ~/Downloads/logo.png`（`--png` でくっきりした PNG のまま保存。GIF も可）
 
 ## 7. 翻訳を追加する（英語・中国語）
 
