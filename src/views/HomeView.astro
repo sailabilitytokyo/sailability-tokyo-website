@@ -41,14 +41,14 @@ const place = getPlace('toyosu');
 const jsonLd = upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.site!, pageUrl(lang, 'sailing-experience')));
 ---
 
-<BaseLayout lang={lang} description={description} alternates={alternates} image={hero?.background ?? hero?.photo} imageAlt={hero?.backgroundAlt ?? hero?.photoAlt} jsonLd={jsonLd}>
+<BaseLayout lang={lang} description={description} alternates={alternates} image={hero?.photos?.[0]?.src ?? hero?.background} imageAlt={hero?.photos?.[0]?.alt ?? hero?.backgroundAlt} jsonLd={jsonLd}>
   {
     hero && (
-      <section class="hero">
+      <section class:list={['hero', hero.background ? 'hero--photo' : 'hero--light']}>
         {hero.background && (
           <Image class="hero__bg" src={hero.background} alt={hero.backgroundAlt ?? ''} widths={[800, 1280, 2048]} sizes="100vw" loading="eager" fetchpriority="high" />
         )}
-        <div class="hero__scrim" />
+        {hero.background && <div class="hero__scrim" />}
         <div class="container hero__inner">
           <div class="hero__body">
             {hero.badge && (
@@ -70,10 +70,29 @@ const jsonLd = upcomingSchedule().map((item) => eventJsonLd(item, lang, Astro.si
                 </a>
               )}
             </div>
-            <Tags tags={hero.tags} tone="solid" />
+            <Tags tags={hero.tags} tone={hero.background ? 'solid' : 'default'} />
           </div>
-          {hero.photo && <Image class="hero__photo" src={hero.photo} alt={hero.photoAlt ?? ''} widths={[480, 800, 1200]} sizes="(min-width: 1160px) 520px, 100vw" loading="eager" />}
+          {hero.photos.length > 0 && (
+            <div class="hero__photos" data-count={hero.photos.length}>
+              {hero.photos.map((p, i) => (
+                <Image
+                  class="hero__photo"
+                  src={p.src}
+                  alt={p.alt}
+                  style={p.position ? `object-position: ${p.position}` : undefined}
+                  widths={i === 0 ? [480, 800, 1200] : [320, 480, 640]}
+                  sizes={i === 0 ? '(min-width: 1160px) 380px, 66vw' : '(min-width: 1160px) 190px, 33vw'}
+                  loading="eager"
+                  fetchpriority={i === 0 ? 'high' : undefined}
+                />
+              ))}
+            </div>
+          )}
         </div>
+        {/* 下の縁の波（次のセクションの白につながる） */}
+        <svg class="hero__wave" viewBox="0 0 1440 72" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M0 36 C 180 72 360 72 540 44 S 900 0 1080 20 S 1320 60 1440 34 L 1440 72 L 0 72 Z" fill="currentColor" />
+        </svg>
       </section>
     )
   }

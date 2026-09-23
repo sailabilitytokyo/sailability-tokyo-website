@@ -8,14 +8,15 @@
 
 | 場所 | ファイル | 写っているもの |
 | --- | --- | --- |
-| トップ一番上の右側 | kids-onboard-smiling.jpg | 色とりどりのセールで出艇するハンザと、桟橋のスタッフ |
+| トップ一番上の写真（大） | kids-onboard-smiling.jpg | 色とりどりのセールで出艇するハンザと、桟橋のスタッフ |
+| トップ一番上の写真（小・上） | sailing-summer.jpg | 色とりどりのセール |
+| トップ一番上の写真（小・下） | hero-sailing-toyosu.jpg | 豊洲の水辺を走る3艇 |
 | トップの団体紹介 | pontoon-toyosu.jpg | 乗船場と横断幕 |
 | セーリング体験会 | fleet-hansa-toyosu.jpg | 赤いセールのハンザ |
 | 小学生ヨット教室 | white-sail-hansa-toyosu.jpg | 白いセールのハンザと色とりどりの艇 |
-| 会員募集 | sailing-summer.jpg | 色とりどりのセール |
+| 会員募集 | sailing-summer.jpg（トップと共用） | 色とりどりのセール |
 | About | school-land-lesson.jpg | 桟橋に並ぶハンザ |
 | （未使用） | pet-aboard-dog.jpg | 艇上の犬 |
-| （未使用） | hero-sailing-toyosu.jpg | 豊洲の水辺を走る3艇（トップの背景に使っていたが、写真が重なってごちゃつくためやめた） |
 
 - 艇上で笑う女の子2人の写真（`photos-raw/instructor-briefing-kids.jpg`）は、掲載同意は取れているが今回は使わないことにした（2026-09-23）。使う場合は AI に「女の子の写真をトップ右側（または小学生ヨット教室）に使って」と伝える
 
