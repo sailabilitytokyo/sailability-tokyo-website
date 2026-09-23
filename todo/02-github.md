@@ -12,6 +12,15 @@
 - [ ] （推奨）信頼できるメンバーをもう1人 Owner に追加する（オーナーが1人だけだと、その人がログインできなくなったときに管理できない）
 - [x] Organization にリポジトリを作る: 名前 `sailability-tokyo-website`、**Public**、README などは追加しない（空で作る）
 
+## 【対応中】Organization が 404 になる問題（2026-09-23）
+
+Organization `sailabilitytokyo` と、誤って作った個人アカウント `sailability-tokyo` が、他の人から 404 に見える状態です。
+GitHub の不正利用対策で誤ってフラグが付いた可能性が高いため、GitHub サポートにチケットを作成済みです。
+
+- [x] GitHub サポートにチケットを作成（返事は d-zenju のメールアドレスに届く）
+- [ ] 解除されたら AI に「GitHub の制限が解除された」と伝える（未プッシュのコミットをプッシュし、下の設定に進む）
+- [ ] 返事が来ない・時間がかかる場合は、個人アカウント `d-zenju` にリポジトリを置いて先に進め、解除後に Organization へ移す（Transfer）
+
 ## このパソコンから GitHub に接続
 
 （2026-09-23 完了。Organization の Third-party access で OAuth アプリの制限を解除済み。これをしないと `gh` / git から Organization のリポジトリに書き込めない）
