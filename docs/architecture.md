@@ -146,6 +146,7 @@ Claude Design の見本には仮の事実が含まれていたため、次のと
 - About の出典 PDF（旧 WordPress 時代の URL）はリンク切れだったため、出典の文言だけ残した
 - 英文の誤り「Sailability Tokyo is embraces」を「embraces」に修正
 - スポンサーの s4e.org（Sailing For Everyone Foundation）はリンク切れのため、hansasailing.com（Hansa Sailing）に差し替え
+- 入会案内 PDF（2021年8月版。コロナ禍の記述や旧ホームページの URL が入っていた）は掲載をやめた（会費・振込先・申込手順は会員募集ページに記載済み）
 - スポンサー名・並び順は現行の表記のままで確認済み
 - 夢の島マリーナのサイトは `yumenoshima-marina.subaru-kougyou.jp`（接続不可になっていた）から `yumenoshima-marina.com` に移っていたため差し替え。これを機に外部リンクの自動確認を追加
 - 小学生ヨット教室ページの見出しの絵文字は、デザインの方針（絵文字を使わない）に合わせて外した
